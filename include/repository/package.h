@@ -36,6 +36,7 @@ private:
     std::string pkgSFOType;
     std::string versionString;
     std::string systemVersionString;
+    bool genericFile = false;
     double systemVersion;
     double currentInstalledVersion;
     double getCurrentInstalledVersion();

@@ -18,7 +18,14 @@ download::download(const std::shared_ptr<package>& pkg){
     this->id = genRandom(10);
     this->date = genDate();
     std::string localDownloadPath = DOWNLOAD_PATH;
-    localDownloadPath+= id+".pkg";
+    std::string source = pkg->getURL();
+    size_t query = source.find_first_of("?#");
+    if (query != std::string::npos) source.erase(query);
+    size_t slash = source.find_last_of('/');
+    std::string extension = ".pkg";
+    size_t dot = source.find_last_of('.');
+    if (dot != std::string::npos && (slash == std::string::npos || dot > slash)) extension = source.substr(dot);
+    localDownloadPath += id + extension;
     this->path=localDownloadPath;
     this->pkg = std::shared_ptr<package>(new package(pkg.get()));
     this->finished = false;
@@ -66,7 +73,14 @@ download::download(const char *url, bool * failedInit) {
     this->date = genDate();
 
     std::string localDownloadPath = DOWNLOAD_PATH;
-    localDownloadPath+= id+".pkg";
+    std::string source = url;
+    size_t query = source.find_first_of("?#");
+    if (query != std::string::npos) source.erase(query);
+    size_t slash = source.find_last_of('/');
+    std::string extension = ".pkg";
+    size_t dot = source.find_last_of('.');
+    if (dot != std::string::npos && (slash == std::string::npos || dot > slash)) extension = source.substr(dot);
+    localDownloadPath += id + extension;
     this->path=localDownloadPath;
 
     this->finished = false;

@@ -19,6 +19,26 @@
 package::package(const char*url, bool local, bool * failed, const char * type, const char * repositoryName){
     std::ostringstream stringStream;
     stringStream.precision(2);
+    this->url = url;
+    this->repoName = repositoryName;
+    std::string fileName = this->url;
+    size_t query = fileName.find_first_of("?#");
+    if (query != std::string::npos) fileName.erase(query);
+    size_t slash = fileName.find_last_of('/');
+    if (slash != std::string::npos) fileName.erase(0, slash + 1);
+    std::string extension = fileName;
+    size_t dot = extension.find_last_of('.');
+    if (dot != std::string::npos) extension.erase(0, dot);
+    if (strcasecmp(extension.c_str(), ".pkg") != 0) {
+        genericFile = true;
+        name = fileName.empty() ? "Downloaded file" : fileName;
+        packageType = MISC; TITLE_ID = "FILE"; CONTENT_ID = "";
+        packageSizeBytes = local ? getFileSize(url) : 0;
+        stringStream << std::fixed << packageSizeBytes / ONE_MB; packageSizeMB = stringStream.str();
+        version = 0; versionString = ""; systemVersion = 0; systemVersionString = "";
+        pkgSFOType = ""; currentInstalledVersion = 0; oldInstalled = false;
+        setDefaultIcon(); *failed = false; return;
+    }
     PKGInfo pkgInfo(url,local);
     this->icon = pkgInfo.getIconCopy();
     this->url = url;
@@ -88,6 +108,7 @@ package::PKGTypeENUM package::getPackageType(const char *packageType) {
 }
 
 bool package::isInstalledPrivate() {
+    if (genericFile) return false;
     return fileExists((INSTALL_PATH+std::string(TITLE_ID)).c_str());
 }
 
@@ -101,12 +122,14 @@ bool package::isInstalled() {
 }
 
 int package::unInstall() {
+    if (genericFile) return -1;
     if(sceAppInstUtilAppUnInstall(TITLE_ID.c_str()) != 0)
         return -1;
     return 0;
 }
 
 int package::install(const char * path) {
+    if (genericFile) return -1;
     int  ret, userID;
     int  task_id = -1;
     char buffer[255];
@@ -295,6 +318,7 @@ package::package(package *oldPackage) {
     pkgSFOType = oldPackage->getSFOType();
     versionString = oldPackage->getVersionStr();
     currentInstalledVersion = oldPackage->getCurrentInstalledVersion();
+    genericFile = oldPackage->genericFile;
 }
 
 void package::setDefaultIcon() {
