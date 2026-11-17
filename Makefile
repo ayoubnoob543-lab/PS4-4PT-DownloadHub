@@ -36,7 +36,6 @@ OUTS        := $(OBJS)
 _unused     := $(shell mkdir -p $(INTDIR))
 
 
-OUTS        := $(INTDIR)$(FILEDIR)/*.o  $(INTDIR)$(REPOSITORYDIR)/*.o $(INTDIR)$(UTILSDIR)/*.o $(INTDIR)$(VIEWDIR)/*.o
 # Define final C/C++ flags
 CFLAGS      := --target=x86_64-pc-freebsd12-elf -fPIC -funwind-tables -c $(EXTRAFLAGS) -isysroot $(TOOLCHAIN) -isystem $(TOOLCHAIN)/include
 CXXFLAGS    := $(CFLAGS) -isystem $(TOOLCHAIN)/include/c++/v1
@@ -57,6 +56,8 @@ ifeq ($(UNAME_S),Darwin)
 		LD      := /usr/local/opt/llvm@9/bin/ld.lld
 		CDIR    := macos
 endif
+
+.PHONY: all clean check-toolchain
 
 all: check-toolchain $(CONTENT_ID).pkg sce_sys/param.sfo
 	rm -r $(INTDIR)
@@ -87,10 +88,16 @@ eboot.bin: $(INTDIR) $(OBJS)
 	$(TOOLCHAIN)/bin/$(CDIR)/create-eboot -in=$(INTDIR)/$(PROJNAME).elf
 	$(TOOLCHAIN)/bin/$(CDIR)/create-fself $(INTDIR)/$(PROJNAME).oelf eboot.bin --paid 0x3800000000000011
 
+check-toolchain:
+	@test -n "$(TOOLCHAIN)" || (echo "Set OO_PS4_TOOLCHAIN to the OpenOrbis toolchain directory"; exit 1)
+	@test -x "$(TOOLCHAIN)/bin/$(CDIR)/PkgTool.Core" || (echo "PkgTool.Core not found under $(TOOLCHAIN)/bin/$(CDIR)"; exit 1)
+
 $(INTDIR)/%.o: $(PROJDIR)/%.c
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -o $@ $<
 
 $(INTDIR)/%.o: $(PROJDIR)/%.cpp
+	@mkdir -p $(dir $@)
 	$(CCX) $(CXXFLAGS) -o $@ $<
 
 #$(INTDIR)/%.o: $(COMMONDIR)/%.c
