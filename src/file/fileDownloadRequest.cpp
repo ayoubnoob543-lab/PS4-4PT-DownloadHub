@@ -11,16 +11,11 @@
 #include <orbis/Http.h>
 #include <sstream>
 #include <regex>
+#include <algorithm>
 
 const char * fileDownloadRequest::eoh = "\r\n\r\n";
 
-int fileDownloadRequest::skipSslCallback(int libsslId, unsigned int verifyErr, void * const sslCert[], int certNum, void *userArg) {
-    //LOG << "sslCtx= " << libsslId << " " <<verifyErr;
-    return HTTP_SUCCESS;
-}
-
-
-int fileDownloadRequest::libhttpCtxId;
+int fileDownloadRequest::libhttpCtxId = -1;
 void fileDownloadRequest::setLibhttpCtxId(int libhttpCtxId) {
     fileDownloadRequest::libhttpCtxId = libhttpCtxId;
 }
@@ -54,7 +49,8 @@ fileDownloadRequest::fileDownloadRequest(const char * sourceURL, const char * de
 }
 
 double fileDownloadRequest::getDownloadedPercent() {
-    return ((long double)downloadedBytes/(long double)fileSizeBytes) * 100;
+    if (fileSizeBytes == 0) return 0.0;
+    return ((long double)downloadedBytes/(long double)fileSizeBytes) * 100.0;
 }
 
 double fileDownloadRequest::getDownloadedInMb() const {
@@ -80,8 +76,8 @@ bool fileDownloadRequest::hasFinished() const {
 
 int fileDownloadRequest::downloadError(const char *message) {
     LOG << message;
-    if(fileExists(destinationPath.c_str()))
-        removeFile(destinationPath.c_str());
+    // Keep partial bytes after transient failures. A retry can resume with Range.
+    // Explicit download deletion remains responsible for removing the partial file.
     failed = true;
     downloading = false;
     finished = false;
@@ -158,12 +154,6 @@ int fileDownloadRequest::initRequest() {
 
     templateID = statusCode;
 
-    statusCode = sceHttpsSetSslCallback(templateID, skipSslCallback, NULL);
-    if (statusCode < 0) {
-        return downloadError("sceHttpsSetSslCallback() Code:", statusCode);
-    }
-
-    sceHttpsDisableOption(templateID, 0x01);
     statusCode = sceHttpCreateConnectionWithURL(templateID, src, HTTP_SUCCESS);
     if (statusCode < 0)
         return downloadError("Error on sceHttpCreateConnectionWithURL()", statusCode);
@@ -171,11 +161,12 @@ int fileDownloadRequest::initRequest() {
     connectionID = statusCode;
 
     requestID = sceHttpCreateRequestWithURL(connectionID, ORBIS_METHOD_GET, src, 0);
-    if (statusCode < 0)
-        return downloadError("Error on sceHttpCreateRequestWithURL()", statusCode);
+    if (requestID < 0)
+        return downloadError("Error on sceHttpCreateRequestWithURL()", requestID);
 
-
-    sceHttpAddRequestHeader(requestID,"Range",byteRange.c_str(),0);
+    // Keep byte offsets stable: never allow transparent content compression.
+    sceHttpAddRequestHeader(requestID, "Accept-Encoding", "identity", 0);
+    sceHttpAddRequestHeader(requestID, "Range", byteRange.c_str(), 0);
 
     statusCode = sceHttpSendRequest(requestID, nullptr, 0);
     if (statusCode < 0) {
@@ -183,7 +174,7 @@ int fileDownloadRequest::initRequest() {
     }
 
     int ret = sceHttpGetStatusCode(requestID, &statusCode);
-    if (ret < 0 || (statusCode != 200 && statusCode != 206)) {
+    if (ret < 0 || (downloadedBytes > 0 ? statusCode != 206 : (statusCode != 200 && statusCode != 206))) {
         if(statusCode == 404)
             return downloadError("404 ERROR NOT FOUND");
         else
@@ -210,10 +201,14 @@ int fileDownloadRequest::termRequest() {
 }
 
 int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint64_t startByte, uint64_t endByte) {
+    if (rawURL == nullptr || data == nullptr || libhttpCtxId < 0) {
+        LOG << "INVALID RANGE DOWNLOAD ARGUMENTS OR HTTP CONTEXT";
+        return -1;
+    }
     std::string rawURLStr = std::string(rawURL);
     rawURLStr = encodeURL(rawURLStr);
     const char * url = rawURLStr.c_str();
-    if(startByte > endByte) {
+    if(startByte >= endByte) {
         LOG << "ERROR STARTBYTE>ENDBYTE";
         return -1;
     } else if(!verifyURL(url,true)) {
@@ -221,7 +216,11 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
         return -2;
     }
     int ret, statusCode, tempID, connID=-69, reqID=-69;
-    uint64_t sizeBytes = endByte-startByte, read = 1, dldBytes = 0;
+    int contentLengthType = 0;
+    size_t contentLength = 0;
+    // The public range API uses [startByte, endByte): endByte is exclusive.
+    uint64_t sizeBytes = endByte-startByte, dldBytes = 0;
+    int64_t read = 1;
     std::string byteRange;
     std::stringstream errorStream;
 
@@ -229,14 +228,6 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
     if (tempID < 0) {
         errorStream << "StatusCode: " << std::hex << tempID << std::endl;
         LOG << "ERROR WHEN CREATING TEMPLATE"  << errorStream.str();
-        ret = -1;
-        goto err;
-    }
-
-    ret = sceHttpsSetSslCallback(tempID, skipSslCallback, NULL);
-    if (ret < 0) {
-        errorStream << "StatusCode: " << std::hex << ret << std::endl;
-        LOG << "sceHttpsSetSslCallback() " << errorStream.str();
         ret = -1;
         goto err;
     }
@@ -255,8 +246,9 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
         goto err;
     }
 
-    byteRange = "bytes=" +std::to_string(startByte) + "-" + std::to_string(endByte);
-    sceHttpAddRequestHeader(reqID,"Range",byteRange.c_str(),0);
+    byteRange = "bytes=" + std::to_string(startByte) + "-" + std::to_string(endByte - 1);
+    sceHttpAddRequestHeader(reqID, "Accept-Encoding", "identity", 0);
+    sceHttpAddRequestHeader(reqID, "Range", byteRange.c_str(), 0);
     statusCode = sceHttpSendRequest(reqID, nullptr, 0);
 
     if (statusCode < 0) {
@@ -268,7 +260,7 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
     }
 
     ret = sceHttpGetStatusCode(reqID, &statusCode);
-    if (ret < 0 || (statusCode != 200 && statusCode != 206)) {
+    if (ret < 0 || statusCode != 206) {
         if(ret<0){
             errorStream << "StatusCode: " << std::hex << statusCode << std::endl;
             LOG << "ERROR WITH CODE" << errorStream.str();
@@ -281,21 +273,28 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
         goto err;
     }
 
-    char buffer[1024];
-
-    while (dldBytes < sizeBytes && read > 0) {
-        read = sceHttpReadData(reqID, &buffer[0], sizeof(buffer));
-        uint64_t left = sizeBytes-dldBytes;
-        if (dldBytes + read > sizeBytes) {
-            memcpy(&data[dldBytes],&buffer[0],left);
-            dldBytes += left;
-        } else {
-            memcpy(&data[dldBytes],&buffer[0],read);
-            dldBytes += read;
-        }
+    ret = sceHttpGetResponseContentLength(reqID, &contentLengthType, &contentLength);
+    if (ret < 0 || static_cast<uint64_t>(contentLength) != sizeBytes) {
+        LOG << "RANGE LENGTH MISMATCH: expected " << sizeBytes << " got " << contentLength;
+        ret = -1;
+        goto err;
     }
 
-    if(read < 0) {
+    // Larger reads reduce per-call overhead on the PS4 HTTP service.
+    char buffer[64 * 1024];
+
+    while (dldBytes < sizeBytes) {
+        read = sceHttpReadData(reqID, buffer, sizeof(buffer));
+        if (read < 0 || read == 0)
+            break;
+
+        const uint64_t remaining = sizeBytes - dldBytes;
+        const uint64_t toCopy = std::min<uint64_t>(static_cast<uint64_t>(read), remaining);
+        memcpy(&data[dldBytes], buffer, toCopy);
+        dldBytes += toCopy;
+    }
+
+    if(read < 0 || dldBytes != sizeBytes) {
         LOG << "READ ERROR";
         ret = -1;
     } else
@@ -329,27 +328,35 @@ int fileDownloadRequest::downloadLoop() {
 
     this->lastCheckpointTime = std::chrono::high_resolution_clock::now();
     lastCheckPointBytes = downloadedBytes;
-    char buffer[255];
-    uint64_t read = sceHttpReadData(requestID, buffer, sizeof(buffer)), data_offset = 0;
-    auto it = std::search(buffer, buffer + read, eoh, eoh + 4);
-    if (it != buffer + read) {   // if header end found:
-        data_offset = it - buffer + 4;      // skip it
-        downloadedBytes -= data_offset;
-    }
+    // sceHttpReadData returns response-body bytes, not raw HTTP headers.
+    // Read in 64 KiB blocks instead of 255-byte fragments.
+    char buffer[64 * 1024];
+    int64_t read = 0;
 
-    while (downloadedBytes < fileSizeBytes && read > 0 && !paused) {
-        uint64_t left = fileSizeBytes - downloadedBytes;
-        if (downloadedBytes + read > fileSizeBytes) {
-            downloadedBytes += left;
-            out.write(buffer - data_offset, left);
-        } else {
-            out.write(buffer + data_offset, read - data_offset); // write, ignoring before the offset
-            downloadedBytes += read;
-        }
+    while (downloadedBytes < fileSizeBytes && !paused) {
         read = sceHttpReadData(requestID, buffer, sizeof(buffer));
+        if (read < 0) {
+            out.close();
+            return downloadError("HTTP body read failed");
+        }
+        if (read == 0)
+            break;
+
+        const uint64_t remaining = fileSizeBytes - downloadedBytes;
+        const uint64_t toWrite = std::min<uint64_t>(static_cast<uint64_t>(read), remaining);
+        out.write(buffer, static_cast<std::streamsize>(toWrite));
+        if (!out.good()) {
+            out.close();
+            return downloadError("Disk write failed");
+        }
+        downloadedBytes += toWrite;
     }
 
+    out.flush();
+    const bool writeOk = out.good();
     out.close();
+    if (!writeOk)
+        return downloadError("Disk flush failed");
     if(paused) {
         downloading=false;
         finished = downloadedBytes == fileSizeBytes;
@@ -429,8 +436,9 @@ double fileDownloadRequest::getDownloadSpeedInMB() {
 }
 
 double fileDownloadRequest::getTimeLeftInMinutes() const {
-    auto MBLeft = (double)((double)(fileSizeBytes-downloadedBytes)/(uint64_t) (ONE_MB));
-    return MBLeft/(averageSpeed*60);
+    if (averageSpeed <= 0.0 || downloadedBytes >= fileSizeBytes) return 0.0;
+    const double MBLeft = (double)(fileSizeBytes - downloadedBytes) / (double)ONE_MB;
+    return MBLeft / (averageSpeed * 60.0);
 }
 
 bool fileDownloadRequest::requestRunning() {

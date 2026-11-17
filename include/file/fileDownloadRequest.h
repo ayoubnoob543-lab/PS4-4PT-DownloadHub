@@ -41,7 +41,6 @@ private:
     int downloadLoop();
     int downloadError(const char * message);
     int downloadError(const char * message, int statusCode);
-    static int skipSslCallback(int libsslId, unsigned int verifyErr, void * const sslCert[], int certNum, void *userArg);
     int initRequest();
     int termRequest();
 
