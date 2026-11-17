@@ -12,6 +12,8 @@
 #include "../../include/utils/LANG.h"
 #include "../../include/utils/settings.h"
 #include "../../include/main.h"
+#include <thread>
+#include <chrono>
 
 
 download::download(const std::shared_ptr<package>& pkg){
@@ -90,10 +92,11 @@ download::download(const char *url, bool * failedInit) {
 }
 void download::initDownload(){
     LOG << "Starting download" << getURL();
-    mutex.lock();
-    if(downloadRequest != nullptr)
-        downloadRequest->initDownload(this);
-    mutex.unlock();
+    {
+        std::lock_guard<std::mutex> lock(mutex);
+        if (downloadRequest != nullptr)
+            downloadRequest->initDownload(this);
+    }
     LOG << "Finishing download" << getURL();
 }
 
@@ -102,8 +105,12 @@ std::shared_ptr<fileDownloadRequest> download::getRequest() {
 }
 
 void download::deleteDownload() {
-    downloadRequest->pauseDownload();
-    while(downloadRequest->isDownloading() || downloadRequest->requestRunning()) continue;
+    if (downloadRequest != nullptr) {
+        downloadRequest->pauseDownload();
+        while (downloadRequest->isDownloading() || downloadRequest->requestRunning()) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        }
+    }
 
     if(stored())
         removeFile(path.c_str());
