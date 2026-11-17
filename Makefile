@@ -28,7 +28,7 @@ INTDIR      := $(CURDIR)/build
 SOURCES     := $(shell find $(PROJDIR) -type f \( -name '*.c' -o -name '*.cpp' \))
 CFILES      := $(filter %.c,$(SOURCES))
 CPPFILES    := $(filter %.cpp,$(SOURCES))
-OBJS        := $(patsubst $(PROJDIR)/%.c,$(INTDIR)/%.o,$(CFILES)) \\
+OBJS        := $(patsubst $(PROJDIR)/%.c,$(INTDIR)/%.o,$(CFILES)) \
                $(patsubst $(PROJDIR)/%.cpp,$(INTDIR)/%.o,$(CPPFILES))
 OUTS        := $(OBJS)
 
