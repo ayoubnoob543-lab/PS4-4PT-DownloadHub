@@ -15,7 +15,7 @@
 
 const char * fileDownloadRequest::eoh = "\r\n\r\n";
 
-int fileDownloadRequest::libhttpCtxId;
+int fileDownloadRequest::libhttpCtxId = -1;
 void fileDownloadRequest::setLibhttpCtxId(int libhttpCtxId) {
     fileDownloadRequest::libhttpCtxId = libhttpCtxId;
 }
@@ -49,7 +49,8 @@ fileDownloadRequest::fileDownloadRequest(const char * sourceURL, const char * de
 }
 
 double fileDownloadRequest::getDownloadedPercent() {
-    return ((long double)downloadedBytes/(long double)fileSizeBytes) * 100;
+    if (fileSizeBytes == 0) return 0.0;
+    return ((long double)downloadedBytes/(long double)fileSizeBytes) * 100.0;
 }
 
 double fileDownloadRequest::getDownloadedInMb() const {
@@ -421,8 +422,9 @@ double fileDownloadRequest::getDownloadSpeedInMB() {
 }
 
 double fileDownloadRequest::getTimeLeftInMinutes() const {
-    auto MBLeft = (double)((double)(fileSizeBytes-downloadedBytes)/(uint64_t) (ONE_MB));
-    return MBLeft/(averageSpeed*60);
+    if (averageSpeed <= 0.0 || downloadedBytes >= fileSizeBytes) return 0.0;
+    const double MBLeft = (double)(fileSizeBytes - downloadedBytes) / (double)ONE_MB;
+    return MBLeft / (averageSpeed * 60.0);
 }
 
 bool fileDownloadRequest::requestRunning() {
