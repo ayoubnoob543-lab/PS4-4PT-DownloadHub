@@ -201,6 +201,10 @@ int fileDownloadRequest::termRequest() {
 }
 
 int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint64_t startByte, uint64_t endByte) {
+    if (rawURL == nullptr || data == nullptr || libhttpCtxId < 0) {
+        LOG << "INVALID RANGE DOWNLOAD ARGUMENTS OR HTTP CONTEXT";
+        return -1;
+    }
     std::string rawURLStr = std::string(rawURL);
     rawURLStr = encodeURL(rawURLStr);
     const char * url = rawURLStr.c_str();
@@ -263,6 +267,15 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
             if (statusCode == 404)
                 LOG << "ERROR 404, FILE NOT FOUND AT " << url;
         }
+        ret = -1;
+        goto err;
+    }
+
+    int contentLengthType = 0;
+    size_t contentLength = 0;
+    ret = sceHttpGetResponseContentLength(reqID, &contentLengthType, &contentLength);
+    if (ret < 0 || static_cast<uint64_t>(contentLength) != sizeBytes) {
+        LOG << "RANGE LENGTH MISMATCH: expected " << sizeBytes << " got " << contentLength;
         ret = -1;
         goto err;
     }
