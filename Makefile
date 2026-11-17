@@ -25,7 +25,7 @@ COMMONDIR   := $(TOOLCHAIN)/samples/_common
 INTDIR      := $(CURDIR)/build
 
 # Discover every source exactly once and preserve its directory in build/.
-SOURCES     := $(shell find $(PROJDIR) -type f \\( -name '*.c' -o -name '*.cpp' \\))
+SOURCES     := $(shell find $(PROJDIR) -type f \( -name '*.c' -o -name '*.cpp' \))
 CFILES      := $(filter %.c,$(SOURCES))
 CPPFILES    := $(filter %.cpp,$(SOURCES))
 OBJS        := $(patsubst $(PROJDIR)/%.c,$(INTDIR)/%.o,$(CFILES)) \\
