@@ -204,7 +204,7 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
     std::string rawURLStr = std::string(rawURL);
     rawURLStr = encodeURL(rawURLStr);
     const char * url = rawURLStr.c_str();
-    if(startByte > endByte) {
+    if(startByte >= endByte) {
         LOG << "ERROR STARTBYTE>ENDBYTE";
         return -1;
     } else if(!verifyURL(url,true)) {
@@ -212,7 +212,7 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
         return -2;
     }
     int ret, statusCode, tempID, connID=-69, reqID=-69;
-    uint64_t sizeBytes = endByte-startByte, dldBytes = 0;
+    // The public range API uses [startByte, endByte): endByte is exclusive.\n    uint64_t sizeBytes = endByte-startByte, dldBytes = 0;
     int64_t read = 1;
     std::string byteRange;
     std::stringstream errorStream;
@@ -239,7 +239,7 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
         goto err;
     }
 
-    byteRange = "bytes=" + std::to_string(startByte) + "-" + std::to_string(endByte);
+    byteRange = "bytes=" + std::to_string(startByte) + "-" + std::to_string(endByte - 1);
     sceHttpAddRequestHeader(reqID, "Accept-Encoding", "identity", 0);
     sceHttpAddRequestHeader(reqID, "Range", byteRange.c_str(), 0);
     statusCode = sceHttpSendRequest(reqID, nullptr, 0);
@@ -253,7 +253,7 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
     }
 
     ret = sceHttpGetStatusCode(reqID, &statusCode);
-    if (ret < 0 || (startByte > 0 ? statusCode != 206 : (statusCode != 200 && statusCode != 206))) {
+    if (ret < 0 || statusCode != 206) {
         if(ret<0){
             errorStream << "StatusCode: " << std::hex << statusCode << std::endl;
             LOG << "ERROR WITH CODE" << errorStream.str();
