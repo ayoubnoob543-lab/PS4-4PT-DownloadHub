@@ -169,7 +169,11 @@ int initializeApp() {
     LOG << "Loaded Modules" << "\n";
 
     LOG << "Starting ThreadPool";
-    threadPool::init();
+    ret = threadPool::init();
+    if (ret < 0) {
+        LOG << "ERROR: COULD NOT START THREADPOOL";
+        return -1;
+    }
     LOG << "Started ThreadPool";
 
     if(startProcesses()< 0) {
