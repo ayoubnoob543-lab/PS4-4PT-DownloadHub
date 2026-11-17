@@ -212,7 +212,8 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
         return -2;
     }
     int ret, statusCode, tempID, connID=-69, reqID=-69;
-    // The public range API uses [startByte, endByte): endByte is exclusive.\n    uint64_t sizeBytes = endByte-startByte, dldBytes = 0;
+    // The public range API uses [startByte, endByte): endByte is exclusive.
+    uint64_t sizeBytes = endByte-startByte, dldBytes = 0;
     int64_t read = 1;
     std::string byteRange;
     std::stringstream errorStream;
