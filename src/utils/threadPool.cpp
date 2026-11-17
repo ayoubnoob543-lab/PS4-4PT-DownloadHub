@@ -2,6 +2,7 @@
 // Created by Víctor Jiménez Rugama on 2/4/22.
 //
 #include <orbis/libkernel.h>
+#include <exception>
 #include "../../include/utils/threadPool.h"
 #include "../../include/base.h"
 #include "../../include/utils/logger.h"
