@@ -83,7 +83,7 @@ sce_sys/param.sfo: Makefile
 	$(TOOLCHAIN)/bin/$(CDIR)/PkgTool.Core sfo_setentry $@ VERSION --type Utf8 --maxsize 8 --value '$(VERSION)'
 
 eboot.bin: $(INTDIR) $(OBJS)
-	$(LD) $(OUTS) $(INTDIR)/*.o -o $(INTDIR)/$(PROJNAME).elf $(LDFLAGS)
+	$(LD) $(OUTS) -o $(INTDIR)/$(PROJNAME).elf $(LDFLAGS)
 	$(TOOLCHAIN)/bin/$(CDIR)/create-eboot -in=$(INTDIR)/$(PROJNAME).elf
 	$(TOOLCHAIN)/bin/$(CDIR)/create-fself $(INTDIR)/$(PROJNAME).oelf eboot.bin --paid 0x3800000000000011
 
