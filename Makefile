@@ -24,39 +24,16 @@ PROJDIR     := $(CURDIR)/src
 COMMONDIR   := $(TOOLCHAIN)/samples/_common
 INTDIR      := $(CURDIR)/build
 
-# Define objects to build
-CFILES      := $(wildcard $(PROJDIR)/*.c)
-CPPFILES    := $(wildcard $(PROJDIR)/*.cpp)
-COMMONFILES := $(wildcard $(COMMONDIR)/*.cpp)
-OBJS        :=  $(patsubst $(PROJDIR)/%.c, $(INTDIR)/%.o, $(CFILES)) $(patsubst $(PROJDIR)/%.cpp, $(INTDIR)/%.o, $(CPPFILES)) #$(patsubst $(COMMONDIR)/%.cpp, $(INTDIR)/%.o, $(COMMONFILES))
+# Discover every source exactly once and preserve its directory in build/.
+SOURCES     := $(shell find $(PROJDIR) -type f \\( -name '*.c' -o -name '*.cpp' \\))
+CFILES      := $(filter %.c,$(SOURCES))
+CPPFILES    := $(filter %.cpp,$(SOURCES))
+OBJS        := $(patsubst $(PROJDIR)/%.c,$(INTDIR)/%.o,$(CFILES)) \\
+               $(patsubst $(PROJDIR)/%.cpp,$(INTDIR)/%.o,$(CPPFILES))
+OUTS        := $(OBJS)
 
-VIEWDIR = /view
-#Add View Dir
-CFILES      += $(wildcard $(PROJDIR)$(VIEWDIR)/*.c)
-CPPFILES    += $(wildcard $(PROJDIR)$(VIEWDIR)/*.cpp)
-OBJS        += $(patsubst $(PROJDIR)$(VIEWDIR)/%.cpp, $(INTDIR)$(VIEWDIR)/%.o, $(CPPFILES)) $(patsubst $(PROJDIR)$(VIEWDIR)/%.c, $(INTDIR)$(VIEWDIR)/%.o, $(CFILES))
-
-FILEDIR = /file
-#Add File Dir
-CFILES      += $(wildcard $(PROJDIR)$(FILEDIR)/*.c)
-CPPFILES    += $(wildcard $(PROJDIR)$(FILEDIR)/*.cpp)
-OBJS        += $(patsubst $(PROJDIR)$(FILEDIR)/%.cpp, $(INTDIR)$(FILEDIR)/%.o, $(CPPFILES)) $(patsubst $(PROJDIR)$(FILEDIR)/%.c, $(INTDIR)$(FILEDIR)/%.o, $(CFILES))
-
-UTILSDIR = /utils
-#Add UTILS Dir
-CFILES      += $(wildcard $(PROJDIR)$(UTILSDIR)/*.c)
-CPPFILES    += $(wildcard $(PROJDIR)$(UTILSDIR)/*.cpp)
-OBJS        += $(patsubst $(PROJDIR)$(UTILSDIR)/%.cpp, $(INTDIR)$(UTILSDIR)/%.o, $(CPPFILES)) $(patsubst $(PROJDIR)$(UTILSDIR)/%.c, $(INTDIR)$(UTILSDIR)/%.o, $(CFILES))
-
-REPOSITORYDIR = /repository
-#Add REPO Dir
-CFILES      += $(wildcard $(PROJDIR)$(REPOSITORYDIR)/*.c)
-CPPFILES    += $(wildcard $(PROJDIR)$(REPOSITORYDIR)/*.cpp)
-OBJS        += $(patsubst $(PROJDIR)$(REPOSITORYDIR)/%.cpp, $(INTDIR)$(REPOSITORYDIR)/%.o, $(CPPFILES)) $(patsubst $(PROJDIR)$(REPOSITORYDIR)/%.c, $(INTDIR)$(REPOSITORYDIR)/%.o, $(CFILES))
-
-
-# Create the intermediate directory incase it doesn't already exist.
-_unused     := $(shell mkdir -p $(INTDIR)) $(shell mkdir -p $(INTDIR)$(FILEDIR)/) $(shell mkdir -p $(INTDIR)$(UTILSDIR)/) $(shell mkdir -p $(INTDIR)$(VIEWDIR)/) $(shell mkdir -p $(INTDIR)$(REPOSITORYDIR)/) $(shell mkdir -p $(INTDIR)$(YAMLDIR)/)
+# Create the intermediate directory in case it does not already exist.
+_unused     := $(shell mkdir -p $(INTDIR))
 
 
 OUTS        := $(INTDIR)$(FILEDIR)/*.o  $(INTDIR)$(REPOSITORYDIR)/*.o $(INTDIR)$(UTILSDIR)/*.o $(INTDIR)$(VIEWDIR)/*.o
@@ -81,7 +58,7 @@ ifeq ($(UNAME_S),Darwin)
 		CDIR    := macos
 endif
 
-all: $(CONTENT_ID).pkg sce_sys/param.sfo
+all: check-toolchain $(CONTENT_ID).pkg sce_sys/param.sfo
 	rm -r $(INTDIR)
 	rm -r pkg.gp4
 	rm -r sce_sys/param.sfo
