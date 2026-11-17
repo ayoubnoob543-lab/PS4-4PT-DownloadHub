@@ -90,7 +90,13 @@ eboot.bin: $(INTDIR) $(OBJS)
 
 check-toolchain:
 	@test -n "$(TOOLCHAIN)" || (echo "Set OO_PS4_TOOLCHAIN to the OpenOrbis toolchain directory"; exit 1)
+	@command -v "$(CC)" >/dev/null 2>&1 || (echo "C compiler not found: $(CC)"; exit 1)
+	@command -v "$(CCX)" >/dev/null 2>&1 || (echo "C++ compiler not found: $(CCX)"; exit 1)
+	@command -v "$(LD)" >/dev/null 2>&1 || (echo "Linker not found: $(LD)"; exit 1)
 	@test -x "$(TOOLCHAIN)/bin/$(CDIR)/PkgTool.Core" || (echo "PkgTool.Core not found under $(TOOLCHAIN)/bin/$(CDIR)"; exit 1)
+	@test -x "$(TOOLCHAIN)/bin/$(CDIR)/create-gp4" || (echo "create-gp4 not found under $(TOOLCHAIN)/bin/$(CDIR)"; exit 1)
+	@test -x "$(TOOLCHAIN)/bin/$(CDIR)/create-eboot" || (echo "create-eboot not found under $(TOOLCHAIN)/bin/$(CDIR)"; exit 1)
+	@test -x "$(TOOLCHAIN)/bin/$(CDIR)/create-fself" || (echo "create-fself not found under $(TOOLCHAIN)/bin/$(CDIR)"; exit 1)
 
 $(INTDIR)/%.o: $(PROJDIR)/%.c
 	@mkdir -p $(dir $@)
