@@ -216,6 +216,8 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
         return -2;
     }
     int ret, statusCode, tempID, connID=-69, reqID=-69;
+    int contentLengthType = 0;
+    size_t contentLength = 0;
     // The public range API uses [startByte, endByte): endByte is exclusive.
     uint64_t sizeBytes = endByte-startByte, dldBytes = 0;
     int64_t read = 1;
@@ -271,8 +273,6 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
         goto err;
     }
 
-    int contentLengthType = 0;
-    size_t contentLength = 0;
     ret = sceHttpGetResponseContentLength(reqID, &contentLengthType, &contentLength);
     if (ret < 0 || static_cast<uint64_t>(contentLength) != sizeBytes) {
         LOG << "RANGE LENGTH MISMATCH: expected " << sizeBytes << " got " << contentLength;
