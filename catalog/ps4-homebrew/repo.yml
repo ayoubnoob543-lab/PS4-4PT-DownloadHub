@@ -159,6 +159,10 @@ openMSX:
 pEMU:
   type: EMULATOR
   pkgPath: https://store.brewology.com/dl/5932/IV0001-PFBN00001_00-PFBN000017020000.pkg
+# Minecraft Java Edition support (experimental Windows compatibility layer; bring your own licensed game files)
+PCPS4 - Minecraft Java Edition:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/16637/PCPS4-v0.1.0-alpha.pkg
 # Additional PS4 system, transfer and installation tools
 Remote Package Installer NextGen:
   type: TOOL
