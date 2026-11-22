@@ -17,6 +17,7 @@
 
 #include <utility>
 #include <mutex>
+#include <thread>
 #include <string>
 #include <yaml-cpp/yaml.h>
 
@@ -96,16 +97,22 @@ int repository::updatePKGS() {
                 LOG << stateString;
 
                 //this->addPKG(pkgPath.c_str(),type.c_str());
-                threadPool::addJobSecondary([this, capture0 = pkgPath, capture1=type] {
+                const int queued = threadPool::addJobSecondary([this, capture0 = pkgPath, capture1=type] {
                     this->addPKG(capture0,capture1);
                 });
 
-                cnt++;
+                if (queued == 0) {
+                    cnt++;
+                } else {
+                    // Avoid waiting forever if the secondary pool is unavailable.
+                    this->addPKG(pkgPath, type);
+                }
             }
         }
     }
     if(cnt>0) {
-        while (cnt > updatedCount) continue;
+        while (cnt > updatedCount)
+            std::this_thread::yield();
         if (packageList->empty())
             for (const auto &pkg: oldPackageList)
                 packageList->emplace_back(pkg);
