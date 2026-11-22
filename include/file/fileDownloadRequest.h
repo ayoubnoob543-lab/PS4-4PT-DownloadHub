@@ -23,6 +23,7 @@ private:
     int requestID = -69;
     int connectionID = -69;
     int templateID = -69;
+    int lastHttpStatusCode = 0;
 
     std::chrono::high_resolution_clock::time_point lastCheckpointTime;
     uint64_t    lastCheckPointBytes;
