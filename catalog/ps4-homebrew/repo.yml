@@ -186,3 +186,23 @@ SuperTuxKart:
 Relic Hunters Zero:
   type: GAME
   pkgPath: https://github.com/MDashK/Relic-Hunters-Zero-PS4/releases/download/v1.0.0/IV0000-RHZR00001_00-RELICHUNTERSZER0-A0100-V0100.pkg
+
+# Additional independently published PS4 game ports (verified GitHub release PKGs)
+Space Cadet Pinball:
+  type: GAME
+  pkgPath: https://github.com/iHaiDeeZ/SpaceCadetPinball-PS4/releases/download/v1.00/SpaceCadetPinball-iHaiDeeZ-v01.00.pkg
+Sonic Robo Blast 2:
+  type: GAME
+  pkgPath: https://github.com/iHaiDeeZ/SRB2-PS4/releases/download/v01.02/SRB2-PS4-v01.02.pkg
+Sonic 3 A.I.R.:
+  type: GAME
+  pkgPath: https://github.com/orbis-ports/sonic3air/releases/download/sonic3air-ps4-v26.08.15.0-r1/Sonic3AIR-PS4-v26.08.15.0-r1.pkg
+OpenGothic:
+  type: GAME
+  pkgPath: https://github.com/orbis-ports/OpenGothic/releases/download/opengothic-ps4-v0.92-r1/OpenGothic-PS4-v0.92-r1.pkg
+Mari0:
+  type: GAME
+  pkgPath: https://github.com/iHaiDeeZ/mari0-ps4/releases/download/v1.6-ps4.1/IV0000-MARI00006_00-MARI000000000000.pkg
+Ship of Harkinian:
+  type: GAME
+  pkgPath: https://github.com/alechurri/shipofharkinian-ps4/releases/download/v0.2.0/IV0000-SOHP00001_00-SHIPOFHARKINIAN0.pkg
