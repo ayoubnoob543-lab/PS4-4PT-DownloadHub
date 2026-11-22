@@ -201,7 +201,7 @@ int fileDownloadRequest::initRequest() {
     connectionID = statusCode;
 
     requestID = sceHttpCreateRequestWithURL(connectionID, ORBIS_METHOD_GET, src, 0);
-    if (statusCode < 0)
+    if (requestID < 0)
         return downloadError("Error on sceHttpCreateRequestWithURL()", statusCode);
 
 
@@ -253,7 +253,8 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
         return -2;
     }
     int ret, statusCode, tempID, connID=-69, reqID=-69;
-    uint64_t sizeBytes = endByte-startByte, read = 1, dldBytes = 0;
+    uint64_t sizeBytes = endByte-startByte+1, dldBytes = 0;
+    int64_t read = 1;
     std::string byteRange;
     std::stringstream errorStream;
 
@@ -317,13 +318,17 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
 
     while (dldBytes < sizeBytes && read > 0) {
         read = sceHttpReadData(reqID, &buffer[0], sizeof(buffer));
+        if (read < 0) {
+            LOG << "READ ERROR";
+            ret = -1;
+            goto err;
+        }
         uint64_t left = sizeBytes-dldBytes;
-        if (dldBytes + read > sizeBytes) {
-            memcpy(&data[dldBytes],&buffer[0],left);
-            dldBytes += left;
-        } else {
-            memcpy(&data[dldBytes],&buffer[0],read);
-            dldBytes += read;
+        uint64_t received = static_cast<uint64_t>(read);
+        uint64_t toCopy = received < left ? received : left;
+        if (toCopy > 0) {
+            memcpy(&data[dldBytes], &buffer[0], toCopy);
+            dldBytes += toCopy;
         }
     }
 
