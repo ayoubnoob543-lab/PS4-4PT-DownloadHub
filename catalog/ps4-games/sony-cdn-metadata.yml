@@ -1,0 +1,30 @@
+# Sony PS4 CDN metadata reference
+# Reference only: endpoint templates are for resolving official metadata.
+# This file intentionally does not enumerate bulk commercial game PKG URLs.
+
+platform: PS4
+source: Sony official CDN
+metadata:
+  title_database:
+    template: "http://tmdb.np.dl.playstation.net/tmdb2/{TITLE_ID}_{HASH}/{TITLE_ID}.json"
+    purpose: "Title metadata and package descriptor lookup"
+  game_update_xml:
+    template: "http://gs-sec.ww.np.dl.playstation.net/plo/np/{CUSA}/{HASH}/{CUSA}-ver.xml"
+    purpose: "Installed title update/version metadata"
+  game_update_json:
+    template: "http://gs2.ww.prod.dl.playstation.net/gs2/ppkgo/prod/{TITLE_ID}/{REVISION}/f_{HASH}/f/{CONTENT_ID}-A{APP_VERSION}-V{VERSION}.json"
+    purpose: "Update chunk manifest metadata"
+classification:
+  appkgo: "Base-game/application package namespace; requires package-specific authorization and entitlement checks."
+  ppkgo: "Patch/update package namespace; not a base-game package."
+  dlc: "Additional content; entitlement may be required."
+  demo_trial: "Demo/trial package; verify region and current availability."
+rules:
+  - "Never infer a package URL by guessing a title ID, revision, hash, or content ID."
+  - "Resolve identifiers from official metadata and validate HTTP status, content length, and package identity."
+  - "Do not present patch packages as complete games."
+  - "Do not assume a publicly reachable CDN URL grants redistribution rights."
+references:
+  - "https://www.psdevwiki.com/ps4/Online_Connections"
+  - "https://www.psdevwiki.com/ps4/PKG_files"
+  - "https://github.com/ahyaghoubi/psxdownloadhelper/blob/main/docs/cdn-patterns.md"
