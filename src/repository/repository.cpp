@@ -15,6 +15,7 @@
 #include "../../include/repository/PKGInfo.h"
 #include "../../include/main.h"
 
+#include <algorithm>
 #include <utility>
 #include <mutex>
 #include <thread>
