@@ -1,5 +1,6 @@
-name: Brewology PS4 Homebrew Games
+name: Brewology PS4 Homebrew Catalog
 repoURL: https://raw.githubusercontent.com/ayoubnoob543-lab/PS4-4PT-DownloadHub/feat/download-reliability-throughput/catalog/ps4-homebrew/
+# Games and open-source ports
 Yamagi Quake II:
   type: GAME
   pkgPath: https://store.brewology.com/dl/18119/IV0000-YQII00001_00-YAMAGIQUAKEII000.pkg
@@ -48,3 +49,30 @@ Freedoom:
 DevilutionX:
   type: GAME
   pkgPath: https://store.brewology.com/dl/6064/devilutionx-ps4.pkg
+# Media, IPTV and music apps. Add your own lawful services/playlists.
+Playtube:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/27901/IV0001-PLTB00000_00-PLTB000000100000.pkg
+Switchfin:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/27896/IV0001-SFIN00000_00-SFIN000000009600.pkg
+PS4 IPTV / V7 Player:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/18480/IV0001-IPTV00002_00-IPTV000020002000.pkg
+Jellyfin for PS4:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/14303/IV0000-JFPS40000_00-JELLYFINPS400000.pkg
+Chordwave:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16505/IV0000-CHWV00001_00-CHORDWAVE0000000.pkg
+# Emulators
+DuckStation:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/27918/DuckStation-v00.05.pkg
+EmuSuNi:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/14329/EmuSuNi-v00.24.pkg
+# Console utilities
+Apollo Save Tool:
+  type: TOOL
+  pkgPath: https://store.brewology.com/dl/5906/IV0000-APOL00004_00-APOLLO0000000PS4.pkg
