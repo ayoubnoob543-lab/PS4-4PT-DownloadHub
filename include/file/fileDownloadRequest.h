@@ -35,7 +35,7 @@ private:
     bool failed;
     bool downloading;
     bool finished;
-    bool paused;
+    std::atomic<bool> paused;
 
 
     int parseFileSize();

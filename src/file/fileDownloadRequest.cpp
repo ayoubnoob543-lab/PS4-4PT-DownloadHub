@@ -271,6 +271,8 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
     if(startByte > endByte) {
         LOG << "ERROR STARTBYTE>ENDBYTE";
         return -1;
+    } else if(startByte == endByte) {
+        return 0;
     } else if(!verifyURL(url,true)) {
         LOG << "INVALID URL " << url;
         return -2;
@@ -311,7 +313,6 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
         goto err;
     }
 
-    if (startByte == endByte) return 0;
     // Public callers pass an exclusive end offset; HTTP Range uses an inclusive end.
     byteRange = "bytes=" + std::to_string(startByte) + "-" + std::to_string(endByte - 1);
     sceHttpAddRequestHeader(reqID,"Range",byteRange.c_str(),0);
@@ -376,7 +377,6 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
 
 int fileDownloadRequest::downloadParallel() {
     static const unsigned int workerCount = 4;
-    static const uint64_t chunkSize = 4 * ONE_MB;
     if (fileSizeBytes < 16 * ONE_MB || downloadedBytes != 0)
         return -1;
 
@@ -425,7 +425,13 @@ int fileDownloadRequest::downloadParallel() {
     for (auto &worker : workers)
         if (worker.joinable()) worker.join();
 
-    if (!success.load() || paused || downloadedBytes.load() != fileSizeBytes) {
+    if (paused) {
+        for (const auto &path : partPaths) removeFile(path.c_str());
+        downloadedBytes = 0;
+        downloading = false;
+        return 0;
+    }
+    if (!success.load() || downloadedBytes.load() != fileSizeBytes) {
         for (const auto &path : partPaths) removeFile(path.c_str());
         downloadedBytes = 0;
         LOG << "Parallel ranges unavailable or incomplete; falling back to single connection";
@@ -435,6 +441,7 @@ int fileDownloadRequest::downloadParallel() {
     std::ofstream output(destinationPath, std::ios::binary | std::ios::trunc);
     if (!output.good()) {
         for (const auto &path : partPaths) removeFile(path.c_str());
+        removeFile(destinationPath.c_str());
         downloadedBytes = 0;
         return -1;
     }
@@ -467,6 +474,7 @@ int fileDownloadRequest::downloadParallel() {
         return -1;
     }
 
+    downloading = false;
     LOG << "Parallel download completed with " << workers.size() << " range workers";
     return 0;
 }
