@@ -26,6 +26,14 @@ sources:
     policy: official_commercial_metadata
     status: metadata_only
     notes: Official commercial catalog and product metadata; not a redistributable PKG feed.
+  - id: sony-cdn-metadata
+    name: Sony PS4 CDN Metadata Endpoints
+    kind: official_metadata
+    catalog_url: https://gs-sec.ww.np.dl.playstation.net/plo/np/
+    upstream: https://gs2.ww.prod.dl.playstation.net/
+    policy: metadata_lookup_only
+    status: documented
+    notes: Official Sony title/update metadata endpoint patterns. Resolve title IDs and versions through metadata; this registry does not publish bulk commercial PKG download URLs.
   - id: sony-official-ps4-trials
     name: Sony Official PS4 Trial Packages
     kind: official_commercial_trials
