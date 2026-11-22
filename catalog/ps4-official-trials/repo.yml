@@ -1,7 +1,14 @@
 name: Sony Official PS4 Trials
 repoURL: https://raw.githubusercontent.com/ayoubnoob543-lab/PS4-4PT-DownloadHub/feat/download-reliability-throughput/catalog/ps4-official-trials/
-# Public Sony CDN trial packages. These are demos/trials, not full commercial games.
-# Source references: https://www.psdevwiki.com/ps4/PKG_files
+# Public Sony CDN trial/demo packages. Not full commercial games.
+# Sources: https://www.psdevwiki.com/ps4/PKG_files
+# Additional trial listing: https://www.psu.com/news/guide-every-hidden-ps4-demo-and-trial-you-can-download/
+Backgammon Blitz Trial (US):
+  type: GAME
+  pkgPath: http://gs2.ww.prod.dl.playstation.net/gs2/appkgo/prod/CUSA00307_00/9/f_783be5acf54c7239e1a5c1c40f786d4e18f5ab1ccc258ff1744a734bdda8fe67/f/UP4437-CUSA00307_00-UBACKGAMMON00001.pkg
+Bunny Dodge Trial (JP):
+  type: GAME
+  pkgPath: http://gs2.ww.prod.dl.playstation.net/gs2/appkgo/prod/CUSA00164_00/4/f_515b2cd4aa16df91f02301f27c2eb91caf46f33906b84b6eda49d4184b20fe14/f/JP0102-CUSA00164_00-STRJPHG4TRIAL001.pkg
 Hamidashi Creative Trial (JP):
   type: GAME
   pkgPath: https://gs2.ww.prod.dl.playstation.net/gs2/appkgo/prod/CUSA27390_00/1/f_ef7e3e24b65f91ac330e35e059137ce1ea6e6f8c5779535a25c9ae4040fad74f/f/JP2551-CUSA27390_00-HAMIDASHITR00001.pkg
