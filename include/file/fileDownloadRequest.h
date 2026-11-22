@@ -29,7 +29,7 @@ private:
     uint64_t    lastCheckPointBytes;
     double averageSpeed;
 
-    uint64_t    downloadedBytes;
+    std::atomic<uint64_t> downloadedBytes;
     uint64_t    fileSizeBytes;
     double    fileSizeMB;
     bool failed;
@@ -40,6 +40,7 @@ private:
 
     int parseFileSize();
     int downloadLoop();
+    int downloadParallel();
     int downloadError(const char * message);
     int downloadError(const char * message, int statusCode);
     static int skipSslCallback(int libsslId, unsigned int verifyErr, void * const sslCert[], int certNum, void *userArg);
