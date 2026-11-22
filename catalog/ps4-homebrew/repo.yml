@@ -1,55 +1,5 @@
-name: Brewology PS4 Homebrew Catalog
+name: PS4 Homebrew Catalog
 repoURL: https://raw.githubusercontent.com/ayoubnoob543-lab/PS4-4PT-DownloadHub/feat/download-reliability-throughput/catalog/ps4-homebrew/
-# Games and open-source ports
-Yamagi Quake II:
-  type: GAME
-  pkgPath: https://store.brewology.com/dl/18119/IV0000-YQII00001_00-YAMAGIQUAKEII000.pkg
-Ao Oni:
-  type: GAME
-  pkgPath: https://store.brewology.com/dl/15785/IV0000-AONI00001_00-AOONIPS4PORT0000.pkg
-PsyDoom:
-  type: GAME
-  pkgPath: https://store.brewology.com/dl/16628/PsyDoom-PS4-0.02.pkg
-Serious Sam TFE:
-  type: GAME
-  pkgPath: https://store.brewology.com/dl/16522/SeriousSam-TFE-PS4-Alpha-0.04-external.pkg
-Doom 3:
-  type: GAME
-  pkgPath: https://store.brewology.com/dl/16492/Doom3-PS4-Playable-Alpha-0.18.pkg
-Clone Hero:
-  type: GAME
-  pkgPath: https://store.brewology.com/dl/18134/hero_v1.63.pkg
-Ao Oni KSOFCCS:
-  type: GAME
-  pkgPath: https://store.brewology.com/dl/16515/AoOni-PS4-v1.0-English.pkg
-MundoCraft:
-  type: GAME
-  pkgPath: https://store.brewology.com/dl/6132/MundoCraft-PS4-v0.3.20-beta1.pkg
-Aliens versus Predator:
-  type: GAME
-  pkgPath: https://store.brewology.com/dl/6294/AvP-PS4-v0.4.0.pkg
-Fallout 2 CE:
-  type: GAME
-  pkgPath: https://store.brewology.com/dl/6544/IV0001-FALL20002_00-FALL200020100000.pkg
-LOVE for PS4:
-  type: GAME
-  pkgPath: https://store.brewology.com/dl/16457/love-ps4-0.9.3.pkg
-ioquake3:
-  type: GAME
-  pkgPath: https://store.brewology.com/dl/6237/IV0000-QUAK03000_00-IOQ3PS4PORT00000.pkg
-PodexDOOM:
-  type: GAME
-  pkgPath: https://store.brewology.com/dl/16572/PodexDOOM.pkg
-Freedoom:
-  type: GAME
-  pkgPath: https://store.brewology.com/dl/16509/IV0000-BGEN00041_00-FREEDOOM00000000.pkg
-2048:
-  type: GAME
-  pkgPath: https://store.brewology.com/dl/16495/IV0000-SKID02048_00-GAME204800000000.pkg
-DevilutionX:
-  type: GAME
-  pkgPath: https://store.brewology.com/dl/6064/devilutionx-ps4.pkg
-# Media, IPTV and music apps. Add your own lawful services/playlists.
 Playtube:
   type: APP
   pkgPath: https://store.brewology.com/dl/27901/IV0001-PLTB00000_00-PLTB000000100000.pkg
@@ -65,18 +15,15 @@ Jellyfin for PS4:
 Chordwave:
   type: APP
   pkgPath: https://store.brewology.com/dl/16505/IV0000-CHWV00001_00-CHORDWAVE0000000.pkg
-# Emulators
 DuckStation:
   type: EMULATOR
   pkgPath: https://store.brewology.com/dl/27918/DuckStation-v00.05.pkg
 EmuSuNi:
   type: EMULATOR
   pkgPath: https://store.brewology.com/dl/14329/EmuSuNi-v00.24.pkg
-# Console utilities
 Apollo Save Tool:
   type: TOOL
   pkgPath: https://store.brewology.com/dl/5906/IV0000-APOL00004_00-APOLLO0000000PS4.pkg
-# More PS4 media, music, streaming and library applications
 BTAudio4:
   type: APP
   pkgPath: https://store.brewology.com/dl/27995/BTAudio4-2.0.0.pkg
@@ -122,7 +69,6 @@ Moonlight PS4 Pro:
 PS4 Torrent:
   type: APP
   pkgPath: https://store.brewology.com/dl/11593/IV0000-BREW00088_00-PS4TC00000000000.pkg
-# Additional emulators (some are experimental; bring your own game dumps and BIOS/keys)
 orbis-win:
   type: EMULATOR
   pkgPath: https://store.brewology.com/dl/20549/IV0000-GLDS10043_00-GLDS100430000000.pkg
@@ -159,11 +105,9 @@ openMSX:
 pEMU:
   type: EMULATOR
   pkgPath: https://store.brewology.com/dl/5932/IV0001-PFBN00001_00-PFBN000017020000.pkg
-# Minecraft Java Edition support (experimental Windows compatibility layer; bring your own licensed game files)
 PCPS4 - Minecraft Java Edition:
   type: EMULATOR
   pkgPath: https://store.brewology.com/dl/16637/PCPS4-v0.1.0-alpha.pkg
-# Additional PS4 system, transfer and installation tools
 Remote Package Installer NextGen:
   type: TOOL
   pkgPath: https://store.brewology.com/dl/19282/RemotePkgInstallerNextGen-0.0.10.pkg
@@ -173,36 +117,108 @@ OrbisKit:
 PS4Upload Direkt:
   type: TOOL
   pkgPath: https://store.brewology.com/dl/19619/PS4Upload-Direkt-BREW00090.pkg
-# Additional free/open-source port
-Serious Sam RADV:
-  type: GAME
-  pkgPath: https://store.brewology.com/dl/16513/IV0000-SSAM00001_00-SERIOUSSAMTFE001.pkg
-Serious Sam RADV - The Second Encounter:
-  type: GAME
-  pkgPath: https://store.brewology.com/dl/16514/IV0000-SSAM00002_00-SERIOUSSAMTSE001.pkg
-SuperTuxKart:
-  type: GAME
-  pkgPath: https://github.com/shitastical/supertuxkart-ps4/releases/download/v0.11.0/SuperTuxKart-PS4-v0.11.0.pkg
-Relic Hunters Zero:
-  type: GAME
-  pkgPath: https://github.com/MDashK/Relic-Hunters-Zero-PS4/releases/download/v1.0.0/IV0000-RHZR00001_00-RELICHUNTERSZER0-A0100-V0100.pkg
-
-# Additional independently published PS4 game ports (verified GitHub release PKGs)
-Space Cadet Pinball:
-  type: GAME
-  pkgPath: https://github.com/iHaiDeeZ/SpaceCadetPinball-PS4/releases/download/v1.00/SpaceCadetPinball-iHaiDeeZ-v01.00.pkg
-Sonic Robo Blast 2:
-  type: GAME
-  pkgPath: https://github.com/iHaiDeeZ/SRB2-PS4/releases/download/v01.02/SRB2-PS4-v01.02.pkg
-Sonic 3 A.I.R.:
-  type: GAME
-  pkgPath: https://github.com/orbis-ports/sonic3air/releases/download/sonic3air-ps4-v26.08.15.0-r1/Sonic3AIR-PS4-v26.08.15.0-r1.pkg
-OpenGothic:
-  type: GAME
-  pkgPath: https://github.com/orbis-ports/OpenGothic/releases/download/opengothic-ps4-v0.92-r1/OpenGothic-PS4-v0.92-r1.pkg
-Mari0:
-  type: GAME
-  pkgPath: https://github.com/iHaiDeeZ/mari0-ps4/releases/download/v1.6-ps4.1/IV0000-MARI00006_00-MARI000000000000.pkg
-Ship of Harkinian:
-  type: GAME
-  pkgPath: https://github.com/alechurri/shipofharkinian-ps4/releases/download/v0.2.0/IV0000-SOHP00001_00-SHIPOFHARKINIAN0.pkg
+HYPNOTIC:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/18500/HYPNOTIC-0.79.pkg
+PS4 Torrent (angeloINTJ):
+  type: APP
+  pkgPath: https://store.brewology.com/dl/19617/UP0000-BTRC00001_00-0000000000000000.pkg
+PS4 AirPlay:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16563/PS4-AirPlay-1.12-RC13.pkg
+Scratch Everywhere:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/11494/scratch-ps4.pkg
+SysDVR Client:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/5901/IV0000-SDVR00001_00-SYSDVRPS4CLIENT0.pkg
+Moonlight (sunian19):
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16562/Moonlight-1.2.8.pkg
+Stremio PS4:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16573/stremio-ps4-1.1.0.pkg
+OrbisFox:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16640/OrbisFox-0.69-alpha-Homebrew.pkg
+Bluetooth Audio:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/6598/Bluetooth-Audio-2.7.5.pkg
+The Screen Mirroring:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/6596/TheScreenMirroring.pkg
+SteamLink PS4:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16560/SteamLinkPs4_1.0.36.pkg
+PShare:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/6130/PShare-PS4-1.0.pkg
+Cyrene Launcher:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/6052/Cyrene-Launcher-01.03.pkg
+ALVR PS4:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16555/ALVR-PS4-v0.12.0.pkg
+Stremio (unofficial):
+  type: APP
+  pkgPath: https://store.brewology.com/dl/6323/Stremio-PS4-v1.03.pkg
+Stremio Nativo:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/5904/Stremio-PS4-0.5.0.pkg
+AI Chat:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16446/Ai_Chatbot.pkg
+XScreenSaver:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16569/IV0000-BGEN00072_00-SCREENSAVERPS400.pkg
+Moonlight:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/6556/Moonlight-1.1.0.pkg
+Aether:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/6164/Aether-v0.87.pkg
+wiliwili:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/6496/wiliwili-PS4.pkg
+Dolby TrueHD decoder:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16570/IV0000-BREW03085_00-DOLBYTRUEHDDEC00.pkg
+GB-JIT:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/19618/PS4-GB-JIT-v01.06.pkg
+Orbis Eden:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/15955/IV0000-EDPS00001_00-EDENPS4000000000.pkg
+Harissa64:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/16500/Harissa64-PS4-0.3.1.pkg
+ScummVM:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/16502/ScummVM-PS4-2026.4.0-RC2.pkg
+NP2kai:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/11585/IV0000-BREW00984_00-NP2KAIBOOTSTRAP0.pkg
+M33:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/11582/M33-v1.19.pkg
+PicoPlay:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/11524/picoplay-ps4.pkg
+HENkaku:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/7640/HENkaku-v01.17.pkg
+ALLESIU:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/6476/ALLESIU-1.5.pkg
+Resonance:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/6210/Resonance-v01.41.pkg
+PS4 Save Signer:
+  type: TOOL
+  pkgPath: https://store.brewology.com/dl/18133/IV0000-PSSS00001_00-PS4SAVESIGNER000.pkg
+PCManFM-PS4:
+  type: TOOL
+  pkgPath: https://store.brewology.com/dl/16639/PCManFM-PS4-v01.16.pkg
+ezRemote Client:
+  type: TOOL
+  pkgPath: https://store.brewology.com/dl/15781/ezremote_client.pkg
