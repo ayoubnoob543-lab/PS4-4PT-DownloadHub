@@ -1,0 +1,50 @@
+name: Brewology PS4 Homebrew Games
+repoURL: https://raw.githubusercontent.com/ayoubnoob543-lab/PS4-4PT-DownloadHub/feat/download-reliability-throughput/catalog/ps4-homebrew/
+Yamagi Quake II:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/18119/IV0000-YQII00001_00-YAMAGIQUAKEII000.pkg
+Ao Oni:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/15785/IV0000-AONI00001_00-AOONIPS4PORT0000.pkg
+PsyDoom:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/16628/PsyDoom-PS4-0.02.pkg
+Serious Sam TFE:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/16522/SeriousSam-TFE-PS4-Alpha-0.04-external.pkg
+Doom 3:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/16492/Doom3-PS4-Playable-Alpha-0.18.pkg
+Clone Hero:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/18134/hero_v1.63.pkg
+Ao Oni KSOFCCS:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/16515/AoOni-PS4-v1.0-English.pkg
+MundoCraft:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/6132/MundoCraft-PS4-v0.3.20-beta1.pkg
+Aliens versus Predator:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/6294/AvP-PS4-v0.4.0.pkg
+Fallout 2 CE:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/6544/IV0001-FALL20002_00-FALL200020100000.pkg
+LOVE for PS4:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/16457/love-ps4-0.9.3.pkg
+ioquake3:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/6237/IV0000-QUAK03000_00-IOQ3PS4PORT00000.pkg
+PodexDOOM:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/16572/PodexDOOM.pkg
+Freedoom:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/16509/IV0000-BGEN00041_00-FREEDOOM00000000.pkg
+2048:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/16495/IV0000-SKID02048_00-GAME204800000000.pkg
+DevilutionX:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/6064/devilutionx-ps4.pkg
