@@ -87,7 +87,9 @@ int repository::updatePKGS() {
 
                 if (attributes["pkgPath"].as<std::string>().find('.') == std::string::npos)
                     continue;
-                std::string pkgPath = repoURL + attributes["pkgPath"].as<std::string>("");
+                std::string pkgPath = attributes["pkgPath"].as<std::string>("");
+                if (pkgPath.compare(0, 7, "http://") != 0 && pkgPath.compare(0, 8, "https://") != 0)
+                    pkgPath = repoURL + pkgPath;
                 std::string type = attributes["type"].as<std::string>("");
 
                 stateString = "Fetching: " + pkgPath;
