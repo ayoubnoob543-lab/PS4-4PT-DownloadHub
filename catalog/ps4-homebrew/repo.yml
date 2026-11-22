@@ -176,3 +176,9 @@ Serious Sam RADV:
 Serious Sam RADV - The Second Encounter:
   type: GAME
   pkgPath: https://store.brewology.com/dl/16514/IV0000-SSAM00002_00-SERIOUSSAMTSE001.pkg
+SuperTuxKart:
+  type: GAME
+  pkgPath: https://github.com/shitastical/supertuxkart-ps4/releases/download/v0.11.0/SuperTuxKart-PS4-v0.11.0.pkg
+Relic Hunters Zero:
+  type: GAME
+  pkgPath: https://github.com/MDashK/Relic-Hunters-Zero-PS4/releases/download/v1.0.0/IV0000-RHZR00001_00-RELICHUNTERSZER0-A0100-V0100.pkg
