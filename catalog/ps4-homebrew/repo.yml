@@ -76,3 +76,100 @@ EmuSuNi:
 Apollo Save Tool:
   type: TOOL
   pkgPath: https://store.brewology.com/dl/5906/IV0000-APOL00004_00-APOLLO0000000PS4.pkg
+# More PS4 media, music, streaming and library applications
+BTAudio4:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/27995/BTAudio4-2.0.0.pkg
+Playfin:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/20484/IV0001-PLFN00000_00-PLFN000000100000.pkg
+HearBridge:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/18452/HearBridge-PS4-1.2.0-for-14.xx.pkg
+FPKGi Plus:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/19322/IV0000-FPKP00001_00-FPKGIPLUS0000000.pkg
+Librarian:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/15934/IV0000-LIBR00001_00-LIBRARIANPS40000.pkg
+jtplay:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/15810/IV0000-BREW04327_00-JTPLAY0000000000.pkg
+tvhp:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/15811/IV0000-BREW04328_00-TVHP000000000000.pkg
+Claude for PS4:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16442/IV0000-CLDE00001_00-CLAUDEFORPS40000.pkg
+RommPS:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/19627/romm-sync-ps4.pkg
+orbisRPC:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16376/orbisRPC-setup-1.1.pkg
+PS4 Ambilight:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16098/ps4-ambilight-app.pkg
+Moonlight MP:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16545/moonlight-mp-ps4_3.20.pkg
+PS4 Web Audio:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16458/PS4-Web-Audio.pkg
+Moonlight PS4 Pro:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16595/Moonlight-1.3.13.pkg
+PS4 Torrent:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/11593/IV0000-BREW00088_00-PS4TC00000000000.pkg
+# Additional emulators (some are experimental; bring your own game dumps and BIOS/keys)
+orbis-win:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/20549/IV0000-GLDS10043_00-GLDS100430000000.pkg
+NPS64:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/18472/NPS64-by-lTunix-00.75.pkg
+PPSSPP:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/16632/IV0000-PPSS00001_00-PPSSPPHOMEBREW00.pkg
+Flycast:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/16493/IV0000-FLYH00001_00-FLYCAST000000000.pkg
+DolphinPS4:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/6171/DolphinPS4-v04.19.pkg
+RPCS3 Port for PS4:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/16635/RPCS3.PORT.FOR.PS4.v0.40.by.Roberix.Studio.pkg
+Crema:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/6169/Crema-v03.30.pkg
+Eden4:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/16565/Eden4-01.00.pkg
+PS4SX2:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/16504/IV0000-PCSX20007_00-PS4SX2EMU0000001.pkg
+R2RETRO:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/6344/R2RETRO-v0.5.13-installer-fix.pkg
+openMSX:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/6131/IV0000-BGEN00073_00-OPENMSXPS4000000.pkg
+pEMU:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/5932/IV0001-PFBN00001_00-PFBN000017020000.pkg
+# Additional PS4 system, transfer and installation tools
+Remote Package Installer NextGen:
+  type: TOOL
+  pkgPath: https://store.brewology.com/dl/19282/RemotePkgInstallerNextGen-0.0.10.pkg
+OrbisKit:
+  type: TOOL
+  pkgPath: https://store.brewology.com/dl/18508/OrbisKit-v1.04.pkg
+PS4Upload Direkt:
+  type: TOOL
+  pkgPath: https://store.brewology.com/dl/19619/PS4Upload-Direkt-BREW00090.pkg
+# Additional free/open-source port
+Serious Sam RADV:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/16513/IV0000-SSAM00001_00-SERIOUSSAMTFE001.pkg
