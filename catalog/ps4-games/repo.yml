@@ -1,0 +1,80 @@
+name: PS4 Games Catalog
+repoURL: https://raw.githubusercontent.com/ayoubnoob543-lab/PS4-4PT-DownloadHub/feat/download-reliability-throughput/catalog/ps4-games/
+Yamagi Quake II:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/18119/IV0000-YQII00001_00-YAMAGIQUAKEII000.pkg
+Ao Oni:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/15785/IV0000-AONI00001_00-AOONIPS4PORT0000.pkg
+PsyDoom:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/16628/PsyDoom-PS4-0.02.pkg
+Serious Sam TFE:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/16522/SeriousSam-TFE-PS4-Alpha-0.04-external.pkg
+Doom 3:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/16492/Doom3-PS4-Playable-Alpha-0.18.pkg
+Clone Hero:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/18134/hero_v1.63.pkg
+Ao Oni KSOFCCS:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/16515/AoOni-PS4-v1.0-English.pkg
+MundoCraft:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/6132/MundoCraft-PS4-v0.3.20-beta1.pkg
+Aliens versus Predator:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/6294/AvP-PS4-v0.4.0.pkg
+Fallout 2 CE:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/6544/IV0001-FALL20002_00-FALL200020100000.pkg
+LOVE for PS4:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/16457/love-ps4-0.9.3.pkg
+ioquake3:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/6237/IV0000-QUAK03000_00-IOQ3PS4PORT00000.pkg
+PodexDOOM:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/16572/PodexDOOM.pkg
+Freedoom:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/16509/IV0000-BGEN00041_00-FREEDOOM00000000.pkg
+2048:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/16495/IV0000-SKID02048_00-GAME204800000000.pkg
+DevilutionX:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/6064/devilutionx-ps4.pkg
+Serious Sam RADV:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/16513/IV0000-SSAM00001_00-SERIOUSSAMTFE001.pkg
+Serious Sam RADV - The Second Encounter:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/16514/IV0000-SSAM00002_00-SERIOUSSAMTSE001.pkg
+SuperTuxKart:
+  type: GAME
+  pkgPath: https://github.com/shitastical/supertuxkart-ps4/releases/download/v0.11.0/SuperTuxKart-PS4-v0.11.0.pkg
+Relic Hunters Zero:
+  type: GAME
+  pkgPath: https://github.com/MDashK/Relic-Hunters-Zero-PS4/releases/download/v1.0.0/IV0000-RHZR00001_00-RELICHUNTERSZER0-A0100-V0100.pkg
+Space Cadet Pinball:
+  type: GAME
+  pkgPath: https://github.com/iHaiDeeZ/SpaceCadetPinball-PS4/releases/download/v1.00/SpaceCadetPinball-iHaiDeeZ-v01.00.pkg
+Sonic Robo Blast 2:
+  type: GAME
+  pkgPath: https://github.com/iHaiDeeZ/SRB2-PS4/releases/download/v01.02/SRB2-PS4-v01.02.pkg
+Sonic 3 A.I.R.:
+  type: GAME
+  pkgPath: https://github.com/orbis-ports/sonic3air/releases/download/sonic3air-ps4-v26.08.15.0-r1/Sonic3AIR-PS4-v26.08.15.0-r1.pkg
+OpenGothic:
+  type: GAME
+  pkgPath: https://github.com/orbis-ports/OpenGothic/releases/download/opengothic-ps4-v0.92-r1/OpenGothic-PS4-v0.92-r1.pkg
+Mari0:
+  type: GAME
+  pkgPath: https://github.com/iHaiDeeZ/mari0-ps4/releases/download/v1.6-ps4.1/IV0000-MARI00006_00-MARI000000000000.pkg
+Ship of Harkinian:
+  type: GAME
+  pkgPath: https://github.com/alechurri/shipofharkinian-ps4/releases/download/v0.2.0/IV0000-SOHP00001_00-SHIPOFHARKINIAN0.pkg
