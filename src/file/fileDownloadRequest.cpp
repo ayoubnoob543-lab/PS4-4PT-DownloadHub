@@ -11,6 +11,7 @@
 #include <orbis/Http.h>
 #include <sstream>
 #include <regex>
+#include <unistd.h>
 
 const char * fileDownloadRequest::eoh = "\r\n\r\n";
 
@@ -38,6 +39,7 @@ fileDownloadRequest::fileDownloadRequest(const char * sourceURL, const char * de
     requestID = -69;
     connectionID = -69;
     templateID =-69;
+    lastHttpStatusCode = 0;
 
     downloadedBytes = startByte;
     fileSizeBytes = fileSize;
@@ -80,8 +82,7 @@ bool fileDownloadRequest::hasFinished() const {
 
 int fileDownloadRequest::downloadError(const char *message) {
     LOG << message;
-    if(fileExists(destinationPath.c_str()))
-        removeFile(destinationPath.c_str());
+    // Keep the partial file: a later retry/resume can continue from downloadedBytes.
     failed = true;
     downloading = false;
     finished = false;
@@ -98,7 +99,7 @@ int fileDownloadRequest::downloadError(const char *message, int statusCode) {
 }
 
 int fileDownloadRequest::initDownload(download * download) {
-    int ret;
+    int ret = -1;
     if(!verifyURL(sourceURL.c_str(),true)){
         std::string message = "INVALID URL AT ";
         message+=sourceURL;
@@ -111,34 +112,62 @@ int fileDownloadRequest::initDownload(download * download) {
         ret = downloadError("ALREADY FINISHED DOWNLOADING");
         goto err;
     }else if(libhttpCtxId == 0){
-        download->setFailed(true);
+        if (download != nullptr)
+            download->setFailed(true);
         ret = downloadError("ERROR: Http not initialized");
         goto err;
-    } else if(initRequest() < 0){
-        ret = downloadError("ERROR: COULD NOT INIT HTTP REQUEST");
-        goto err;
     }
-    downloading = true;
+
     paused = false;
-    if(fileSizeBytes ==0) {
-        ret = parseFileSize();
-        if (ret < 0) {
-            if (download != nullptr)
-                download->setFailed(true);
-            ret = downloadError("Error when parsing file size");
-            goto err;
+    for (int attempt = 0; attempt < 3 && !paused; ++attempt) {
+        failed = false;
+        lastHttpStatusCode = 0;
+        termRequest();
+
+        ret = initRequest();
+        if (ret == 0 && fileSizeBytes == 0)
+            ret = parseFileSize();
+
+        if (ret == 0) {
+            downloading = true;
+            ret = downloadLoop();
+        }
+
+        if (ret == 0)
+            break;
+
+        termRequest();
+        downloading = false;
+
+        // Do not hammer rate-limited or authorization-failed hosts.
+        const bool retryable =
+            lastHttpStatusCode == 0 ||
+            lastHttpStatusCode == 200 || lastHttpStatusCode == 206 ||
+            lastHttpStatusCode == 408 || lastHttpStatusCode == 425 ||
+            lastHttpStatusCode == 500 || lastHttpStatusCode == 502 ||
+            lastHttpStatusCode == 503 || lastHttpStatusCode == 504;
+
+        if (!retryable || attempt == 2 || paused)
+            break;
+
+        LOG << "Temporary download failure; retry " << (attempt + 1) << "/2";
+        usleep((attempt + 1) * 1000000);
+    }
+
+    if (ret < 0) {
+        failed = true;
+        downloading = false;
+        finished = false;
+        if (download != nullptr)
+            download->setFailed(true);
+    } else if (!paused && fileSizeBytes == downloadedBytes) {
+        finished = true;
+        if (download != nullptr) {
+            download->setFinished();
+            download->setFailed(false);
         }
     }
 
-    ret = downloadLoop();
-    if(ret < 0) {
-        if(download != nullptr)
-            download->setFailed(true);
-        ret = downloadError("Error when downloading file");
-    } else if(ret == 0 && download != nullptr && fileSizeBytes == downloadedBytes) {
-        download->setFinished();
-        download->setFailed(false);
-    }
     err:
     termRequest();
     return ret;
@@ -149,6 +178,7 @@ void fileDownloadRequest::pauseDownload() {
 
 //TODO IF SSL OUT OF MEMORY 0x809517d5 retry ?
 int fileDownloadRequest::initRequest() {
+    lastHttpStatusCode = 0;
     const char * src = sourceURL.c_str();
     std::string byteRange = "bytes="+ std::to_string(downloadedBytes)+"-";
 
@@ -183,6 +213,8 @@ int fileDownloadRequest::initRequest() {
     }
 
     int ret = sceHttpGetStatusCode(requestID, &statusCode);
+    if (ret >= 0)
+        lastHttpStatusCode = statusCode;
     if (ret < 0 || (statusCode != 200 && statusCode != 206)) {
         if(statusCode == 404)
             return downloadError("404 ERROR NOT FOUND");
@@ -281,7 +313,7 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
         goto err;
     }
 
-    char buffer[1024];
+    char buffer[64 * 1024];
 
     while (dldBytes < sizeBytes && read > 0) {
         read = sceHttpReadData(reqID, &buffer[0], sizeof(buffer));
@@ -329,24 +361,36 @@ int fileDownloadRequest::downloadLoop() {
 
     this->lastCheckpointTime = std::chrono::high_resolution_clock::now();
     lastCheckPointBytes = downloadedBytes;
-    char buffer[255];
-    uint64_t read = sceHttpReadData(requestID, buffer, sizeof(buffer)), data_offset = 0;
-    auto it = std::search(buffer, buffer + read, eoh, eoh + 4);
-    if (it != buffer + read) {   // if header end found:
-        data_offset = it - buffer + 4;      // skip it
-        downloadedBytes -= data_offset;
+    char buffer[64 * 1024];
+    int64_t read = sceHttpReadData(requestID, buffer, sizeof(buffer));
+    uint64_t data_offset = 0;
+    if (read < 0) {
+        out.close();
+        return downloadError("HTTP read failed before download body");
     }
+    auto it = std::search(buffer, buffer + read, eoh, eoh + 4);
+    if (it != buffer + read)
+        data_offset = static_cast<uint64_t>(it - buffer) + 4;
 
     while (downloadedBytes < fileSizeBytes && read > 0 && !paused) {
-        uint64_t left = fileSizeBytes - downloadedBytes;
-        if (downloadedBytes + read > fileSizeBytes) {
-            downloadedBytes += left;
-            out.write(buffer - data_offset, left);
-        } else {
-            out.write(buffer + data_offset, read - data_offset); // write, ignoring before the offset
-            downloadedBytes += read;
+        const uint64_t payloadBytes = static_cast<uint64_t>(read) > data_offset
+            ? static_cast<uint64_t>(read) - data_offset : 0;
+        const uint64_t remaining = fileSizeBytes - downloadedBytes;
+        const uint64_t toWrite = payloadBytes < remaining ? payloadBytes : remaining;
+        if (toWrite > 0) {
+            out.write(buffer + data_offset, static_cast<std::streamsize>(toWrite));
+            if (!out.good()) {
+                out.close();
+                return downloadError("Disk write failed");
+            }
+            downloadedBytes += toWrite;
         }
+        data_offset = 0;
         read = sceHttpReadData(requestID, buffer, sizeof(buffer));
+        if (read < 0) {
+            out.close();
+            return downloadError("HTTP read failed during download");
+        }
     }
 
     out.close();
