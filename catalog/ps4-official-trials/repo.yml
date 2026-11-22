@@ -1,0 +1,16 @@
+name: Sony Official PS4 Trials
+repoURL: https://raw.githubusercontent.com/ayoubnoob543-lab/PS4-4PT-DownloadHub/feat/download-reliability-throughput/catalog/ps4-official-trials/
+# Public Sony CDN trial packages. These are demos/trials, not full commercial games.
+# Source references: https://www.psdevwiki.com/ps4/PKG_files
+Hamidashi Creative Trial (JP):
+  type: GAME
+  pkgPath: https://gs2.ww.prod.dl.playstation.net/gs2/appkgo/prod/CUSA27390_00/1/f_ef7e3e24b65f91ac330e35e059137ce1ea6e6f8c5779535a25c9ae4040fad74f/f/JP2551-CUSA27390_00-HAMIDASHITR00001.pkg
+IxSHE Tell Trial (JP):
+  type: GAME
+  pkgPath: https://gs2.ww.prod.dl.playstation.net/gs2/appkgo/prod/CUSA17126_00/1/f_eb1d968ea9bef6d8347b96aa5c41706930bc2db411e7a0dfda93fb1d4ad5aa90/f/JP0741-CUSA17126_00-PS4DEMOAPP000001.pkg
+Jinki Resurrection Trial (JP):
+  type: GAME
+  pkgPath: https://gs2.ww.prod.dl.playstation.net/gs2/appkgo/prod/CUSA25180_00/1/f_1f6e305eefaaefe512d8b02e1382445a02ae31b375ddd35da203d3337fae4b1/f/JP0741-CUSA25180_00-JINKITRZZZZZZZZZ.pkg
+Fuyu Kiss Trial (JP):
+  type: GAME
+  pkgPath: https://gs2.ww.prod.dl.playstation.net/gs2/appkgo/prod/CUSA29746_00/1/f_5591f148d1a7ff8bb30096d255534c82e0b5a3ef0eb897b307f302e72c683df5/f/JP0741-CUSA29746_00-FUYUKISSTRZZZZZZ.pkg
