@@ -26,6 +26,14 @@ sources:
     policy: official_commercial_metadata
     status: metadata_only
     notes: Official commercial catalog and product metadata; not a redistributable PKG feed.
+  - id: sony-official-ps4-trials
+    name: Sony Official PS4 Trial Packages
+    kind: official_commercial_trials
+    catalog_url: https://raw.githubusercontent.com/ayoubnoob543-lab/PS4-4PT-DownloadHub/feat/download-reliability-throughput/catalog/ps4-official-trials/
+    upstream: https://gs2.ww.prod.dl.playstation.net/
+    policy: public_trial_packages_only
+    status: direct_urls_added
+    notes: Four publicly documented Japanese trial PKGs; not full commercial games. URLs originate from PS4 Developer Wiki's PKG files reference.
   - id: authorized-publisher-feed
     name: Publisher or license-holder feed
     kind: commercial_distribution
