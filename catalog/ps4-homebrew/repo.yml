@@ -173,3 +173,6 @@ PS4Upload Direkt:
 Serious Sam RADV:
   type: GAME
   pkgPath: https://store.brewology.com/dl/16513/IV0000-SSAM00001_00-SERIOUSSAMTFE001.pkg
+Serious Sam RADV - The Second Encounter:
+  type: GAME
+  pkgPath: https://store.brewology.com/dl/16514/IV0000-SSAM00002_00-SERIOUSSAMTSE001.pkg
