@@ -221,6 +221,13 @@ int fileDownloadRequest::initRequest() {
         else
             return downloadError("UNKNOWN HTTP ERROR", statusCode);
     }
+    if (statusCode == 200 && downloadedBytes > 0) {
+        // The host ignored Range. Restart cleanly instead of appending a full
+        // response to an existing partial file.
+        removeFile(destinationPath.c_str());
+        downloadedBytes = 0;
+        return downloadError("Server ignored Range; restarting from byte zero", statusCode);
+    }
     return 0;
 }
 
@@ -301,7 +308,8 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
     }
 
     ret = sceHttpGetStatusCode(reqID, &statusCode);
-    if (ret < 0 || (statusCode != 200 && statusCode != 206)) {
+    if (ret < 0 || (statusCode != 200 && statusCode != 206) ||
+        (startByte > 0 && statusCode != 206)) {
         if(ret<0){
             errorStream << "StatusCode: " << std::hex << statusCode << std::endl;
             LOG << "ERROR WITH CODE" << errorStream.str();
@@ -332,8 +340,8 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
         }
     }
 
-    if(read < 0) {
-        LOG << "READ ERROR";
+    if(read < 0 || dldBytes != sizeBytes) {
+        LOG << "READ ERROR OR INCOMPLETE RANGE: " << dldBytes << "/" << sizeBytes;
         ret = -1;
     } else
         ret = 0;
