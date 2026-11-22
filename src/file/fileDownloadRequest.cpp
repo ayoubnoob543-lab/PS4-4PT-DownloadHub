@@ -12,6 +12,8 @@
 #include <sstream>
 #include <regex>
 #include <unistd.h>
+#include <thread>
+#include <algorithm>
 
 const char * fileDownloadRequest::eoh = "\r\n\r\n";
 
@@ -130,7 +132,21 @@ int fileDownloadRequest::initDownload(download * download) {
 
         if (ret == 0) {
             downloading = true;
-            ret = downloadLoop();
+            if (downloadedBytes == 0 && fileSizeBytes >= 16 * ONE_MB) {
+                // Use four independent HTTP byte-range workers for fresh large PKGs.
+                termRequest();
+                ret = downloadParallel();
+                if (ret < 0 && !paused) {
+                    downloadedBytes = 0;
+                    termRequest();
+                    ret = initRequest();
+                    if (ret == 0)
+                        ret = downloadLoop();
+                }
+            } else {
+                // Existing partial downloads keep the safe single-stream resume path.
+                ret = downloadLoop();
+            }
         }
 
         if (ret == 0)
@@ -295,7 +311,9 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
         goto err;
     }
 
-    byteRange = "bytes=" +std::to_string(startByte) + "-" + std::to_string(endByte);
+    if (startByte == endByte) return 0;
+    // Public callers pass an exclusive end offset; HTTP Range uses an inclusive end.
+    byteRange = "bytes=" + std::to_string(startByte) + "-" + std::to_string(endByte - 1);
     sceHttpAddRequestHeader(reqID,"Range",byteRange.c_str(),0);
     statusCode = sceHttpSendRequest(reqID, nullptr, 0);
 
@@ -354,6 +372,103 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
         sceHttpDeleteTemplate(tempID);
 
     return ret;
+}
+
+int fileDownloadRequest::downloadParallel() {
+    static const unsigned int workerCount = 4;
+    static const uint64_t chunkSize = 4 * ONE_MB;
+    if (fileSizeBytes < 16 * ONE_MB || downloadedBytes != 0)
+        return -1;
+
+    std::vector<std::string> partPaths(workerCount);
+    std::vector<std::thread> workers;
+    std::atomic<bool> success(true);
+    const uint64_t segmentSize = (fileSizeBytes + workerCount - 1) / workerCount;
+
+    for (unsigned int worker = 0; worker < workerCount; ++worker) {
+        partPaths[worker] = destinationPath + ".range" + std::to_string(worker);
+        removeFile(partPaths[worker].c_str());
+        const uint64_t segmentStart = segmentSize * worker;
+        const uint64_t segmentEnd = std::min(fileSizeBytes, segmentStart + segmentSize);
+        if (segmentStart >= segmentEnd) continue;
+
+        workers.emplace_back([this, worker, segmentStart, segmentEnd, &partPaths, &success]() {
+            std::ofstream part(partPaths[worker], std::ios::binary | std::ios::trunc);
+            if (!part.good()) {
+                success.store(false);
+                return;
+            }
+
+            std::vector<uint8_t> buffer(static_cast<size_t>(4 * ONE_MB));
+            uint64_t offset = segmentStart;
+            while (offset < segmentEnd && success.load() && !paused) {
+                const uint64_t end = std::min(segmentEnd, offset + static_cast<uint64_t>(buffer.size()));
+                const uint64_t bytes = end - offset;
+                if (downloadBytes(sourceURL.c_str(), buffer.data(), offset, end) < 0) {
+                    success.store(false);
+                    break;
+                }
+                part.write(reinterpret_cast<const char *>(buffer.data()), static_cast<std::streamsize>(bytes));
+                if (!part.good()) {
+                    success.store(false);
+                    break;
+                }
+                downloadedBytes.fetch_add(bytes);
+                offset = end;
+            }
+            part.close();
+            if (!success.load() || paused)
+                removeFile(partPaths[worker].c_str());
+        });
+    }
+
+    for (auto &worker : workers)
+        if (worker.joinable()) worker.join();
+
+    if (!success.load() || paused || downloadedBytes.load() != fileSizeBytes) {
+        for (const auto &path : partPaths) removeFile(path.c_str());
+        downloadedBytes = 0;
+        LOG << "Parallel ranges unavailable or incomplete; falling back to single connection";
+        return -1;
+    }
+
+    std::ofstream output(destinationPath, std::ios::binary | std::ios::trunc);
+    if (!output.good()) {
+        for (const auto &path : partPaths) removeFile(path.c_str());
+        downloadedBytes = 0;
+        return -1;
+    }
+
+    char mergeBuffer[64 * 1024];
+    for (const auto &path : partPaths) {
+        std::ifstream part(path, std::ios::binary);
+        if (!part.good()) {
+            success.store(false);
+            break;
+        }
+        while (part.good()) {
+            part.read(mergeBuffer, sizeof(mergeBuffer));
+            const std::streamsize count = part.gcount();
+            if (count > 0) output.write(mergeBuffer, count);
+            if (!output.good()) {
+                success.store(false);
+                break;
+            }
+        }
+        part.close();
+        if (!success.load()) break;
+    }
+    output.close();
+
+    for (const auto &path : partPaths) removeFile(path.c_str());
+    if (!success.load() || getFileSize(destinationPath.c_str()) != fileSizeBytes) {
+        removeFile(destinationPath.c_str());
+        downloadedBytes = 0;
+        return -1;
+    }
+
+    LOG << "Parallel download completed with " << workers.size() << " range workers";
+    return 0;
 }
 
 int fileDownloadRequest::parseFileSize() {
