@@ -101,7 +101,14 @@ def scrape_dll(url, game):
             **meta, "status": "visible_page_link"
         })
 
-    # Keep a diagnostic record in the caller when a page has no external links.
+    if not found:
+        title = soup.title.get_text(" ", strip=True) if soup.title else "untitled"
+        body_text = (root.get_text(" ", strip=True) if root else "")[:180]
+        raise ValueError(
+            "no_visible_external_links; "
+            f"http_status={r.status_code}; page_title={title!r}; "
+            f"page_text={body_text!r}"
+        )
     return found
 
 def main():
