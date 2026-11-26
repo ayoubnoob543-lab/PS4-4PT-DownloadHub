@@ -12,6 +12,7 @@
 #include "../../include/main.h"
 
 #include <sstream>
+#include <algorithm>
 #include <orbis/AppInstUtil.h>
 #include <orbis/bgft.h>
 #include <orbis/UserService.h>
@@ -20,6 +21,7 @@ package::package(const char*url, bool local, bool * failed, const char * type, c
     std::ostringstream stringStream;
     stringStream.precision(2);
     this->url = url;
+    this->mirrorURLs.emplace_back(url);
     this->repoName = repositoryName;
     std::string fileName = this->url;
     size_t query = fileName.find_first_of("?#");
@@ -268,6 +270,20 @@ const char *package::getURL() {
     return this->url.c_str();
 }
 
+void package::setMirrorURLs(const std::vector<std::string> &urls) {
+    mirrorURLs.clear();
+    for (const auto &candidate : urls) {
+        if (candidate.empty()) continue;
+        if (std::find(mirrorURLs.begin(), mirrorURLs.end(), candidate) == mirrorURLs.end())
+            mirrorURLs.emplace_back(candidate);
+    }
+    if (mirrorURLs.empty() && !url.empty()) mirrorURLs.emplace_back(url);
+}
+
+const std::vector<std::string> &package::getMirrorURLs() const {
+    return mirrorURLs;
+}
+
 double package::getVersion() const {
     return this->version;
 }
@@ -306,6 +322,7 @@ package::package(package *oldPackage) {
     name = oldPackage->getName();
     repoName = oldPackage->getRepoName();
     url = oldPackage->getURL();
+    mirrorURLs = oldPackage->getMirrorURLs();
     if(oldPackage->getIcon() == nullptr)
         icon = nullptr;
     else
