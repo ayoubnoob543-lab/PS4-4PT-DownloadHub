@@ -134,6 +134,12 @@ int downloadView::loadDownloadList(){
                             continue;
                         }
                         dld->getRequest()->setSpeedMode(attributes["speed_mode"].as<unsigned int>(2));
+                        if (attributes["mirrors"] && attributes["mirrors"].IsSequence()) {
+                            std::vector<std::string> savedMirrors;
+                            for (const auto &mirror : attributes["mirrors"])
+                                if (mirror.IsScalar()) savedMirrors.emplace_back(mirror.as<std::string>(""));
+                            dld->setMirrorURLs(savedMirrors);
+                        }
                         if(!path.empty())
                             downloadsLocations.emplace_back(path);
                         downloadList.emplace_back(dld);
@@ -196,6 +202,7 @@ void downloadView::addDownload(download * newDownload) {
     downloadsYAML[newDownload->getID()]["repoName"] = newDownload->getRepoName();
     downloadsYAML[newDownload->getID()]["type"] = TypeStr[newDownload->getPackageType()];
     downloadsYAML[newDownload->getID()]["speed_mode"] = newDownload->getRequest()->getSpeedMode();
+    downloadsYAML[newDownload->getID()]["mirrors"] = newDownload->getMirrorURLs();
     downloadsFile << downloadsYAML;
     downloadsFile.flush();
     downloadsFile.close();
