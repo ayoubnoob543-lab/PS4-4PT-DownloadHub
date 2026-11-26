@@ -1,16 +1,25 @@
 name: SuperPSX catalog extraction
 
+run-name: SuperPSX catalog · limit ${{ inputs.limit || '0' }} · start ${{ inputs.start || '0' }}
+
 on:
   workflow_dispatch:
     inputs:
       limit:
-        description: "Number of games (0 = all)"
-        required: false
-        default: "0"
+        description: "Games to process (0 = all)"
+        type: number
+        required: true
+        default: 0
       start:
-        description: "Resume offset"
-        required: false
-        default: "0"
+        description: "Resume offset (0 = from the beginning)"
+        type: number
+        required: true
+        default: 0
+      delay:
+        description: "Delay between games in seconds"
+        type: number
+        required: true
+        default: 1.2
   push:
     branches:
       - master
@@ -22,6 +31,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: superpsx-full-catalog
+  cancel-in-progress: false
+
 jobs:
   extract:
     runs-on: ubuntu-latest
@@ -31,21 +44,50 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: feat/download-reliability-throughput
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
       - name: Install dependencies
         run: python -m pip install --upgrade requests beautifulsoup4
-      - name: Extract games, updates, DLC and visible mirrors
+
+      - name: Extract full catalog
         env:
           GAME_LIMIT: ${{ inputs.limit || '0' }}
           START_AT: ${{ inputs.start || '0' }}
-        run: python scripts/scrape_superpsx_full_catalog.py --limit "$GAME_LIMIT" --start "$START_AT"
-      - name: Upload extracted catalog
+          REQUEST_DELAY: ${{ inputs.delay || '1.2' }}
+        run: |
+          python scripts/scrape_superpsx_full_catalog.py \
+            --limit "$GAME_LIMIT" \
+            --start "$START_AT" \
+            --delay "$REQUEST_DELAY"
+
+      - name: Write run summary
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, pathlib, os
+          path = pathlib.Path("catalog/ps4-games/superpsx-full-catalog-links.json")
+          summary = pathlib.Path(os.environ["GITHUB_STEP_SUMMARY"])
+          if not path.exists():
+              summary.write_text("## Catalog extraction\nNo output JSON was produced. Check the extraction step logs.\n")
+          else:
+              data = json.loads(path.read_text(encoding="utf-8"))
+              summary.write_text(
+                  "## Catalog extraction\n"
+                  f"- Processed: {data.get('processed', 0)} / {data.get('total_in_run', 0)}\n"
+                  f"- Visible links: {len(data.get('links', []))}\n"
+                  f"- Errors: {len(data.get('errors', []))}\n"
+              )
+          PY
+
+      - name: Upload partial or complete catalog
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: superpsx-full-catalog-links
           path: catalog/ps4-games/superpsx-full-catalog-links.json
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 30
