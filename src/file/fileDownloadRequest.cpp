@@ -55,6 +55,7 @@ fileDownloadRequest::fileDownloadRequest(const char * sourceURL, const char * de
     downloading = false;
     finished = false;
     paused = false;
+    parallelWorkers = 2; // Medium: balanced default.
 }
 
 double fileDownloadRequest::getDownloadedPercent() {
@@ -80,6 +81,25 @@ bool fileDownloadRequest::isDownloading() const {
 
 bool fileDownloadRequest::hasFinished() const {
     return finished;
+}
+
+void fileDownloadRequest::setSpeedMode(unsigned int workers) {
+    if (workers != 1 && workers != 2 && workers != 4)
+        workers = 2;
+    parallelWorkers.store(workers);
+}
+
+unsigned int fileDownloadRequest::getSpeedMode() const {
+    return parallelWorkers.load();
+}
+
+const char * fileDownloadRequest::getSpeedModeLabel() const {
+    switch (parallelWorkers.load()) {
+        case 1: return "Lenta (1 conexion)";
+        case 4: return "Rapida (4 conexiones)";
+        case 2:
+        default: return "Media (2 conexiones)";
+    }
 }
 
 int fileDownloadRequest::downloadError(const char *message) {
@@ -133,7 +153,7 @@ int fileDownloadRequest::initDownload(download * download) {
         if (ret == 0) {
             downloading = true;
             if (downloadedBytes == 0 && fileSizeBytes >= 16 * ONE_MB) {
-                // Use four independent HTTP byte-range workers for fresh large PKGs.
+                // Use the selected number of independent HTTP byte-range workers for fresh large files.
                 termRequest();
                 ret = downloadParallel();
                 if (ret < 0 && !paused) {
@@ -376,7 +396,7 @@ int fileDownloadRequest::downloadBytes(const char * rawURL, uint8_t * data, uint
 }
 
 int fileDownloadRequest::downloadParallel() {
-    static const unsigned int workerCount = 4;
+    const unsigned int workerCount = parallelWorkers.load();
     if (fileSizeBytes < 16 * ONE_MB || downloadedBytes != 0)
         return -1;
 
