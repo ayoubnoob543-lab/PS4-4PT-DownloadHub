@@ -1,0 +1,1409 @@
+{
+  "source": "https://www.superpsx.com/ps4-fake-pkgs-game-list/",
+  "source_catalog": "https://github.com/tutw/SuperPSX-PS4-GameList",
+  "generated_from_count": 1936,
+  "requested_count": 200,
+  "mapped_count": 74,
+  "entries": [
+    {
+      "id": "001",
+      "title": "Grand Theft Auto V",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "002",
+      "title": "Marvel's Spider-Man",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "003",
+      "title": "God of War (2018)",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "004",
+      "title": "Horizon Zero Dawn",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "005",
+      "title": "Uncharted 4: A Thief's End",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "006",
+      "title": "The Last of Us Remastered",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "007",
+      "title": "Minecraft",
+      "source_url": "https://www.superpsx.com/minecraft-ps4-fpkg/",
+      "source_title": "Minecraft",
+      "match": "exact"
+    },
+    {
+      "id": "008",
+      "title": "Call of Duty: Black Ops III",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "009",
+      "title": "Call of Duty: WWII",
+      "source_url": "https://www.superpsx.com/call-of-duty-wwii-ps4-fpkg/",
+      "source_title": "Call Of Duty Wwii",
+      "match": "exact"
+    },
+    {
+      "id": "010",
+      "title": "Gran Turismo Sport",
+      "source_url": "https://www.superpsx.com/gran-turismo-sport-ps4-fpkg/",
+      "source_title": "Gran Turismo Sport",
+      "match": "exact"
+    },
+    {
+      "id": "011",
+      "title": "The Witcher 3: Wild Hunt",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "012",
+      "title": "The Last of Us Part II",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "013",
+      "title": "Uncharted: The Nathan Drake Collection",
+      "source_url": "https://www.superpsx.com/uncharted-the-nathan-drake-collection-ps4-fpkg/",
+      "source_title": "Uncharted The Nathan Drake Collection",
+      "match": "exact"
+    },
+    {
+      "id": "014",
+      "title": "Ghost of Tsushima",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "015",
+      "title": "Bloodborne",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "016",
+      "title": "Call of Duty: Infinite Warfare",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "017",
+      "title": "Star Wars Battlefront",
+      "source_url": "https://www.superpsx.com/star-wars-battlefront-ps4-fpkg/",
+      "source_title": "Star Wars Battlefront",
+      "match": "exact"
+    },
+    {
+      "id": "018",
+      "title": "Days Gone",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "019",
+      "title": "Ratchet & Clank",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "020",
+      "title": "Tekken 7",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "021",
+      "title": "Naruto Shippuden: Ultimate Ninja Storm 4",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "022",
+      "title": "Call of Duty: Advanced Warfare",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "023",
+      "title": "inFAMOUS Second Son",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "024",
+      "title": "God of War III Remastered",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "025",
+      "title": "Detroit: Become Human",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "026",
+      "title": "LittleBigPlanet 3",
+      "source_url": "https://www.superpsx.com/littlebigplanet-3-ps4-fpkg/",
+      "source_title": "Littlebigplanet 3",
+      "match": "exact"
+    },
+    {
+      "id": "027",
+      "title": "Uncharted: The Lost Legacy",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "028",
+      "title": "Final Fantasy VII Remake",
+      "source_url": "https://www.superpsx.com/final-fantasy-vii-remake-ps4-fpkg/",
+      "source_title": "Final Fantasy VII Remake",
+      "match": "exact"
+    },
+    {
+      "id": "029",
+      "title": "Driveclub",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "030",
+      "title": "Dragon Ball Xenoverse 2",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "031",
+      "title": "Death Stranding",
+      "source_url": "https://www.superpsx.com/death-stranding-ps4-fpkg/",
+      "source_title": "Death Stranding",
+      "match": "exact"
+    },
+    {
+      "id": "032",
+      "title": "Dragon Ball FighterZ",
+      "source_url": "https://www.superpsx.com/dragon-ball-fighterz-ps4-fpkg/",
+      "source_title": "Dragon Ball Fighterz",
+      "match": "exact"
+    },
+    {
+      "id": "033",
+      "title": "Until Dawn",
+      "source_url": "https://www.superpsx.com/until-dawn-ps4-fpkg/",
+      "source_title": "Until Dawn",
+      "match": "exact"
+    },
+    {
+      "id": "034",
+      "title": "Monster Hunter: World",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "035",
+      "title": "Dark Souls III",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "036",
+      "title": "Jump Force",
+      "source_url": "https://www.superpsx.com/jump-force-ps4-fpkg/",
+      "source_title": "Jump Force",
+      "match": "exact"
+    },
+    {
+      "id": "037",
+      "title": "Cyberpunk 2077",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "038",
+      "title": "Metal Gear Solid V: The Phantom Pain",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "039",
+      "title": "Dragon Ball Z: Kakarot",
+      "source_url": "https://www.superpsx.com/dragon-ball-z-kakarot-ps4-fpkg/",
+      "source_title": "Dragon Ball Z Kakarot",
+      "match": "exact"
+    },
+    {
+      "id": "040",
+      "title": "FIFA 17",
+      "source_url": "https://www.superpsx.com/fifa-17-ps4-fpkg/",
+      "source_title": "Fifa 17",
+      "match": "exact"
+    },
+    {
+      "id": "041",
+      "title": "Elden Ring",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "042",
+      "title": "Nioh",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "043",
+      "title": "NieR: Automata",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "044",
+      "title": "Final Fantasy XV",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "045",
+      "title": "Dragon Ball Xenoverse",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "046",
+      "title": "Crash Bandicoot N. Sane Trilogy",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "047",
+      "title": "FIFA 18",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "048",
+      "title": "Persona 5 Royal",
+      "source_url": "https://www.superpsx.com/persona-5-royal-ps4-fpkg/",
+      "source_title": "Persona 5 Royal",
+      "match": "exact"
+    },
+    {
+      "id": "049",
+      "title": "Naruto to Boruto: Shinobi Striker",
+      "source_url": "https://www.superpsx.com/naruto-to-boruto-shinobi-striker-ps4-fpkg/",
+      "source_title": "Naruto To Boruto Shinobi Striker",
+      "match": "exact"
+    },
+    {
+      "id": "050",
+      "title": "Killzone: Shadow Fall",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "051",
+      "title": "Red Dead Redemption 2",
+      "source_url": "https://www.superpsx.com/red-dead-redemption-ps4-fpkg/",
+      "source_title": "Red Dead Redemption",
+      "match": "fuzzy"
+    },
+    {
+      "id": "052",
+      "title": "Assassin's Creed Odyssey",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "053",
+      "title": "Assassin's Creed Origins",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "054",
+      "title": "Assassin's Creed Valhalla",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "055",
+      "title": "Far Cry 5",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "056",
+      "title": "Far Cry 6",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "057",
+      "title": "Watch Dogs 2",
+      "source_url": "https://www.superpsx.com/watch-dogs-ps4-fpkg/",
+      "source_title": "Watch Dogs",
+      "match": "fuzzy"
+    },
+    {
+      "id": "058",
+      "title": "Watch Dogs: Legion",
+      "source_url": "https://www.superpsx.com/watch-dogs-legion-ps4-fpkg/",
+      "source_title": "Watch Dogs Legion",
+      "match": "exact"
+    },
+    {
+      "id": "059",
+      "title": "Resident Evil 2",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "060",
+      "title": "Resident Evil 3",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "061",
+      "title": "Resident Evil 7: Biohazard",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "062",
+      "title": "Resident Evil Village",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "063",
+      "title": "Sekiro: Shadows Die Twice",
+      "source_url": "https://www.superpsx.com/sekiro-shadows-die-twice-ps4-fpkg/",
+      "source_title": "Sekiro Shadows Die Twice",
+      "match": "exact"
+    },
+    {
+      "id": "064",
+      "title": "Dark Souls Remastered",
+      "source_url": "https://www.superpsx.com/dark-souls-remastered-ps4-fpkg/",
+      "source_title": "Dark Souls Remastered",
+      "match": "exact"
+    },
+    {
+      "id": "065",
+      "title": "Dark Souls II: Scholar of the First Sin",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "066",
+      "title": "The Elder Scrolls V: Skyrim Special Edition",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "067",
+      "title": "Fallout 4",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "068",
+      "title": "Fallout 76",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "069",
+      "title": "Battlefield 1",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "070",
+      "title": "Battlefield V",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "071",
+      "title": "Battlefield 4",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "072",
+      "title": "Tom Clancy's Rainbow Six Siege",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "073",
+      "title": "Tom Clancy's The Division",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "074",
+      "title": "The Division 2",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "075",
+      "title": "Destiny 2",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "076",
+      "title": "Overwatch",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "077",
+      "title": "Mortal Kombat 11",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "078",
+      "title": "Injustice 2",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "079",
+      "title": "Street Fighter V",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "080",
+      "title": "Soulcalibur VI",
+      "source_url": "https://www.superpsx.com/soulcalibur-vi-ps4-fpkg/",
+      "source_title": "Soulcalibur VI",
+      "match": "exact"
+    },
+    {
+      "id": "081",
+      "title": "Need for Speed Heat",
+      "source_url": "https://www.superpsx.com/need-for-speed-heat-ps4-fpkg/",
+      "source_title": "Need For Speed Heat",
+      "match": "exact"
+    },
+    {
+      "id": "082",
+      "title": "Need for Speed Payback",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "083",
+      "title": "The Crew 2",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "084",
+      "title": "Project CARS 2",
+      "source_url": "https://www.superpsx.com/project-cars-2-ps4-fpkg/",
+      "source_title": "Project Cars 2",
+      "match": "exact"
+    },
+    {
+      "id": "085",
+      "title": "F1 2020",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "086",
+      "title": "FIFA 23",
+      "source_url": "https://www.superpsx.com/fifa-23-ps4-fpkg/",
+      "source_title": "Fifa 23",
+      "match": "exact"
+    },
+    {
+      "id": "087",
+      "title": "EA Sports FC 24",
+      "source_url": "https://www.superpsx.com/ea-sports-fc-24-ps4-fpkg/",
+      "source_title": "Ea Sports Fc 24",
+      "match": "exact"
+    },
+    {
+      "id": "088",
+      "title": "eFootball",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "089",
+      "title": "WWE 2K24",
+      "source_url": "https://www.superpsx.com/wwe-2k24-ps4-fpkg/",
+      "source_title": "Wwe 2K24",
+      "match": "exact"
+    },
+    {
+      "id": "090",
+      "title": "Red Dead Redemption",
+      "source_url": "https://www.superpsx.com/red-dead-redemption-ps4-fpkg/",
+      "source_title": "Red Dead Redemption",
+      "match": "exact"
+    },
+    {
+      "id": "091",
+      "title": "Batman: Arkham Knight",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "092",
+      "title": "Middle-earth: Shadow of Mordor",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "093",
+      "title": "Middle-earth: Shadow of War",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "094",
+      "title": "Mad Max",
+      "source_url": "https://www.superpsx.com/mad-max-ps4-fpkg/",
+      "source_title": "Mad Max",
+      "match": "exact"
+    },
+    {
+      "id": "095",
+      "title": "Dying Light",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "096",
+      "title": "No Man's Sky",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "097",
+      "title": "Subnautica",
+      "source_url": "https://www.superpsx.com/subnautica-ps4-fpkg/",
+      "source_title": "Subnautica",
+      "match": "exact"
+    },
+    {
+      "id": "098",
+      "title": "The Forest",
+      "source_url": "https://www.superpsx.com/the-forest-ps4-fpkg/",
+      "source_title": "The Forest",
+      "match": "exact"
+    },
+    {
+      "id": "099",
+      "title": "It Takes Two",
+      "source_url": "https://www.superpsx.com/it-takes-two-ps4-fpkg/",
+      "source_title": "It Takes Two",
+      "match": "exact"
+    },
+    {
+      "id": "100",
+      "title": "A Way Out",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "101",
+      "title": "Grand Theft Auto: The Trilogy – The Definitive Edition",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "102",
+      "title": "The Elder Scrolls V: Skyrim",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "103",
+      "title": "The Elder Scrolls Online",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "104",
+      "title": "Far Cry 3 Classic Edition",
+      "source_url": "https://www.superpsx.com/far-cry-3-classic-edition-ps4-fpkg/",
+      "source_title": "Far Cry 3 Classic Edition",
+      "match": "exact"
+    },
+    {
+      "id": "105",
+      "title": "Far Cry 4",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "106",
+      "title": "Watch Dogs",
+      "source_url": "https://www.superpsx.com/watch-dogs-ps4-fpkg/",
+      "source_title": "Watch Dogs",
+      "match": "exact"
+    },
+    {
+      "id": "107",
+      "title": "Rainbow Six Siege",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "108",
+      "title": "Ghost Recon Wildlands",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "109",
+      "title": "Ghost Recon Breakpoint",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "110",
+      "title": "The Crew Motorfest",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "111",
+      "title": "Need for Speed Rivals",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "112",
+      "title": "Need for Speed (2015)",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "113",
+      "title": "Need for Speed Unbound",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "114",
+      "title": "Project CARS",
+      "source_url": "https://www.superpsx.com/project-cars-2-ps4-fpkg/",
+      "source_title": "Project Cars 2",
+      "match": "fuzzy"
+    },
+    {
+      "id": "115",
+      "title": "F1 2021",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "116",
+      "title": "F1 22",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "117",
+      "title": "F1 23",
+      "source_url": "https://www.superpsx.com/f1-23-ps4-fpkg/",
+      "source_title": "F1 23",
+      "match": "exact"
+    },
+    {
+      "id": "118",
+      "title": "F1 24",
+      "source_url": "https://www.superpsx.com/f1-24-ps4-fpkg/",
+      "source_title": "F1 24",
+      "match": "exact"
+    },
+    {
+      "id": "119",
+      "title": "MotoGP 23",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "120",
+      "title": "MotoGP 24",
+      "source_url": "https://www.superpsx.com/motogp-24-ps4-fpkg/",
+      "source_title": "Motogp 24",
+      "match": "exact"
+    },
+    {
+      "id": "121",
+      "title": "WWE 2K23",
+      "source_url": "https://www.superpsx.com/wwe-2k23-ps4-fpkg/",
+      "source_title": "Wwe 2K23",
+      "match": "exact"
+    },
+    {
+      "id": "122",
+      "title": "UFC 4",
+      "source_url": "https://www.superpsx.com/ufc-4-ps4-fpkg/",
+      "source_title": "UFC 4",
+      "match": "exact"
+    },
+    {
+      "id": "123",
+      "title": "EA Sports UFC 3",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "124",
+      "title": "NBA 2K23",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "125",
+      "title": "NBA 2K24",
+      "source_url": "https://www.superpsx.com/nba-2k24-ps4-fpkg/",
+      "source_title": "NBA 2K24",
+      "match": "exact"
+    },
+    {
+      "id": "126",
+      "title": "NBA 2K25",
+      "source_url": "https://www.superpsx.com/nba-2k25-ps4-fpkg/",
+      "source_title": "NBA 2K25",
+      "match": "exact"
+    },
+    {
+      "id": "127",
+      "title": "Madden NFL 24",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "128",
+      "title": "Madden NFL 25",
+      "source_url": "https://www.superpsx.com/madden-nfl-25-ps4-fpkg/",
+      "source_title": "Madden NFL 25",
+      "match": "exact"
+    },
+    {
+      "id": "129",
+      "title": "MLB The Show 23",
+      "source_url": "https://www.superpsx.com/mlb-the-show-23-ps4-fpkg/",
+      "source_title": "Mlb The Show 23",
+      "match": "exact"
+    },
+    {
+      "id": "130",
+      "title": "MLB The Show 24",
+      "source_url": "https://www.superpsx.com/mlb-the-show-24-ps4-fpkg/",
+      "source_title": "Mlb The Show 24",
+      "match": "exact"
+    },
+    {
+      "id": "131",
+      "title": "PGA Tour 2K23",
+      "source_url": "https://www.superpsx.com/pga-tour-2k23-ps4-fpkg/",
+      "source_title": "Pga Tour 2K23",
+      "match": "exact"
+    },
+    {
+      "id": "132",
+      "title": "Tony Hawk's Pro Skater 1 + 2",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "133",
+      "title": "Skater XL",
+      "source_url": "https://www.superpsx.com/skater-xl-ps4-fpkg/",
+      "source_title": "Skater XL",
+      "match": "exact"
+    },
+    {
+      "id": "134",
+      "title": "Session: Skate Sim",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "135",
+      "title": "Steep",
+      "source_url": "https://www.superpsx.com/steep-ps4-fpkg/",
+      "source_title": "Steep",
+      "match": "exact"
+    },
+    {
+      "id": "136",
+      "title": "Trials Rising",
+      "source_url": "https://www.superpsx.com/trials-rising-ps4-fpkg/",
+      "source_title": "Trials Rising",
+      "match": "exact"
+    },
+    {
+      "id": "137",
+      "title": "Trackmania Turbo",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "138",
+      "title": "Hot Wheels Unleashed",
+      "source_url": "https://www.superpsx.com/hot-wheels-unleashed-ps4-fpkg/",
+      "source_title": "Hot Wheels Unleashed",
+      "match": "exact"
+    },
+    {
+      "id": "139",
+      "title": "Hot Wheels Unleashed 2",
+      "source_url": "https://www.superpsx.com/hot-wheels-unleashed-ps4-fpkg/",
+      "source_title": "Hot Wheels Unleashed",
+      "match": "fuzzy"
+    },
+    {
+      "id": "140",
+      "title": "Crash Team Racing Nitro-Fueled",
+      "source_url": "https://www.superpsx.com/crash-team-racing-nitro-fueled-ps4-fpkg/",
+      "source_title": "Crash Team Racing Nitro Fueled",
+      "match": "exact"
+    },
+    {
+      "id": "141",
+      "title": "Team Sonic Racing",
+      "source_url": "https://www.superpsx.com/team-sonic-racing-ps4-fpkg/",
+      "source_title": "Team Sonic Racing",
+      "match": "exact"
+    },
+    {
+      "id": "142",
+      "title": "Sonic Mania",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "143",
+      "title": "Sonic Forces",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "144",
+      "title": "Sonic Frontiers",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "145",
+      "title": "Rayman Legends",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "146",
+      "title": "Shovel Knight: Treasure Trove",
+      "source_url": "https://www.superpsx.com/shovel-knight-treasure-trove-ps4-fpkg/",
+      "source_title": "Shovel Knight Treasure Trove",
+      "match": "exact"
+    },
+    {
+      "id": "147",
+      "title": "Cuphead",
+      "source_url": "https://www.superpsx.com/cuphead-ps4-fpkg/",
+      "source_title": "Cuphead",
+      "match": "exact"
+    },
+    {
+      "id": "148",
+      "title": "Hollow Knight",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "149",
+      "title": "Celeste",
+      "source_url": "https://www.superpsx.com/celeste-ps4-fpkg/",
+      "source_title": "Celeste",
+      "match": "exact"
+    },
+    {
+      "id": "150",
+      "title": "Dead Cells",
+      "source_url": "https://www.superpsx.com/dead-cells-ps4-fpkg/",
+      "source_title": "Dead Cells",
+      "match": "exact"
+    },
+    {
+      "id": "151",
+      "title": "Hades",
+      "source_url": "https://www.superpsx.com/hades-ps4-fpkg/",
+      "source_title": "Hades",
+      "match": "exact"
+    },
+    {
+      "id": "152",
+      "title": "The Binding of Isaac: Rebirth",
+      "source_url": "https://www.superpsx.com/the-binding-of-isaac-rebirth-ps4-fpkg/",
+      "source_title": "The Binding Of Isaac Rebirth",
+      "match": "exact"
+    },
+    {
+      "id": "153",
+      "title": "Enter the Gungeon",
+      "source_url": "https://www.superpsx.com/enter-the-gungeon-ps4-fpkg/",
+      "source_title": "Enter The Gungeon",
+      "match": "exact"
+    },
+    {
+      "id": "154",
+      "title": "Risk of Rain 2",
+      "source_url": "https://www.superpsx.com/risk-of-rain-2-ps4-fpkg/",
+      "source_title": "Risk Of Rain 2",
+      "match": "exact"
+    },
+    {
+      "id": "155",
+      "title": "Terraria",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "156",
+      "title": "Stardew Valley",
+      "source_url": "https://www.superpsx.com/stardew-valley-ps4-fpkg/",
+      "source_title": "Stardew Valley",
+      "match": "exact"
+    },
+    {
+      "id": "157",
+      "title": "Green Hell",
+      "source_url": "https://www.superpsx.com/green-hel-ps4-fpkg/",
+      "source_title": "Green Hel",
+      "match": "fuzzy"
+    },
+    {
+      "id": "158",
+      "title": "ARK: Survival Evolved",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "159",
+      "title": "Conan Exiles",
+      "source_url": "https://www.superpsx.com/conan-exiles-ps4-fpkg/",
+      "source_title": "Conan Exiles",
+      "match": "exact"
+    },
+    {
+      "id": "160",
+      "title": "Rust Console Edition",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "161",
+      "title": "DayZ",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "162",
+      "title": "Minecraft Dungeons",
+      "source_url": "https://www.superpsx.com/minecraft-dungeons-ps4-fpkg/",
+      "source_title": "Minecraft Dungeons",
+      "match": "exact"
+    },
+    {
+      "id": "163",
+      "title": "Diablo III: Eternal Collection",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "164",
+      "title": "Diablo II: Resurrected",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "165",
+      "title": "Path of Exile",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "166",
+      "title": "Warframe",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "167",
+      "title": "Overwatch 2",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "168",
+      "title": "Apex Legends",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "169",
+      "title": "Fortnite",
+      "source_url": "https://www.superpsx.com/fortnite-ps4-fpkg/",
+      "source_title": "Fortnite",
+      "match": "exact"
+    },
+    {
+      "id": "170",
+      "title": "Rocket League",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "171",
+      "title": "Fall Guys",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "172",
+      "title": "PUBG: Battlegrounds",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "173",
+      "title": "Genshin Impact",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "174",
+      "title": "Honkai: Star Rail",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "175",
+      "title": "Paladins",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "176",
+      "title": "SMITE",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "177",
+      "title": "Brawlhalla",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "178",
+      "title": "Dauntless",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "179",
+      "title": "World of Tanks",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "180",
+      "title": "World of Warships: Legends",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "181",
+      "title": "War Thunder",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "182",
+      "title": "Mortal Kombat X",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "183",
+      "title": "Guilty Gear Strive",
+      "source_url": "https://www.superpsx.com/guilty-gear-strive-ps4-fpkg/",
+      "source_title": "Guilty Gear Strive",
+      "match": "exact"
+    },
+    {
+      "id": "184",
+      "title": "BlazBlue: Cross Tag Battle",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "185",
+      "title": "The King of Fighters XV",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "186",
+      "title": "Dead or Alive 6",
+      "source_url": "https://www.superpsx.com/dead-or-alive-6-ps4-fpkg/",
+      "source_title": "Dead Or Alive 6",
+      "match": "exact"
+    },
+    {
+      "id": "187",
+      "title": "Virtua Fighter 5 Ultimate Showdown",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "188",
+      "title": "Devil May Cry 5",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "189",
+      "title": "Monster Hunter Rise",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "190",
+      "title": "Persona 5 Strikers",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "191",
+      "title": "Kingdom Hearts III",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "192",
+      "title": "Tomb Raider: Definitive Edition",
+      "source_url": "https://www.superpsx.com/tomb-raider-definitive-edition-ps4-fpkg/",
+      "source_title": "Tomb Raider Definitive Edition",
+      "match": "exact"
+    },
+    {
+      "id": "193",
+      "title": "Shadow of the Tomb Raider",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    },
+    {
+      "id": "194",
+      "title": "A Plague Tale: Innocence",
+      "source_url": "https://www.superpsx.com/a-plague-tale-innocence-ps4-fpkg/",
+      "source_title": "A Plague Tale Innocence",
+      "match": "exact"
+    },
+    {
+      "id": "195",
+      "title": "Control",
+      "source_url": "https://www.superpsx.com/control-ps4-fpkg/",
+      "source_title": "Control",
+      "match": "exact"
+    },
+    {
+      "id": "196",
+      "title": "Alan Wake Remastered",
+      "source_url": "https://www.superpsx.com/alan-wake-remastered-ps4-fpkg/",
+      "source_title": "Alan Wake Remastered",
+      "match": "exact"
+    },
+    {
+      "id": "197",
+      "title": "Mafia: Definitive Edition",
+      "source_url": "https://www.superpsx.com/mafia-definitive-edition-ps4-fpkg/",
+      "source_title": "Mafia Definitive Edition",
+      "match": "exact"
+    },
+    {
+      "id": "198",
+      "title": "L.A. Noire",
+      "source_url": "https://www.superpsx.com/l-a-noire-ps4-fpkg/",
+      "source_title": "L A Noire",
+      "match": "exact"
+    },
+    {
+      "id": "199",
+      "title": "The Evil Within 2",
+      "source_url": "https://www.superpsx.com/the-evil-within-2-ps4-fpkg/",
+      "source_title": "The Evil Within 2",
+      "match": "exact"
+    },
+    {
+      "id": "200",
+      "title": "NieR Replicant ver.1.22474487139",
+      "source_url": null,
+      "source_title": null,
+      "match": "not_found"
+    }
+  ]
+}
