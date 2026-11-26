@@ -500,6 +500,24 @@ int repositoryView::loadSavedRepos() {
                 removeDir(loadingRepoFolder.substr(0,loadingRepoFolder.size()-1).c_str());
             }
         }
+        // Add the maintained PS4 homebrew games catalog once, without
+        // replacing or modifying repositories already configured by the user.
+        const std::string builtInCatalogURL =
+            "https://raw.githubusercontent.com/ayoubnoob543-lab/PS4-4PT-DownloadHub/feat/download-reliability-throughput/catalog/ps4-homebrew/";
+        bool builtInCatalogLoaded = false;
+        for (repository *existing : *repositoryList) {
+            if (strcasecmp(existing->getRepoURL(), builtInCatalogURL.c_str()) == 0) {
+                builtInCatalogLoaded = true;
+                break;
+            }
+        }
+        if (!builtInCatalogLoaded) {
+            repository *builtInCatalog = repository::fetchRepo(builtInCatalogURL.c_str());
+            if (builtInCatalog != nullptr)
+                addRepository(builtInCatalog);
+            else
+                LOG << "Built-in PS4 homebrew catalog could not be fetched; keeping existing repositories";
+        }
         return 0;
 }
 void repositoryView::langChanged() {

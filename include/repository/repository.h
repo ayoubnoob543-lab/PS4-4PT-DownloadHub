@@ -24,7 +24,7 @@ private:
 
     PNG * icon;
     std::vector<std::shared_ptr<package>> *packageList;
-    void addPKG(std::string pkgURL, std::string pkgType);
+    void addPKG(const std::vector<std::string> &pkgURLs, std::string pkgType);
     bool updating;
     bool updated;
     bool willDelete;

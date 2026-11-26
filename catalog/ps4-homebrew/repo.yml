@@ -1,0 +1,224 @@
+name: PS4 Homebrew Catalog
+repoURL: https://raw.githubusercontent.com/ayoubnoob543-lab/PS4-4PT-DownloadHub/feat/download-reliability-throughput/catalog/ps4-homebrew/
+Playtube:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/27901/IV0001-PLTB00000_00-PLTB000000100000.pkg
+Switchfin:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/27896/IV0001-SFIN00000_00-SFIN000000009600.pkg
+PS4 IPTV / V7 Player:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/18480/IV0001-IPTV00002_00-IPTV000020002000.pkg
+Jellyfin for PS4:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/14303/IV0000-JFPS40000_00-JELLYFINPS400000.pkg
+Chordwave:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16505/IV0000-CHWV00001_00-CHORDWAVE0000000.pkg
+DuckStation:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/27918/DuckStation-v00.05.pkg
+EmuSuNi:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/14329/EmuSuNi-v00.24.pkg
+Apollo Save Tool:
+  type: TOOL
+  pkgPath: https://store.brewology.com/dl/5906/IV0000-APOL00004_00-APOLLO0000000PS4.pkg
+BTAudio4:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/27995/BTAudio4-2.0.0.pkg
+Playfin:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/20484/IV0001-PLFN00000_00-PLFN000000100000.pkg
+HearBridge:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/18452/HearBridge-PS4-1.2.0-for-14.xx.pkg
+FPKGi Plus:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/19322/IV0000-FPKP00001_00-FPKGIPLUS0000000.pkg
+Librarian:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/15934/IV0000-LIBR00001_00-LIBRARIANPS40000.pkg
+jtplay:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/15810/IV0000-BREW04327_00-JTPLAY0000000000.pkg
+tvhp:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/15811/IV0000-BREW04328_00-TVHP000000000000.pkg
+Claude for PS4:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16442/IV0000-CLDE00001_00-CLAUDEFORPS40000.pkg
+RommPS:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/19627/romm-sync-ps4.pkg
+orbisRPC:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16376/orbisRPC-setup-1.1.pkg
+PS4 Ambilight:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16098/ps4-ambilight-app.pkg
+Moonlight MP:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16545/moonlight-mp-ps4_3.20.pkg
+PS4 Web Audio:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16458/PS4-Web-Audio.pkg
+Moonlight PS4 Pro:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16595/Moonlight-1.3.13.pkg
+PS4 Torrent:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/11593/IV0000-BREW00088_00-PS4TC00000000000.pkg
+orbis-win:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/20549/IV0000-GLDS10043_00-GLDS100430000000.pkg
+NPS64:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/18472/NPS64-by-lTunix-00.75.pkg
+PPSSPP:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/16632/IV0000-PPSS00001_00-PPSSPPHOMEBREW00.pkg
+Flycast:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/16493/IV0000-FLYH00001_00-FLYCAST000000000.pkg
+DolphinPS4:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/6171/DolphinPS4-v04.19.pkg
+RPCS3 Port for PS4:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/16635/RPCS3.PORT.FOR.PS4.v0.40.by.Roberix.Studio.pkg
+Crema:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/6169/Crema-v03.30.pkg
+Eden4:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/16565/Eden4-01.00.pkg
+PS4SX2:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/16504/IV0000-PCSX20007_00-PS4SX2EMU0000001.pkg
+R2RETRO:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/6344/R2RETRO-v0.5.13-installer-fix.pkg
+openMSX:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/6131/IV0000-BGEN00073_00-OPENMSXPS4000000.pkg
+pEMU:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/5932/IV0001-PFBN00001_00-PFBN000017020000.pkg
+PCPS4 - Minecraft Java Edition:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/16637/PCPS4-v0.1.0-alpha.pkg
+Remote Package Installer NextGen:
+  type: TOOL
+  pkgPath: https://store.brewology.com/dl/19282/RemotePkgInstallerNextGen-0.0.10.pkg
+OrbisKit:
+  type: TOOL
+  pkgPath: https://store.brewology.com/dl/18508/OrbisKit-v1.04.pkg
+PS4Upload Direkt:
+  type: TOOL
+  pkgPath: https://store.brewology.com/dl/19619/PS4Upload-Direkt-BREW00090.pkg
+HYPNOTIC:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/18500/HYPNOTIC-0.79.pkg
+PS4 Torrent (angeloINTJ):
+  type: APP
+  pkgPath: https://store.brewology.com/dl/19617/UP0000-BTRC00001_00-0000000000000000.pkg
+PS4 AirPlay:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16563/PS4-AirPlay-1.12-RC13.pkg
+Scratch Everywhere:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/11494/scratch-ps4.pkg
+SysDVR Client:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/5901/IV0000-SDVR00001_00-SYSDVRPS4CLIENT0.pkg
+Moonlight (sunian19):
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16562/Moonlight-1.2.8.pkg
+Stremio PS4:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16573/stremio-ps4-1.1.0.pkg
+OrbisFox:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16640/OrbisFox-0.69-alpha-Homebrew.pkg
+Bluetooth Audio:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/6598/Bluetooth-Audio-2.7.5.pkg
+The Screen Mirroring:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/6596/TheScreenMirroring.pkg
+SteamLink PS4:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16560/SteamLinkPs4_1.0.36.pkg
+PShare:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/6130/PShare-PS4-1.0.pkg
+Cyrene Launcher:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/6052/Cyrene-Launcher-01.03.pkg
+ALVR PS4:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16555/ALVR-PS4-v0.12.0.pkg
+Stremio (unofficial):
+  type: APP
+  pkgPath: https://store.brewology.com/dl/6323/Stremio-PS4-v1.03.pkg
+Stremio Nativo:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/5904/Stremio-PS4-0.5.0.pkg
+AI Chat:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16446/Ai_Chatbot.pkg
+XScreenSaver:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16569/IV0000-BGEN00072_00-SCREENSAVERPS400.pkg
+Moonlight:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/6556/Moonlight-1.1.0.pkg
+Aether:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/6164/Aether-v0.87.pkg
+wiliwili:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/6496/wiliwili-PS4.pkg
+Dolby TrueHD decoder:
+  type: APP
+  pkgPath: https://store.brewology.com/dl/16570/IV0000-BREW03085_00-DOLBYTRUEHDDEC00.pkg
+GB-JIT:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/19618/PS4-GB-JIT-v01.06.pkg
+Orbis Eden:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/15955/IV0000-EDPS00001_00-EDENPS4000000000.pkg
+Harissa64:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/16500/Harissa64-PS4-0.3.1.pkg
+ScummVM:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/16502/ScummVM-PS4-2026.4.0-RC2.pkg
+NP2kai:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/11585/IV0000-BREW00984_00-NP2KAIBOOTSTRAP0.pkg
+M33:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/11582/M33-v1.19.pkg
+PicoPlay:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/11524/picoplay-ps4.pkg
+HENkaku:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/7640/HENkaku-v01.17.pkg
+ALLESIU:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/6476/ALLESIU-1.5.pkg
+Resonance:
+  type: EMULATOR
+  pkgPath: https://store.brewology.com/dl/6210/Resonance-v01.41.pkg
+PS4 Save Signer:
+  type: TOOL
+  pkgPath: https://store.brewology.com/dl/18133/IV0000-PSSS00001_00-PS4SAVESIGNER000.pkg
+PCManFM-PS4:
+  type: TOOL
+  pkgPath: https://store.brewology.com/dl/16639/PCManFM-PS4-v01.16.pkg
+ezRemote Client:
+  type: TOOL
+  pkgPath: https://store.brewology.com/dl/15781/ezremote_client.pkg

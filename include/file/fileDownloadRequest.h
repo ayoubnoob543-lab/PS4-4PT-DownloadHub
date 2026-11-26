@@ -23,22 +23,24 @@ private:
     int requestID = -69;
     int connectionID = -69;
     int templateID = -69;
+    int lastHttpStatusCode = 0;
 
     std::chrono::high_resolution_clock::time_point lastCheckpointTime;
     uint64_t    lastCheckPointBytes;
     double averageSpeed;
 
-    uint64_t    downloadedBytes;
+    std::atomic<uint64_t> downloadedBytes;
     uint64_t    fileSizeBytes;
     double    fileSizeMB;
     bool failed;
     bool downloading;
     bool finished;
-    bool paused;
+    std::atomic<bool> paused;
 
 
     int parseFileSize();
     int downloadLoop();
+    int downloadParallel();
     int downloadError(const char * message);
     int downloadError(const char * message, int statusCode);
     static int skipSslCallback(int libsslId, unsigned int verifyErr, void * const sslCert[], int certNum, void *userArg);

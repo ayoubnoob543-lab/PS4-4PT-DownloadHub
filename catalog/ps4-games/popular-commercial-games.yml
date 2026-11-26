@@ -1,0 +1,407 @@
+# Popular commercial PS4 game titles.
+# Metadata-only index. No PKG URLs are supplied; add only distribution-authorized package URLs
+# to catalog/ps4-games/repo.yml after verifying the source and redistribution rights.
+name: Popular Commercial PS4 Games
+platform: PS4
+category: COMMERCIAL_GAME
+entries:
+  - id: 001
+    title: "Grand Theft Auto V"
+    platform: PS4
+    type: GAME
+  - id: 002
+    title: "Marvel's Spider-Man"
+    platform: PS4
+    type: GAME
+  - id: 003
+    title: "God of War (2018)"
+    platform: PS4
+    type: GAME
+  - id: 004
+    title: "Horizon Zero Dawn"
+    platform: PS4
+    type: GAME
+  - id: 005
+    title: "Uncharted 4: A Thief's End"
+    platform: PS4
+    type: GAME
+  - id: 006
+    title: "The Last of Us Remastered"
+    platform: PS4
+    type: GAME
+  - id: 007
+    title: "Minecraft"
+    platform: PS4
+    type: GAME
+  - id: 008
+    title: "Call of Duty: Black Ops III"
+    platform: PS4
+    type: GAME
+  - id: 009
+    title: "Call of Duty: WWII"
+    platform: PS4
+    type: GAME
+  - id: 010
+    title: "Gran Turismo Sport"
+    platform: PS4
+    type: GAME
+  - id: 011
+    title: "The Witcher 3: Wild Hunt"
+    platform: PS4
+    type: GAME
+  - id: 012
+    title: "The Last of Us Part II"
+    platform: PS4
+    type: GAME
+  - id: 013
+    title: "Uncharted: The Nathan Drake Collection"
+    platform: PS4
+    type: GAME
+  - id: 014
+    title: "Ghost of Tsushima"
+    platform: PS4
+    type: GAME
+  - id: 015
+    title: "Bloodborne"
+    platform: PS4
+    type: GAME
+  - id: 016
+    title: "Call of Duty: Infinite Warfare"
+    platform: PS4
+    type: GAME
+  - id: 017
+    title: "Star Wars Battlefront"
+    platform: PS4
+    type: GAME
+  - id: 018
+    title: "Days Gone"
+    platform: PS4
+    type: GAME
+  - id: 019
+    title: "Ratchet & Clank"
+    platform: PS4
+    type: GAME
+  - id: 020
+    title: "Tekken 7"
+    platform: PS4
+    type: GAME
+  - id: 021
+    title: "Naruto Shippuden: Ultimate Ninja Storm 4"
+    platform: PS4
+    type: GAME
+  - id: 022
+    title: "Call of Duty: Advanced Warfare"
+    platform: PS4
+    type: GAME
+  - id: 023
+    title: "inFAMOUS Second Son"
+    platform: PS4
+    type: GAME
+  - id: 024
+    title: "God of War III Remastered"
+    platform: PS4
+    type: GAME
+  - id: 025
+    title: "Detroit: Become Human"
+    platform: PS4
+    type: GAME
+  - id: 026
+    title: "LittleBigPlanet 3"
+    platform: PS4
+    type: GAME
+  - id: 027
+    title: "Uncharted: The Lost Legacy"
+    platform: PS4
+    type: GAME
+  - id: 028
+    title: "Final Fantasy VII Remake"
+    platform: PS4
+    type: GAME
+  - id: 029
+    title: "Driveclub"
+    platform: PS4
+    type: GAME
+  - id: 030
+    title: "Dragon Ball Xenoverse 2"
+    platform: PS4
+    type: GAME
+  - id: 031
+    title: "Death Stranding"
+    platform: PS4
+    type: GAME
+  - id: 032
+    title: "Dragon Ball FighterZ"
+    platform: PS4
+    type: GAME
+  - id: 033
+    title: "Until Dawn"
+    platform: PS4
+    type: GAME
+  - id: 034
+    title: "Monster Hunter: World"
+    platform: PS4
+    type: GAME
+  - id: 035
+    title: "Dark Souls III"
+    platform: PS4
+    type: GAME
+  - id: 036
+    title: "Jump Force"
+    platform: PS4
+    type: GAME
+  - id: 037
+    title: "Cyberpunk 2077"
+    platform: PS4
+    type: GAME
+  - id: 038
+    title: "Metal Gear Solid V: The Phantom Pain"
+    platform: PS4
+    type: GAME
+  - id: 039
+    title: "Dragon Ball Z: Kakarot"
+    platform: PS4
+    type: GAME
+  - id: 040
+    title: "FIFA 17"
+    platform: PS4
+    type: GAME
+  - id: 041
+    title: "Elden Ring"
+    platform: PS4
+    type: GAME
+  - id: 042
+    title: "Nioh"
+    platform: PS4
+    type: GAME
+  - id: 043
+    title: "NieR: Automata"
+    platform: PS4
+    type: GAME
+  - id: 044
+    title: "Final Fantasy XV"
+    platform: PS4
+    type: GAME
+  - id: 045
+    title: "Dragon Ball Xenoverse"
+    platform: PS4
+    type: GAME
+  - id: 046
+    title: "Crash Bandicoot N. Sane Trilogy"
+    platform: PS4
+    type: GAME
+  - id: 047
+    title: "FIFA 18"
+    platform: PS4
+    type: GAME
+  - id: 048
+    title: "Persona 5 Royal"
+    platform: PS4
+    type: GAME
+  - id: 049
+    title: "Naruto to Boruto: Shinobi Striker"
+    platform: PS4
+    type: GAME
+  - id: 050
+    title: "Killzone: Shadow Fall"
+    platform: PS4
+    type: GAME
+  - id: 051
+    title: "Red Dead Redemption 2"
+    platform: PS4
+    type: GAME
+  - id: 052
+    title: "Assassin's Creed Odyssey"
+    platform: PS4
+    type: GAME
+  - id: 053
+    title: "Assassin's Creed Origins"
+    platform: PS4
+    type: GAME
+  - id: 054
+    title: "Assassin's Creed Valhalla"
+    platform: PS4
+    type: GAME
+  - id: 055
+    title: "Far Cry 5"
+    platform: PS4
+    type: GAME
+  - id: 056
+    title: "Far Cry 6"
+    platform: PS4
+    type: GAME
+  - id: 057
+    title: "Watch Dogs 2"
+    platform: PS4
+    type: GAME
+  - id: 058
+    title: "Watch Dogs: Legion"
+    platform: PS4
+    type: GAME
+  - id: 059
+    title: "Resident Evil 2"
+    platform: PS4
+    type: GAME
+  - id: 060
+    title: "Resident Evil 3"
+    platform: PS4
+    type: GAME
+  - id: 061
+    title: "Resident Evil 7: Biohazard"
+    platform: PS4
+    type: GAME
+  - id: 062
+    title: "Resident Evil Village"
+    platform: PS4
+    type: GAME
+  - id: 063
+    title: "Sekiro: Shadows Die Twice"
+    platform: PS4
+    type: GAME
+  - id: 064
+    title: "Dark Souls Remastered"
+    platform: PS4
+    type: GAME
+  - id: 065
+    title: "Dark Souls II: Scholar of the First Sin"
+    platform: PS4
+    type: GAME
+  - id: 066
+    title: "The Elder Scrolls V: Skyrim Special Edition"
+    platform: PS4
+    type: GAME
+  - id: 067
+    title: "Fallout 4"
+    platform: PS4
+    type: GAME
+  - id: 068
+    title: "Fallout 76"
+    platform: PS4
+    type: GAME
+  - id: 069
+    title: "Battlefield 1"
+    platform: PS4
+    type: GAME
+  - id: 070
+    title: "Battlefield V"
+    platform: PS4
+    type: GAME
+  - id: 071
+    title: "Battlefield 4"
+    platform: PS4
+    type: GAME
+  - id: 072
+    title: "Tom Clancy's Rainbow Six Siege"
+    platform: PS4
+    type: GAME
+  - id: 073
+    title: "Tom Clancy's The Division"
+    platform: PS4
+    type: GAME
+  - id: 074
+    title: "The Division 2"
+    platform: PS4
+    type: GAME
+  - id: 075
+    title: "Destiny 2"
+    platform: PS4
+    type: GAME
+  - id: 076
+    title: "Overwatch"
+    platform: PS4
+    type: GAME
+  - id: 077
+    title: "Mortal Kombat 11"
+    platform: PS4
+    type: GAME
+  - id: 078
+    title: "Injustice 2"
+    platform: PS4
+    type: GAME
+  - id: 079
+    title: "Street Fighter V"
+    platform: PS4
+    type: GAME
+  - id: 080
+    title: "Soulcalibur VI"
+    platform: PS4
+    type: GAME
+  - id: 081
+    title: "Need for Speed Heat"
+    platform: PS4
+    type: GAME
+  - id: 082
+    title: "Need for Speed Payback"
+    platform: PS4
+    type: GAME
+  - id: 083
+    title: "The Crew 2"
+    platform: PS4
+    type: GAME
+  - id: 084
+    title: "Project CARS 2"
+    platform: PS4
+    type: GAME
+  - id: 085
+    title: "F1 2020"
+    platform: PS4
+    type: GAME
+  - id: 086
+    title: "FIFA 23"
+    platform: PS4
+    type: GAME
+  - id: 087
+    title: "EA Sports FC 24"
+    platform: PS4
+    type: GAME
+  - id: 088
+    title: "eFootball"
+    platform: PS4
+    type: GAME
+  - id: 089
+    title: "WWE 2K24"
+    platform: PS4
+    type: GAME
+  - id: 090
+    title: "Red Dead Redemption"
+    platform: PS4
+    type: GAME
+  - id: 091
+    title: "Batman: Arkham Knight"
+    platform: PS4
+    type: GAME
+  - id: 092
+    title: "Middle-earth: Shadow of Mordor"
+    platform: PS4
+    type: GAME
+  - id: 093
+    title: "Middle-earth: Shadow of War"
+    platform: PS4
+    type: GAME
+  - id: 094
+    title: "Mad Max"
+    platform: PS4
+    type: GAME
+  - id: 095
+    title: "Dying Light"
+    platform: PS4
+    type: GAME
+  - id: 096
+    title: "No Man's Sky"
+    platform: PS4
+    type: GAME
+  - id: 097
+    title: "Subnautica"
+    platform: PS4
+    type: GAME
+  - id: 098
+    title: "The Forest"
+    platform: PS4
+    type: GAME
+  - id: 099
+    title: "It Takes Two"
+    platform: PS4
+    type: GAME
+  - id: 100
+    title: "A Way Out"
+    platform: PS4
+    type: GAME

@@ -15,8 +15,10 @@
 #include "../../include/repository/PKGInfo.h"
 #include "../../include/main.h"
 
+#include <algorithm>
 #include <utility>
 #include <mutex>
+#include <thread>
 #include <string>
 #include <yaml-cpp/yaml.h>
 
@@ -87,23 +89,43 @@ int repository::updatePKGS() {
 
                 if (attributes["pkgPath"].as<std::string>().find('.') == std::string::npos)
                     continue;
-                std::string pkgPath = repoURL + attributes["pkgPath"].as<std::string>("");
+                std::vector<std::string> pkgURLs;
+                auto addURL = [&](const std::string &candidate) {
+                    if (candidate.empty()) return;
+                    std::string url = candidate;
+                    if (url.compare(0, 7, "http://") != 0 && url.compare(0, 8, "https://") != 0)
+                        url = repoURL + url;
+                    if (std::find(pkgURLs.begin(), pkgURLs.end(), url) == pkgURLs.end())
+                        pkgURLs.emplace_back(url);
+                };
+                addURL(attributes["pkgPath"].as<std::string>(""));
+                if (attributes["mirrors"] && attributes["mirrors"].IsSequence()) {
+                    for (const auto &mirror : attributes["mirrors"])
+                        if (mirror.IsScalar()) addURL(mirror.as<std::string>(""));
+                }
+                if (pkgURLs.empty()) continue;
                 std::string type = attributes["type"].as<std::string>("");
 
-                stateString = "Fetching: " + pkgPath;
+                stateString = "Fetching: " + pkgURLs.front() +
+                    (pkgURLs.size() > 1 ? " (+ mirrors)" : "");
                 LOG << stateString;
 
-                //this->addPKG(pkgPath.c_str(),type.c_str());
-                threadPool::addJobSecondary([this, capture0 = pkgPath, capture1=type] {
-                    this->addPKG(capture0,capture1);
+                const int queued = threadPool::addJobSecondary([this, urls = pkgURLs, capture1 = type] {
+                    this->addPKG(urls, capture1);
                 });
 
-                cnt++;
+                if (queued == 0) {
+                    cnt++;
+                } else {
+                    // Avoid waiting forever if the secondary pool is unavailable.
+                    this->addPKG(pkgURLs, type);
+                }
             }
         }
     }
     if(cnt>0) {
-        while (cnt > updatedCount) continue;
+        while (cnt > updatedCount)
+            std::this_thread::yield();
         if (packageList->empty())
             for (const auto &pkg: oldPackageList)
                 packageList->emplace_back(pkg);
@@ -416,23 +438,30 @@ void repository::sendTerminalMessage(const char *message, const char * repoURLNe
         dialog->writeLine(message);
 }
 
-void repository::addPKG(std::string pkgURL, std::string pkgType) {
+void repository::addPKG(const std::vector<std::string> &pkgURLs, std::string pkgType) {
 
-    if(pkgURL.empty() || pkgType.empty()) {
+    if (pkgURLs.empty() || pkgType.empty()) {
         return;
     }
 
-    bool failedInit;
+    bool failedInit = true;
     std::string stateString;
-    std::shared_ptr<package> pkg(new package(pkgURL.c_str(), false, &failedInit, pkgType.c_str(), name.c_str()));
+    std::shared_ptr<package> pkg;
+    std::string lastFailedURL;
+    for (const auto &pkgURL : pkgURLs) {
+        std::shared_ptr<package> candidate(new package(pkgURL.c_str(), false, &failedInit, pkgType.c_str(), name.c_str()));
+        if (!failedInit) {
+            pkg = candidate;
+            break;
+        }
+        lastFailedURL = pkgURL;
+        candidate.reset();
+    }
 
-    if (failedInit) {
-        stateString = "FAILED TO FETCH: ";
-        stateString+=pkgURL;
+    if (!pkg) {
+        stateString = "FAILED TO FETCH ALL MIRRORS; last: " + lastFailedURL;
         LOG << stateString;
         sendTerminalMessage(stateString.c_str());
-        pkg.reset();
-        LOG << "DELETED " << pkgURL;
         updatedCount++;
         return;
     }

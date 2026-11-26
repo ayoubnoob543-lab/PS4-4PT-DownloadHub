@@ -1,0 +1,1207 @@
+# 200 popular PS4 commercial titles — metadata/discovery index only.
+# This index does not claim package availability or redistribution rights.
+# No commercial PKG URLs are included; resolve official title/update metadata by region and entitlement.
+name: Popular PS4 Games - 200 Index
+platform: PS4
+category: COMMERCIAL_GAME_METADATA
+entries:
+  - id: "001"
+    title: "Grand Theft Auto V"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "002"
+    title: "Marvel's Spider-Man"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "003"
+    title: "God of War (2018)"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "004"
+    title: "Horizon Zero Dawn"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "005"
+    title: "Uncharted 4: A Thief's End"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "006"
+    title: "The Last of Us Remastered"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "007"
+    title: "Minecraft"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "008"
+    title: "Call of Duty: Black Ops III"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "009"
+    title: "Call of Duty: WWII"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "010"
+    title: "Gran Turismo Sport"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "011"
+    title: "The Witcher 3: Wild Hunt"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "012"
+    title: "The Last of Us Part II"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "013"
+    title: "Uncharted: The Nathan Drake Collection"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "014"
+    title: "Ghost of Tsushima"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "015"
+    title: "Bloodborne"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "016"
+    title: "Call of Duty: Infinite Warfare"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "017"
+    title: "Star Wars Battlefront"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "018"
+    title: "Days Gone"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "019"
+    title: "Ratchet & Clank"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "020"
+    title: "Tekken 7"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "021"
+    title: "Naruto Shippuden: Ultimate Ninja Storm 4"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "022"
+    title: "Call of Duty: Advanced Warfare"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "023"
+    title: "inFAMOUS Second Son"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "024"
+    title: "God of War III Remastered"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "025"
+    title: "Detroit: Become Human"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "026"
+    title: "LittleBigPlanet 3"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "027"
+    title: "Uncharted: The Lost Legacy"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "028"
+    title: "Final Fantasy VII Remake"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "029"
+    title: "Driveclub"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "030"
+    title: "Dragon Ball Xenoverse 2"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "031"
+    title: "Death Stranding"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "032"
+    title: "Dragon Ball FighterZ"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "033"
+    title: "Until Dawn"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "034"
+    title: "Monster Hunter: World"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "035"
+    title: "Dark Souls III"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "036"
+    title: "Jump Force"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "037"
+    title: "Cyberpunk 2077"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "038"
+    title: "Metal Gear Solid V: The Phantom Pain"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "039"
+    title: "Dragon Ball Z: Kakarot"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "040"
+    title: "FIFA 17"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "041"
+    title: "Elden Ring"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "042"
+    title: "Nioh"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "043"
+    title: "NieR: Automata"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "044"
+    title: "Final Fantasy XV"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "045"
+    title: "Dragon Ball Xenoverse"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "046"
+    title: "Crash Bandicoot N. Sane Trilogy"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "047"
+    title: "FIFA 18"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "048"
+    title: "Persona 5 Royal"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "049"
+    title: "Naruto to Boruto: Shinobi Striker"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "050"
+    title: "Killzone: Shadow Fall"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "051"
+    title: "Red Dead Redemption 2"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "052"
+    title: "Assassin's Creed Odyssey"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "053"
+    title: "Assassin's Creed Origins"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "054"
+    title: "Assassin's Creed Valhalla"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "055"
+    title: "Far Cry 5"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "056"
+    title: "Far Cry 6"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "057"
+    title: "Watch Dogs 2"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "058"
+    title: "Watch Dogs: Legion"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "059"
+    title: "Resident Evil 2"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "060"
+    title: "Resident Evil 3"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "061"
+    title: "Resident Evil 7: Biohazard"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "062"
+    title: "Resident Evil Village"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "063"
+    title: "Sekiro: Shadows Die Twice"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "064"
+    title: "Dark Souls Remastered"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "065"
+    title: "Dark Souls II: Scholar of the First Sin"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "066"
+    title: "The Elder Scrolls V: Skyrim Special Edition"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "067"
+    title: "Fallout 4"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "068"
+    title: "Fallout 76"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "069"
+    title: "Battlefield 1"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "070"
+    title: "Battlefield V"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "071"
+    title: "Battlefield 4"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "072"
+    title: "Tom Clancy's Rainbow Six Siege"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "073"
+    title: "Tom Clancy's The Division"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "074"
+    title: "The Division 2"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "075"
+    title: "Destiny 2"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "076"
+    title: "Overwatch"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "077"
+    title: "Mortal Kombat 11"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "078"
+    title: "Injustice 2"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "079"
+    title: "Street Fighter V"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "080"
+    title: "Soulcalibur VI"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "081"
+    title: "Need for Speed Heat"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "082"
+    title: "Need for Speed Payback"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "083"
+    title: "The Crew 2"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "084"
+    title: "Project CARS 2"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "085"
+    title: "F1 2020"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "086"
+    title: "FIFA 23"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "087"
+    title: "EA Sports FC 24"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "088"
+    title: "eFootball"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "089"
+    title: "WWE 2K24"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "090"
+    title: "Red Dead Redemption"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "091"
+    title: "Batman: Arkham Knight"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "092"
+    title: "Middle-earth: Shadow of Mordor"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "093"
+    title: "Middle-earth: Shadow of War"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "094"
+    title: "Mad Max"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "095"
+    title: "Dying Light"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "096"
+    title: "No Man's Sky"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "097"
+    title: "Subnautica"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "098"
+    title: "The Forest"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "099"
+    title: "It Takes Two"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "100"
+    title: "A Way Out"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "101"
+    title: "Grand Theft Auto: The Trilogy – The Definitive Edition"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "102"
+    title: "The Elder Scrolls V: Skyrim"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "103"
+    title: "The Elder Scrolls Online"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "104"
+    title: "Far Cry 3 Classic Edition"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "105"
+    title: "Far Cry 4"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "106"
+    title: "Watch Dogs"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "107"
+    title: "Rainbow Six Siege"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "108"
+    title: "Ghost Recon Wildlands"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "109"
+    title: "Ghost Recon Breakpoint"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "110"
+    title: "The Crew Motorfest"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "111"
+    title: "Need for Speed Rivals"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "112"
+    title: "Need for Speed (2015)"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "113"
+    title: "Need for Speed Unbound"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "114"
+    title: "Project CARS"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "115"
+    title: "F1 2021"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "116"
+    title: "F1 22"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "117"
+    title: "F1 23"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "118"
+    title: "F1 24"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "119"
+    title: "MotoGP 23"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "120"
+    title: "MotoGP 24"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "121"
+    title: "WWE 2K23"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "122"
+    title: "UFC 4"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "123"
+    title: "EA Sports UFC 3"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "124"
+    title: "NBA 2K23"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "125"
+    title: "NBA 2K24"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "126"
+    title: "NBA 2K25"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "127"
+    title: "Madden NFL 24"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "128"
+    title: "Madden NFL 25"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "129"
+    title: "MLB The Show 23"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "130"
+    title: "MLB The Show 24"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "131"
+    title: "PGA Tour 2K23"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "132"
+    title: "Tony Hawk's Pro Skater 1 + 2"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "133"
+    title: "Skater XL"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "134"
+    title: "Session: Skate Sim"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "135"
+    title: "Steep"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "136"
+    title: "Trials Rising"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "137"
+    title: "Trackmania Turbo"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "138"
+    title: "Hot Wheels Unleashed"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "139"
+    title: "Hot Wheels Unleashed 2"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "140"
+    title: "Crash Team Racing Nitro-Fueled"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "141"
+    title: "Team Sonic Racing"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "142"
+    title: "Sonic Mania"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "143"
+    title: "Sonic Forces"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "144"
+    title: "Sonic Frontiers"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "145"
+    title: "Rayman Legends"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "146"
+    title: "Shovel Knight: Treasure Trove"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "147"
+    title: "Cuphead"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "148"
+    title: "Hollow Knight"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "149"
+    title: "Celeste"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "150"
+    title: "Dead Cells"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "151"
+    title: "Hades"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "152"
+    title: "The Binding of Isaac: Rebirth"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "153"
+    title: "Enter the Gungeon"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "154"
+    title: "Risk of Rain 2"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "155"
+    title: "Terraria"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "156"
+    title: "Stardew Valley"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "157"
+    title: "Green Hell"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "158"
+    title: "ARK: Survival Evolved"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "159"
+    title: "Conan Exiles"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "160"
+    title: "Rust Console Edition"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "161"
+    title: "DayZ"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "162"
+    title: "Minecraft Dungeons"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "163"
+    title: "Diablo III: Eternal Collection"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "164"
+    title: "Diablo II: Resurrected"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "165"
+    title: "Path of Exile"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "166"
+    title: "Warframe"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "167"
+    title: "Overwatch 2"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "168"
+    title: "Apex Legends"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "169"
+    title: "Fortnite"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "170"
+    title: "Rocket League"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "171"
+    title: "Fall Guys"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "172"
+    title: "PUBG: Battlegrounds"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "173"
+    title: "Genshin Impact"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "174"
+    title: "Honkai: Star Rail"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "175"
+    title: "Paladins"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "176"
+    title: "SMITE"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "177"
+    title: "Brawlhalla"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "178"
+    title: "Dauntless"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "179"
+    title: "World of Tanks"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "180"
+    title: "World of Warships: Legends"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "181"
+    title: "War Thunder"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "182"
+    title: "Mortal Kombat X"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "183"
+    title: "Guilty Gear Strive"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "184"
+    title: "BlazBlue: Cross Tag Battle"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "185"
+    title: "The King of Fighters XV"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "186"
+    title: "Dead or Alive 6"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "187"
+    title: "Virtua Fighter 5 Ultimate Showdown"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "188"
+    title: "Devil May Cry 5"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "189"
+    title: "Monster Hunter Rise"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "190"
+    title: "Persona 5 Strikers"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "191"
+    title: "Kingdom Hearts III"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "192"
+    title: "Tomb Raider: Definitive Edition"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "193"
+    title: "Shadow of the Tomb Raider"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "194"
+    title: "A Plague Tale: Innocence"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "195"
+    title: "Control"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "196"
+    title: "Alan Wake Remastered"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "197"
+    title: "Mafia: Definitive Edition"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "198"
+    title: "L.A. Noire"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "199"
+    title: "The Evil Within 2"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
+  - id: "200"
+    title: "NieR Replicant ver.1.22474487139"
+    platform: PS4
+    type: GAME
+    package_url: null
+    status: metadata_only
