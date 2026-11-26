@@ -129,11 +129,11 @@ int downloadView::loadDownloadList(){
                         std::string type = attributes["type"].as<std::string>("");
 
                         auto *dld = new download(id.c_str(), date.c_str(), path.c_str(),&failedInit, url.c_str(),type.c_str(),repoName.c_str());
-                        dld->getRequest()->setSpeedMode(attributes["speed_mode"].as<unsigned int>(2));
                         if (failedInit) {
                             delete dld;
                             continue;
                         }
+                        dld->getRequest()->setSpeedMode(attributes["speed_mode"].as<unsigned int>(2));
                         if(!path.empty())
                             downloadsLocations.emplace_back(path);
                         downloadList.emplace_back(dld);
