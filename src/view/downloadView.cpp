@@ -239,7 +239,7 @@ void downloadView::drawDownload(download * currDownload, downloadRectangle dldRe
 
         printStringStream.str(std::string());
         printStringStream << currDownload->getTitleID();
-        printStringStream << " | Velocidad: " << downloadRequest->getSpeedModeLabel();
+        printStringStream << " | Velocidad: " << downloadRequest->getSpeedModeLabel() << " (TRI cambia)";
         if(downloadRequest->isDownloading()){
             printStringStream << " | " << currDownload->getCurrentSpeedInMB() << "MB/s";
             printStringStream << " | " << getMainLang()->DOWNLOAD_ETA << ": " << currDownload->getTimeLeftInMinutes() << getMainLang()->MIN;
