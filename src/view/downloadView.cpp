@@ -129,6 +129,7 @@ int downloadView::loadDownloadList(){
                         std::string type = attributes["type"].as<std::string>("");
 
                         auto *dld = new download(id.c_str(), date.c_str(), path.c_str(),&failedInit, url.c_str(),type.c_str(),repoName.c_str());
+                        dld->getRequest()->setSpeedMode(attributes["speed_mode"].as<unsigned int>(2));
                         if (failedInit) {
                             delete dld;
                             continue;
@@ -194,6 +195,7 @@ void downloadView::addDownload(download * newDownload) {
     downloadsYAML[newDownload->getID()]["url"] = newDownload->getURL();
     downloadsYAML[newDownload->getID()]["repoName"] = newDownload->getRepoName();
     downloadsYAML[newDownload->getID()]["type"] = TypeStr[newDownload->getPackageType()];
+    downloadsYAML[newDownload->getID()]["speed_mode"] = newDownload->getRequest()->getSpeedMode();
     downloadsFile << downloadsYAML;
     downloadsFile.flush();
     downloadsFile.close();
@@ -237,6 +239,7 @@ void downloadView::drawDownload(download * currDownload, downloadRectangle dldRe
 
         printStringStream.str(std::string());
         printStringStream << currDownload->getTitleID();
+        printStringStream << " | Velocidad: " << downloadRequest->getSpeedModeLabel();
         if(downloadRequest->isDownloading()){
             printStringStream << " | " << currDownload->getCurrentSpeedInMB() << "MB/s";
             printStringStream << " | " << getMainLang()->DOWNLOAD_ETA << ": " << currDownload->getTimeLeftInMinutes() << getMainLang()->MIN;
@@ -380,7 +383,21 @@ void downloadView::pressCircle(){
 
 }
 void downloadView::pressTriangle(){
+    download * currDownload = currDownloads[selected];
+    if (currDownload == nullptr)
+        return;
 
+    // Triangle cycles the selected download's connection profile:
+    // Slow = 1 range worker, Medium = 2, Fast = 4.
+    unsigned int current = currDownload->getRequest()->getSpeedMode();
+    unsigned int next = current == 1 ? 2 : (current == 2 ? 4 : 1);
+    currDownload->getRequest()->setSpeedMode(next);
+
+    downloadsYAML[currDownload->getID()]["speed_mode"] = next;
+    std::ofstream downloadsFile(DOWNLOADS_PATH, std::ofstream::out | std::ofstream::trunc);
+    downloadsFile << downloadsYAML;
+    downloadsFile.flush();
+    downloadsFile.close();
 }
 void downloadView::pressSquare(){
 }
