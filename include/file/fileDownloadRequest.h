@@ -36,6 +36,7 @@ private:
     bool downloading;
     bool finished;
     std::atomic<bool> paused;
+    std::atomic<unsigned int> parallelWorkers;
 
 
     int parseFileSize();
@@ -63,6 +64,9 @@ public:
     void pauseDownload();
     bool isDownloading() const;
     bool hasFinished() const;
+    void setSpeedMode(unsigned int workers);
+    unsigned int getSpeedMode() const;
+    const char * getSpeedModeLabel() const;
 
     double getDownloadSpeedInMB();
     double getTimeLeftInMinutes() const;
