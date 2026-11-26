@@ -7,6 +7,7 @@
 
 #include <cstdlib>
 #include <string>
+#include <vector>
 
 
 #include "../base.h"
@@ -25,6 +26,7 @@ private:
     std::string name;
     std::string repoName;
     std::string url;
+    std::vector<std::string> mirrorURLs;
     PNG * icon;
     int oldInstalled;
     enum PKGTypeENUM packageType;
@@ -54,6 +56,8 @@ public:
     const char * getTitleID();
     const char * getRepoName();
     const char * getURL();
+    void setMirrorURLs(const std::vector<std::string> &urls);
+    const std::vector<std::string> &getMirrorURLs() const;
     const char * getSFOType();
     double getSystemVersion() const;
     double getVersion() const;
