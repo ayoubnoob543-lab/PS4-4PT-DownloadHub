@@ -61,26 +61,47 @@ def scrape_dll(url, game):
     soup = BeautifulSoup(r.text, "html.parser")
     meta = page_metadata(soup)
     found, seen = [], set()
-    for table in soup.find_all("table"):
-        for tr in table.find_all("tr"):
-            cells = tr.find_all(["td", "th"])
-            if len(cells) < 2:
-                continue
-            label = cells[0].get_text(" ", strip=True)
-            for cell in cells[1:]:
-                for a in cell.find_all("a", href=True):
-                    href = urljoin(url, a["href"].strip())
-                    p = urlparse(href)
-                    if p.scheme not in ("http", "https") or not p.hostname or href in seen:
-                        continue
-                    seen.add(href)
-                    found.append({
-                        "title": game["name"], "game_page": game["url"],
-                        "download_page": url, "type": kind(label),
-                        "description": label, "link_label": a.get_text(" ", strip=True),
-                        "host": p.hostname.lower(), "url": href,
-                        **meta, "status": "visible_page_link"
-                    })
+
+    # SuperPSX may render mirrors as buttons/divs rather than table cells.
+    # Prefer the article/main content so navigation and footer links are excluded.
+    roots = soup.select("article, main, .entry-content, .post-content, .td-post-content")
+    root = max(roots, key=lambda node: len(node.find_all("a", href=True))) if roots else soup.body or soup
+
+    ignored_hosts = {
+        "facebook.com", "www.facebook.com", "twitter.com", "x.com",
+        "instagram.com", "youtube.com", "www.youtube.com", "t.me",
+        "telegram.me", "pinterest.com", "wa.me"
+    }
+    for a in root.find_all("a", href=True):
+        raw = a.get("href", "").strip()
+        href = urljoin(url, raw)
+        p = urlparse(href)
+        host = (p.hostname or "").lower().removeprefix("www.")
+        if p.scheme not in ("http", "https") or not host:
+            continue
+        if host == "superpsx.com" or host.endswith(".superpsx.com") or host in ignored_hosts:
+            continue
+        if href in seen:
+            continue
+
+        # Ignore obvious trackers and non-download utility links.
+        if any(token in host for token in ("doubleclick.", "googlesyndication.", "google-analytics.")):
+            continue
+        seen.add(href)
+
+        label = a.get_text(" ", strip=True)
+        parent = a.find_parent(["tr", "li", "p", "div", "section"])
+        context = parent.get_text(" ", strip=True)[:500] if parent else label
+        description = context or label or "Visible external link"
+        found.append({
+            "title": game["name"], "game_page": game["url"],
+            "download_page": url, "type": kind(description),
+            "description": description, "link_label": label,
+            "host": host, "url": href,
+            **meta, "status": "visible_page_link"
+        })
+
+    # Keep a diagnostic record in the caller when a page has no external links.
     return found
 
 def main():
