@@ -1,10 +1,14 @@
-name: Extract SuperPSX visible links
+name: Extract full SuperPSX catalog
 
 on:
   workflow_dispatch:
     inputs:
       limit:
-        description: "Number of mapped game pages (0 = all)"
+        description: "Number of games to process (0 = all)"
+        required: false
+        default: "0"
+      start:
+        description: "Zero-based resume offset"
         required: false
         default: "0"
 
@@ -14,7 +18,7 @@ permissions:
 jobs:
   extract:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 360
     steps:
       - uses: actions/checkout@v4
         with:
@@ -24,12 +28,12 @@ jobs:
           python-version: "3.12"
       - name: Install scraper dependencies
         run: python -m pip install requests beautifulsoup4
-      - name: Extract visible outbound links
-        run: python scripts/scrape_superpsx_visible_links.py --limit "\${{ inputs.limit }}"
-      - name: Upload extraction results
+      - name: Scrape all games, updates, DLC and visible hosts
+        run: python scripts/scrape_superpsx_full_catalog.py --limit "${{ inputs.limit }}" --start "${{ inputs.start }}"
+      - name: Upload full catalog
         uses: actions/upload-artifact@v4
         with:
-          name: superpsx-visible-download-links
-          path: catalog/ps4-games/superpsx-visible-download-links.json
+          name: superpsx-full-catalog-links
+          path: catalog/ps4-games/superpsx-full-catalog-links.json
           if-no-files-found: error
           retention-days: 30
