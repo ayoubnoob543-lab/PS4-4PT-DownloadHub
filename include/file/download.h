@@ -9,6 +9,7 @@
 
 #include <mutex>
 #include <string>
+#include <vector>
 
 class package;
 class fileDownloadRequest;
@@ -21,6 +22,7 @@ private:
     std::mutex mutex;
     std::shared_ptr<fileDownloadRequest> downloadRequest;
     std::shared_ptr<package> pkg;
+    std::vector<std::string> mirrorURLs;
     bool finished;
     bool failed;
 public:
@@ -44,6 +46,8 @@ public:
     void deleteDownload();
     bool stored();
     std::shared_ptr<fileDownloadRequest> getRequest();
+    void setMirrorURLs(const std::vector<std::string> &urls);
+    const std::vector<std::string> &getMirrorURLs() const;
     double getCurrentSpeedInMB();
     double getTimeLeftInMinutes();
     bool hasFinished();
