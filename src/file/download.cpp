@@ -13,6 +13,8 @@
 #include "../../include/utils/settings.h"
 #include "../../include/main.h"
 
+#include <algorithm>
+
 
 download::download(const std::shared_ptr<package>& pkg){
     this->id = genRandom(10);
@@ -28,6 +30,8 @@ download::download(const std::shared_ptr<package>& pkg){
     localDownloadPath += id + extension;
     this->path=localDownloadPath;
     this->pkg = std::shared_ptr<package>(new package(pkg.get()));
+    this->mirrorURLs = pkg->getMirrorURLs();
+    if (this->mirrorURLs.empty()) this->mirrorURLs.emplace_back(pkg->getURL());
     this->finished = false;
     this->failed = false;
 
@@ -39,6 +43,7 @@ download::download(const char * id, const char * date, const char * localPath, b
     bool urlValid = strcasecmp(url,"");
     if(urlValid)
         this->pkg = std::shared_ptr<package>(new package(url,false,failedInit,type, repoName));
+    this->mirrorURLs.emplace_back(url);
     if(*failedInit || !urlValid) {
         pkg.reset();
         this->pkg = std::shared_ptr<package>(new package(localPath,true,failedInit,type, repoName));
@@ -62,6 +67,7 @@ download::download(const char * id, const char * date, const char * localPath, b
 download::download(const char *url, bool * failedInit) {
 
     this->pkg = std::shared_ptr<package>(new package(url,false,failedInit));
+    this->mirrorURLs.emplace_back(url);
     if(*failedInit && getMainSettings()->isFailedDownloadingNotification()) {
         std::string msg(getMainLang()->FAILED_TO_DOWNLOAD_PKG_FROM + ":\n");
         msg += url;
@@ -89,16 +95,50 @@ download::download(const char *url, bool * failedInit) {
 
 }
 void download::initDownload(){
-    LOG << "Starting download" << getURL();
+    LOG << "Starting download with " << mirrorURLs.size() << " mirror(s)";
     mutex.lock();
-    if(downloadRequest != nullptr)
-        downloadRequest->initDownload(this);
+    if (mirrorURLs.empty()) mirrorURLs.emplace_back(pkg->getURL());
+    unsigned int speedMode = downloadRequest ? downloadRequest->getSpeedMode() : 2;
+    for (size_t index = 0; index < mirrorURLs.size(); ++index) {
+        if (index > 0) {
+            removeFile(path.c_str());
+            downloadRequest.reset(new fileDownloadRequest(mirrorURLs[index].c_str(), path.c_str()));
+            downloadRequest->setSpeedMode(speedMode);
+            LOG << "Trying fallback mirror " << (index + 1) << "/" << mirrorURLs.size();
+        }
+        if (downloadRequest == nullptr) break;
+        downloadRequest->initDownload(nullptr);
+        if (downloadRequest->hasFinished()) {
+            setFinished();
+            setFailed(false);
+            mutex.unlock();
+            LOG << "Download completed using mirror " << (index + 1);
+            return;
+        }
+        // Paused requests are neither finished nor failed; do not switch mirrors.
+        if (!downloadRequest->hasFailed()) break;
+    }
+    setFailed(downloadRequest != nullptr && downloadRequest->hasFailed());
     mutex.unlock();
-    LOG << "Finishing download" << getURL();
+    LOG << "Finished mirror attempts for " << getURL();
 }
 
 std::shared_ptr<fileDownloadRequest> download::getRequest() {
     return downloadRequest;
+}
+
+void download::setMirrorURLs(const std::vector<std::string> &urls) {
+    mirrorURLs.clear();
+    for (const auto &candidate : urls) {
+        if (candidate.empty()) continue;
+        if (std::find(mirrorURLs.begin(), mirrorURLs.end(), candidate) == mirrorURLs.end())
+            mirrorURLs.emplace_back(candidate);
+    }
+    if (mirrorURLs.empty() && pkg) mirrorURLs.emplace_back(pkg->getURL());
+}
+
+const std::vector<std::string> &download::getMirrorURLs() const {
+    return mirrorURLs;
 }
 
 void download::deleteDownload() {
