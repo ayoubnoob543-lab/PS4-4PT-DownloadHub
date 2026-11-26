@@ -466,7 +466,8 @@ void repository::addPKG(const std::vector<std::string> &pkgURLs, std::string pkg
         return;
     }
 
-    stateString = "Fetched: " + std::string(pkg->getName());
+    pkg->setMirrorURLs(pkgURLs);
+    stateString = "Fetched: " + std::string(pkg->getName()) + " (" + std::to_string(pkgURLs.size()) + " mirrors)";
     LOG << stateString;
     sendTerminalMessage(stateString.c_str());
 
