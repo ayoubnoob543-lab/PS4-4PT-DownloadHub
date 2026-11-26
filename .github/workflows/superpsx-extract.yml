@@ -1,0 +1,35 @@
+name: Extract SuperPSX visible links
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Number of mapped game pages (0 = all)"
+        required: false
+        default: "0"
+
+permissions:
+  contents: read
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/download-reliability-throughput
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install scraper dependencies
+        run: python -m pip install requests beautifulsoup4
+      - name: Extract visible outbound links
+        run: python scripts/scrape_superpsx_visible_links.py --limit "\${{ inputs.limit }}"
+      - name: Upload extraction results
+        uses: actions/upload-artifact@v4
+        with:
+          name: superpsx-visible-download-links
+          path: catalog/ps4-games/superpsx-visible-download-links.json
+          if-no-files-found: error
+          retention-days: 30
