@@ -10,7 +10,7 @@ from urllib.parse import urljoin, urlparse
 import requests
 from bs4 import BeautifulSoup
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 INPUT = ROOT / "catalog/ps4-games/superpsx-source-pages-200.json"
 OUTPUT = ROOT / "catalog/ps4-games/superpsx-visible-download-links.json"
 SESSION = requests.Session()
