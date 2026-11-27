@@ -56,7 +56,7 @@ jobs:
         run: python scripts/scrape_superpsx_full_catalog.py --limit "$GAME_LIMIT" --start "$START_AT" --delay "$REQUEST_DELAY"
 
       - name: Publish compressed catalog to repository
-        if: always()
+        if: success()
         run: |
           set -e
           SOURCE="catalog/ps4-games/superpsx-full-catalog-links.json"
