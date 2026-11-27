@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Full SuperPSX catalog scraper: games, updates, DLC and every visible host link.
+"""Extract publicly visible download/mirror links from the SuperPSX catalog.
 
-Only records links publicly present in SuperPSX HTML. It does not bypass CAPTCHA,
-login, anti-bot controls, link shorteners, or resolve temporary file URLs.
+The scraper records links exposed in page markup. It does not bypass CAPTCHA,
+authentication, anti-bot controls, paywalls, or resolve temporary download URLs.
+All mirrors are retained; preferred hosts are only sorted to the top.
 """
 import argparse
 import json
@@ -20,13 +21,41 @@ LIST_URL = "https://raw.githubusercontent.com/tutw/SuperPSX-PS4-GameList/main/ps
 S = requests.Session()
 S.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36"})
 
+# Lower number = shown earlier in the app/catalog. No host is discarded because
+# of its rank: the complete mirror list remains available as fallback.
+HOST_PRIORITY = (
+    ("mocha.my", 0, "mocha"),
+    ("filecrypt.cc", 1, "filecrypt"),
+    ("vikingfile.com", 2, "vikingfile"),
+    ("1fichier.com", 3, "1fichier"),
+    ("onefile", 4, "onefile"),
+    ("filekeeper", 5, "filekeeper"),
+    ("buzzheavier", 6, "buzzheavier"),
+    ("akirabox", 7, "akirabox"),
+)
+
+IGNORED_HOSTS = {
+    "facebook.com", "twitter.com", "x.com", "instagram.com",
+    "youtube.com", "t.me", "telegram.me", "pinterest.com", "wa.me",
+}
+
+
+def host_info(host):
+    host = (host or "").lower().removeprefix("www.")
+    for marker, priority, family in HOST_PRIORITY:
+        if marker in host:
+            return priority, family
+    return 50, host or "unknown"
+
+
 def kind(label):
     x = label.casefold()
-    if re.search(r"\b(update|patch|actualizaci[oó]n|actualizacion|parche)\b", x):
+    if re.search(r"\\b(update|patch|actualizaci[oó]n|actualizacion|parche)\\b", x):
         return "update"
-    if re.search(r"\b(dlc|add[\s-]?on|addon|expansion|expansi[oó]n)\b", x):
+    if re.search(r"\\b(dlc|add[\\s-]?on|addon|expansion|expansión)\\b", x):
         return "dlc"
     return "game"
+
 
 def page_metadata(soup):
     data = {"region": None, "size": None, "version": None, "firmware": None, "cusa": None}
@@ -40,9 +69,10 @@ def page_metadata(soup):
             elif "size" in k or "tamaño" in k: data["size"] = v
             elif "version" in k or "versión" in k: data["version"] = v
             elif "firmware" in k: data["firmware"] = v
-            m = re.search(r"CUSA\d{5}", v, re.I)
+            m = re.search(r"CUSA\\d{5}", v, re.I)
             if m: data["cusa"] = m.group(0).upper()
     return data
+
 
 def dll_url(game_url, soup):
     for a in soup.find_all("a", href=True):
@@ -55,6 +85,17 @@ def dll_url(game_url, soup):
                 return href
     return None
 
+
+def visible_targets(root):
+    """Yield markup URLs from anchors and common button/data attributes."""
+    attributes = ("href", "data-href", "data-url", "data-link", "data-download")
+    for node in root.find_all(["a", "button", "div", "span"], recursive=True):
+        for attr in attributes:
+            value = (node.get(attr) or "").strip()
+            if value and not value.lower().startswith(("javascript:", "mailto:", "tel:", "#")):
+                yield node, value, attr
+
+
 def scrape_dll(url, game):
     r = S.get(url, timeout=35)
     r.raise_for_status()
@@ -62,45 +103,39 @@ def scrape_dll(url, game):
     meta = page_metadata(soup)
     found, seen = [], set()
 
-    # SuperPSX may render mirrors as buttons/divs rather than table cells.
-    # Prefer the article/main content so navigation and footer links are excluded.
     roots = soup.select("article, main, .entry-content, .post-content, .td-post-content")
-    root = max(roots, key=lambda node: len(node.find_all("a", href=True))) if roots else soup.body or soup
+    root = max(roots, key=lambda node: len(node.find_all(["a", "button"], href=True))) if roots else soup.body or soup
 
-    ignored_hosts = {
-        "facebook.com", "www.facebook.com", "twitter.com", "x.com",
-        "instagram.com", "youtube.com", "www.youtube.com", "t.me",
-        "telegram.me", "pinterest.com", "wa.me"
-    }
-    for a in root.find_all("a", href=True):
-        raw = a.get("href", "").strip()
+    for node, raw, source_attr in visible_targets(root):
         href = urljoin(url, raw)
-        p = urlparse(href)
-        host = (p.hostname or "").lower().removeprefix("www.")
-        if p.scheme not in ("http", "https") or not host:
+        parsed = urlparse(href)
+        host = (parsed.hostname or "").lower().removeprefix("www.")
+        if parsed.scheme not in ("http", "https") or not host:
             continue
-        if host == "superpsx.com" or host.endswith(".superpsx.com") or host in ignored_hosts:
+        if host == "superpsx.com" or host.endswith(".superpsx.com") or host in IGNORED_HOSTS:
+            continue
+        if any(token in host for token in ("doubleclick.", "googlesyndication.", "google-analytics.")):
             continue
         if href in seen:
             continue
-
-        # Ignore obvious trackers and non-download utility links.
-        if any(token in host for token in ("doubleclick.", "googlesyndication.", "google-analytics.")):
-            continue
         seen.add(href)
 
-        label = a.get_text(" ", strip=True)
-        parent = a.find_parent(["tr", "li", "p", "div", "section"])
+        label = node.get_text(" ", strip=True)
+        parent = node.find_parent(["tr", "li", "p", "div", "section"])
         context = parent.get_text(" ", strip=True)[:500] if parent else label
         description = context or label or "Visible external link"
+        priority, family = host_info(host)
         found.append({
             "title": game["name"], "game_page": game["url"],
             "download_page": url, "type": kind(description),
             "description": description, "link_label": label,
-            "host": host, "url": href,
+            "host": host, "host_family": family, "mirror_priority": priority,
+            "source_attribute": source_attr, "url": href,
             **meta, "status": "visible_page_link"
         })
 
+    # Stable sort: all links remain; preferred mirror hosts are first.
+    found.sort(key=lambda item: item["mirror_priority"])
     if not found:
         title = soup.title.get_text(" ", strip=True) if soup.title else "untitled"
         body_text = (root.get_text(" ", strip=True) if root else "")[:180]
@@ -110,6 +145,7 @@ def scrape_dll(url, game):
             f"page_text={body_text!r}"
         )
     return found
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -126,8 +162,12 @@ def main():
     if args.limit:
         games = games[:args.limit]
 
-    result = {"source": LIST_URL, "total_in_run": len(games), "processed": 0,
-              "links": [], "errors": [], "note": "All publicly visible host links; no CAPTCHA bypass or temporary URL resolution."}
+    result = {
+        "source": LIST_URL, "total_in_run": len(games), "processed": 0,
+        "links": [], "errors": [],
+        "host_priority": {family: priority for _, priority, family in HOST_PRIORITY},
+        "note": "All publicly visible external links retained and ordered by preferred host; URLs are not claimed to be verified direct downloads."
+    }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     for i, game in enumerate(games, 1):
         name, url = game.get("name"), game.get("url")
@@ -144,10 +184,11 @@ def main():
         except Exception as e:
             result["errors"].append({"title": name, "url": url, "error": str(e)[:250]})
         result["processed"] = i
-        OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
         print(f"[{i}/{len(games)}] {name or url}: {len(result['links'])} links; {len(result['errors'])} errors", flush=True)
         time.sleep(max(0, args.delay))
     print(f"DONE: {result['processed']} pages; {len(result['links'])} links; {len(result['errors'])} errors")
+
 
 if __name__ == "__main__":
     main()
