@@ -3,6 +3,12 @@ name: Extract full SuperPSX catalog
 run-name: SuperPSX full mirror refresh · limit ${{ inputs.limit || '0' }} · start ${{ inputs.start || '0' }}
 
 on:
+  push:
+    branches:
+      - feat/download-reliability-throughput
+    paths:
+      - "scripts/scrape_superpsx_full_catalog.py"
+      - ".github/workflows/superpsx-extract.yml"
   schedule:
     - cron: "15 3 * * *"
   workflow_dispatch:
@@ -92,7 +98,7 @@ jobs:
           PY
 
       - name: Publish all catalog outputs to the repository
-        if: success() && (github.event_name == 'schedule' || (inputs.limit == 0 && inputs.start == 0))
+        if: success() && (github.event_name == 'push' || github.event_name == 'schedule' || (inputs.limit == 0 && inputs.start == 0))
         run: |
           set -euo pipefail
           BASE="catalog/ps4-games"
