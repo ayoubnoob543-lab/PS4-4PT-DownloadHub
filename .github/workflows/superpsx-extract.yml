@@ -4,7 +4,7 @@ run-name: SuperPSX catalog · limit ${{ inputs.limit || '0' }} · start ${{ inpu
 
 on:
   schedule:
-    - cron: "15 3 * * 0"
+    - cron: "15 3 * * *"
   workflow_dispatch:
     inputs:
       limit:
@@ -81,6 +81,7 @@ jobs:
         run: |
           python - <<'PY'
           import json, pathlib, os
+          from collections import Counter
           path = pathlib.Path("catalog/ps4-games/superpsx-full-catalog-links.json")
           summary = pathlib.Path(os.environ["GITHUB_STEP_SUMMARY"])
           nl = chr(10)
@@ -93,6 +94,8 @@ jobs:
                   + f"- Processed: {data.get('processed', 0)} / {data.get('total_in_run', 0)}" + nl
                   + f"- Visible links: {len(data.get('links', []))}" + nl
                   + f"- Errors: {len(data.get('errors', []))}" + nl
+                  + "- Preferred mirror order: Mocha → Filecrypt → VikingFile → 1fichier → OneFile → other hosts." + nl
+                  + "- Links by host: " + ", ".join(f"{host}: {count}" for host, count in Counter(x.get("host_family", x.get("host", "unknown")) for x in data.get("links", [])).most_common(15)) + nl
                   + "- Compressed JSON is published in the repository when available." + nl
               )
           PY
