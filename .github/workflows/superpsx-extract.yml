@@ -1,6 +1,6 @@
 name: Extract full SuperPSX catalog
 
-run-name: SuperPSX catalog · limit ${{ inputs.limit || '0' }} · start ${{ inputs.start || '0' }}
+run-name: SuperPSX full mirror refresh · limit ${{ inputs.limit || '0' }} · start ${{ inputs.start || '0' }}
 
 on:
   schedule:
@@ -8,20 +8,25 @@ on:
   workflow_dispatch:
     inputs:
       limit:
-        description: "Games to process (0 = all)"
+        description: "Games to process (0 = all; only full runs publish)"
         type: number
         required: true
         default: 0
       start:
-        description: "Resume offset (0 = from the beginning)"
+        description: "Resume offset (0 = full catalog; partial runs are artifact-only)"
         type: number
         required: true
         default: 0
       delay:
-        description: "Delay between games in seconds"
+        description: "Delay between game pages in seconds"
         type: number
         required: true
-        default: 1.2
+        default: 0.8
+      resolve_delay:
+        description: "Delay between mirror resolution requests in seconds"
+        type: number
+        required: true
+        default: 0.15
 
 permissions:
   contents: write
@@ -39,6 +44,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: feat/download-reliability-throughput
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -48,63 +54,107 @@ jobs:
       - name: Install scraper dependencies
         run: python -m pip install --upgrade requests beautifulsoup4
 
-      - name: Extract catalog
+      - name: Validate scraper syntax
+        run: python -m py_compile scripts/scrape_superpsx_full_catalog.py
+
+      - name: Extract all pages and resolve public mirror hops
         env:
           GAME_LIMIT: ${{ inputs.limit || '0' }}
           START_AT: ${{ inputs.start || '0' }}
-          REQUEST_DELAY: ${{ inputs.delay || '1.2' }}
-        run: python scripts/scrape_superpsx_full_catalog.py --limit "$GAME_LIMIT" --start "$START_AT" --delay "$REQUEST_DELAY"
-
-      - name: Publish compressed catalog to repository
-        if: success()
+          REQUEST_DELAY: ${{ inputs.delay || '0.8' }}
+          RESOLVE_DELAY: ${{ inputs.resolve_delay || '0.15' }}
         run: |
-          set -e
-          SOURCE="catalog/ps4-games/superpsx-full-catalog-links.json"
-          TARGET="catalog/ps4-games/superpsx-full-catalog-links.json.gz"
-          if [ ! -s "$SOURCE" ]; then
-            echo "No catalog JSON found; skipping repository publish."
-            exit 0
-          fi
-          gzip -9 -c "$SOURCE" > "$TARGET"
+          set -euo pipefail
+          python scripts/scrape_superpsx_full_catalog.py \
+            --limit "$GAME_LIMIT" \
+            --start "$START_AT" \
+            --delay "$REQUEST_DELAY" \
+            --resolve-delay "$RESOLVE_DELAY"
+
+      - name: Check that the run is complete before publishing
+        if: success()
+        env:
+          GAME_LIMIT: ${{ inputs.limit || '0' }}
+          START_AT: ${{ inputs.start || '0' }}
+        run: |
+          python - <<'PY'
+          import json, os, pathlib, sys
+          path = pathlib.Path("catalog/ps4-games/superpsx-full-catalog-links.json")
+          data = json.loads(path.read_text(encoding="utf-8"))
+          expected = data.get("total_in_run", -1)
+          processed = data.get("processed", -2)
+          if int(os.environ["GAME_LIMIT"]) != 0 or int(os.environ["START_AT"]) != 0:
+              print("Partial run: artifact will be saved, repository catalog will not be overwritten.")
+              sys.exit(0)
+          if processed != expected:
+              raise SystemExit(f"Incomplete catalog: processed {processed}/{expected}")
+          print(f"Full run verified: {processed}/{expected} entries.")
+          PY
+
+      - name: Publish all catalog outputs to the repository
+        if: success() && (github.event_name == 'schedule' || (inputs.limit == 0 && inputs.start == 0))
+        run: |
+          set -euo pipefail
+          BASE="catalog/ps4-games"
+          test -s "$BASE/superpsx-full-catalog-links.json"
+          test -s "$BASE/superpsx-mirror-index.json"
+          test -s "$BASE/superpsx-repo/repo.yml"
+          gzip -9 -c "$BASE/superpsx-full-catalog-links.json" > "$BASE/superpsx-full-catalog-links.json.gz"
+          gzip -9 -c "$BASE/superpsx-mirror-index.json" > "$BASE/superpsx-mirror-index.json.gz"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "$TARGET"
+          git add \
+            "$BASE/superpsx-full-catalog-links.json.gz" \
+            "$BASE/superpsx-mirror-index.json" \
+            "$BASE/superpsx-mirror-index.json.gz" \
+            "$BASE/superpsx-repo/repo.yml"
           if git diff --cached --quiet; then
-            echo "Compressed catalog unchanged; no commit needed."
+            echo "Published catalog is unchanged."
             exit 0
           fi
-          git commit -m "data: update compressed SuperPSX catalog"
+          git commit -m "data: publish complete SuperPSX mirror catalog"
           git push origin HEAD:feat/download-reliability-throughput
 
-      - name: Write run summary
+      - name: Write extraction summary
         if: always()
         run: |
           python - <<'PY'
           import json, pathlib, os
           from collections import Counter
-          path = pathlib.Path("catalog/ps4-games/superpsx-full-catalog-links.json")
-          summary = pathlib.Path(os.environ["GITHUB_STEP_SUMMARY"])
-          nl = chr(10)
-          if not path.exists():
-              summary.write_text("## Catalog extraction" + nl + "No output JSON was produced. Check the extraction step logs." + nl)
+          p = pathlib.Path("catalog/ps4-games/superpsx-full-catalog-links.json")
+          out = pathlib.Path(os.environ["GITHUB_STEP_SUMMARY"])
+          if not p.exists():
+              out.write_text("## SuperPSX extraction\nNo JSON output was produced. Check the extraction logs.\n")
           else:
-              data = json.loads(path.read_text(encoding="utf-8"))
-              summary.write_text(
-                  "## Catalog extraction" + nl
-                  + f"- Processed: {data.get('processed', 0)} / {data.get('total_in_run', 0)}" + nl
-                  + f"- Visible links: {len(data.get('links', []))}" + nl
-                  + f"- Errors: {len(data.get('errors', []))}" + nl
-                  + "- Preferred mirror order: Mocha → Filecrypt → VikingFile → 1fichier → OneFile → other hosts." + nl
-                  + "- Links by host: " + ", ".join(f"{host}: {count}" for host, count in Counter(x.get("host_family", x.get("host", "unknown")) for x in data.get("links", [])).most_common(15)) + nl
-                  + "- Compressed JSON is published in the repository when available." + nl
-              )
+              d = json.loads(p.read_text(encoding="utf-8"))
+              links = d.get("links", [])
+              resolved = [hop for link in links for hop in link.get("resolution", [])]
+              hosts = Counter(x.get("host_family", x.get("host", "unknown")) for x in links)
+              direct = sum(1 for x in resolved if x.get("is_direct_file"))
+              lines = [
+                  "## SuperPSX full mirror extraction",
+                  f"- Games processed: {d.get('processed', 0)} / {d.get('total_in_run', 0)}",
+                  f"- Source links retained: {len(links)}",
+                  f"- Resolved candidates: {len(resolved)}",
+                  f"- Confirmed direct file responses: {direct}",
+                  f"- Page errors: {len(d.get('errors', []))}",
+                  f"- Mirror-resolution failures: {len(d.get('resolution_errors', []))}",
+                  "- Priority: Mocha → Filecrypt → VikingFile → 1fichier → OneFile → remaining hosts",
+                  "- Host totals: " + ", ".join(f"{k}: {v}" for k, v in hosts.most_common(20)),
+                  "- Direct PKG feed: catalog/ps4-games/superpsx-repo/repo.yml (only when a direct .pkg response is confirmed)",
+                  "- CAPTCHA/login/anti-bot/JavaScript challenges are reported, not bypassed.",
+              ]
+              out.write_text("\n".join(lines) + "\n")
           PY
 
-      - name: Upload partial or complete catalog
+      - name: Upload full and partial outputs as artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: superpsx-full-catalog-links
-          path: catalog/ps4-games/superpsx-full-catalog-links.json
+          name: superpsx-full-mirror-catalog
+          path: |
+            catalog/ps4-games/superpsx-full-catalog-links.json
+            catalog/ps4-games/superpsx-mirror-index.json
+            catalog/ps4-games/superpsx-repo/repo.yml
           if-no-files-found: warn
           retention-days: 30
