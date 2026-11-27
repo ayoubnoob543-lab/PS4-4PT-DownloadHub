@@ -29,13 +29,14 @@ jobs:
         run: python -m pip install requests beautifulsoup4
       - name: Compile scraper
         run: python -m py_compile scripts/scrape_superpsx_full_catalog.py
-      - name: Check host ranking and link classification
+      - name: Test mirror ordering, interstitial traversal and direct PKG detection
         run: |
           python - <<'PY'
           import importlib.util
           spec = importlib.util.spec_from_file_location("scraper", "scripts/scrape_superpsx_full_catalog.py")
           module = importlib.util.module_from_spec(spec)
           spec.loader.exec_module(module)
+
           expected = [
               ("cdn.mocha.my", 0, "mocha"),
               ("filecrypt.cc", 1, "filecrypt"),
@@ -44,8 +45,23 @@ jobs:
           ]
           for host, priority, family in expected:
               assert module.host_info(host) == (priority, family), (host, module.host_info(host))
+
           assert module.kind("Game Update 1.02") == "update"
           assert module.kind("DLC pack") == "dlc"
           assert module.kind("Full Game") == "game"
+          assert module.looks_like_file("https://cdn.example/game.pkg", {})
+          assert module.looks_like_file(
+              "https://cdn.example/download?id=123",
+              {"Content-Disposition": 'attachment; filename="game.pkg"', "Content-Type": "application/octet-stream"},
+          )
+
+          # Filecrypt can expose a mirror anchor without useful visible text.
+          html = '<html><body><a href="https://vikingfile.com/f/abc"><img src="mirror.png"></a></body></html>'
+          candidates = module.page_next_links(html, "https://filecrypt.cc/Container/abc")
+          assert any(x["url"] == "https://vikingfile.com/f/abc" for x in candidates), candidates
+
+          # A regular landing page does not follow arbitrary external links.
+          regular = module.page_next_links(html, "https://example.org/page")
+          assert not regular, regular
           print("Scraper validation passed.")
           PY
