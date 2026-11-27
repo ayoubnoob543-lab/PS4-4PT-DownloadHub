@@ -44,7 +44,11 @@ IGNORED_HOSTS = {
 NEXT_WORDS = (
     "download", "descargar", "continue", "continuar", "mirror",
     "get link", "get file", "download file", "go to", "proceed",
-    "descarga", "enlace", "link",
+    "descarga", "enlace", "link", "click here", "here", "ir",
+)
+INTERSTITIAL_HOSTS = (
+    "filecrypt.cc", "bit.ly", "tinyurl.com", "t.co", "cutt.ly",
+    "linkvertise.com", "ouo.io", "adf.ly", "anotepad.com",
 )
 FILE_EXTENSIONS = (".pkg", ".zip", ".rar", ".7z", ".iso")
 
@@ -129,6 +133,8 @@ def is_ignored(url):
 def page_next_links(html, page_url):
     soup = BeautifulSoup(html, "html.parser")
     candidates, seen = [], set()
+    page_host = (urlparse(page_url).hostname or "").lower()
+    is_container = any(marker in page_host for marker in INTERSTITIAL_HOSTS)
     for node, href, attr in visible_targets(soup, page_url):
         if is_ignored(href) or href in seen:
             continue
@@ -136,10 +142,10 @@ def page_next_links(html, page_url):
         aria = (node.get("aria-label") or "").casefold()
         title = (node.get("title") or "").casefold()
         hint = " ".join((label, aria, title))
-        # Keep visible external links from common link-container pages, but
-        # on ordinary file hosts only follow an explicit next/download action.
+        # Link-container pages such as Filecrypt commonly expose the mirror
+        # as an unlabeled anchor. Follow those public anchors, but never forms.
         same_host = urlparse(href).hostname == urlparse(page_url).hostname
-        if not same_host and not any(word in hint for word in NEXT_WORDS):
+        if not same_host and not is_container and not any(word in hint for word in NEXT_WORDS):
             continue
         seen.add(href)
         candidates.append({"url": href, "label": label[:180], "attribute": attr})
@@ -196,6 +202,7 @@ def resolve_public_link(start_url):
                     "redirect_chain": full_chain,
                     "http_status": response.status_code,
                     "content_type": content_type,
+                    "content_disposition": headers.get("Content-Disposition", ""),
                     "is_direct_file": direct_file,
                     "resolution_hops": depth + len(response.history),
                     "resolution_status": "direct_file" if direct_file else "landing_page",
@@ -296,7 +303,9 @@ def write_outputs(result):
     by_game = defaultdict(list)
     for item in resolved:
         url = item.get("resolved_url", "")
-        if item.get("is_direct_file") and urlparse(url).path.lower().endswith(".pkg"):
+        disposition = (item.get("content_disposition") or "").lower()
+        is_pkg = urlparse(url).path.lower().endswith(".pkg") or bool(re.search(r'filename\*?=.*?\.pkg(?:[";]|$)', disposition))
+        if item.get("is_direct_file") and is_pkg:
             by_game[item["title"]].append(url)
     lines = ['name: "SuperPSX verified direct PKG mirrors"', 'repoURL: "https://raw.githubusercontent.com/ayoubnoob543-lab/PS4-4PT-DownloadHub/feat/download-reliability-throughput/catalog/ps4-games/superpsx-repo/"']
     for title, urls in sorted(by_game.items()):
