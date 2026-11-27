@@ -50,9 +50,9 @@ def host_info(host):
 
 def kind(label):
     x = label.casefold()
-    if re.search(r"\\b(update|patch|actualizaci[oó]n|actualizacion|parche)\\b", x):
+    if re.search(r"\b(update|patch|actualizaci[oó]n|actualizacion|parche)\b", x):
         return "update"
-    if re.search(r"\\b(dlc|add[\\s-]?on|addon|expansion|expansión)\\b", x):
+    if re.search(r"\b(dlc|add[\s-]?on|addon|expansion|expansión)\b", x):
         return "dlc"
     return "game"
 
@@ -69,7 +69,7 @@ def page_metadata(soup):
             elif "size" in k or "tamaño" in k: data["size"] = v
             elif "version" in k or "versión" in k: data["version"] = v
             elif "firmware" in k: data["firmware"] = v
-            m = re.search(r"CUSA\\d{5}", v, re.I)
+            m = re.search(r"CUSA\d{5}", v, re.I)
             if m: data["cusa"] = m.group(0).upper()
     return data
 
@@ -184,7 +184,7 @@ def main():
         except Exception as e:
             result["errors"].append({"title": name, "url": url, "error": str(e)[:250]})
         result["processed"] = i
-        OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+        OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(f"[{i}/{len(games)}] {name or url}: {len(result['links'])} links; {len(result['errors'])} errors", flush=True)
         time.sleep(max(0, args.delay))
     print(f"DONE: {result['processed']} pages; {len(result['links'])} links; {len(result['errors'])} errors")
