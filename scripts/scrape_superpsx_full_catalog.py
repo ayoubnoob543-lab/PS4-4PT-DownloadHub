@@ -144,7 +144,14 @@ def page_next_links(html, page_url):
         hint = " ".join((label, aria, title))
         # Link-container pages such as Filecrypt commonly expose the mirror
         # as an unlabeled anchor. Follow those public anchors, but never forms.
-        same_host = urlparse(href).hostname == urlparse(page_url).hostname
+        href_path = urlparse(href).path.casefold()
+        same_host = (
+            urlparse(href).hostname == urlparse(page_url).hostname
+            and (
+                any(word in hint for word in NEXT_WORDS)
+                or any(token in href_path for token in ("/download", "/get/", "/file/", "/d/"))
+            )
+        )
         if not same_host and not is_container and not any(word in hint for word in NEXT_WORDS):
             continue
         seen.add(href)
@@ -309,14 +316,15 @@ def write_outputs(result):
         disposition = (item.get("content_disposition") or "").lower()
         is_pkg = urlparse(url).path.lower().endswith(".pkg") or bool(re.search(r'filename\*?=.*?\.pkg(?:[";]|$)', disposition))
         if item.get("is_direct_file") and is_pkg:
-            by_game[item["title"]].append(url)
+            by_game[(item["title"], item.get("type", "game"))].append(url)
     lines = ['name: "SuperPSX verified direct PKG mirrors"', 'repoURL: "https://raw.githubusercontent.com/ayoubnoob543-lab/PS4-4PT-DownloadHub/feat/download-reliability-throughput/catalog/ps4-games/superpsx-repo/"']
-    for title, urls in sorted(by_game.items()):
+    for (title, package_kind), urls in sorted(by_game.items()):
         unique = list(dict.fromkeys(urls))
         priority_sorted = sorted(unique, key=lambda u: host_info(urlparse(u).hostname)[0])
         if not priority_sorted:
             continue
-        lines += [json.dumps(title, ensure_ascii=False) + ':', '  type: GAME', '  pkgPath: ' + json.dumps(priority_sorted[0], ensure_ascii=False)]
+        kind_suffix = "" if package_kind == "game" else " - " + package_kind.upper()
+        lines += [json.dumps(title + kind_suffix, ensure_ascii=False) + ':', '  type: ' + package_kind.upper(), '  pkgPath: ' + json.dumps(priority_sorted[0], ensure_ascii=False)]
         if len(priority_sorted) > 1:
             lines.append('  mirrors:')
             lines.extend('    - ' + json.dumps(url, ensure_ascii=False) for url in priority_sorted[1:])
