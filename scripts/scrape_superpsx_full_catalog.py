@@ -1,28 +1,32 @@
 #!/usr/bin/env python3
-"""Extract publicly visible download/mirror links from the SuperPSX catalog.
+"""Build a complete mirror index from publicly exposed SuperPSX links.
 
-The scraper records links exposed in page markup. It does not bypass CAPTCHA,
-authentication, anti-bot controls, paywalls, or resolve temporary download URLs.
-All mirrors are retained; preferred hosts are only sorted to the top.
+Follows ordinary HTTP redirects and publicly exposed HTML links/buttons for a
+small number of hops. It never submits forms, executes page JavaScript, solves
+CAPTCHAs, logs in, defeats anti-bot controls, or downloads package payloads.
 """
 import argparse
 import json
 import re
 import time
+from collections import Counter, defaultdict
 from pathlib import Path
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urljoin, urlparse, unquote
 
 import requests
 from bs4 import BeautifulSoup
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "catalog/ps4-games/superpsx-full-catalog-links.json"
+MIRROR_INDEX = ROOT / "catalog/ps4-games/superpsx-mirror-index.json"
+APP_REPO = ROOT / "catalog/ps4-games/superpsx-repo/repo.yml"
 LIST_URL = "https://raw.githubusercontent.com/tutw/SuperPSX-PS4-GameList/main/ps4_games_list.json"
-S = requests.Session()
-S.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36"})
+USER_AGENT = "Mozilla/5.0 (compatible; PS4CatalogResearch/2.0)"
+TIMEOUT = (8, 18)
+MAX_PAGE_BYTES = 1024 * 1024
+MAX_HOPS = 4
+MAX_BRANCHES = 8
 
-# Lower number = shown earlier in the app/catalog. No host is discarded because
-# of its rank: the complete mirror list remains available as fallback.
 HOST_PRIORITY = (
     ("mocha.my", 0, "mocha"),
     ("filecrypt.cc", 1, "filecrypt"),
@@ -33,11 +37,23 @@ HOST_PRIORITY = (
     ("buzzheavier", 6, "buzzheavier"),
     ("akirabox", 7, "akirabox"),
 )
-
 IGNORED_HOSTS = {
     "facebook.com", "twitter.com", "x.com", "instagram.com",
     "youtube.com", "t.me", "telegram.me", "pinterest.com", "wa.me",
 }
+NEXT_WORDS = (
+    "download", "descargar", "continue", "continuar", "mirror",
+    "get link", "get file", "download file", "go to", "proceed",
+    "descarga", "enlace", "link",
+)
+FILE_EXTENSIONS = (".pkg", ".zip", ".rar", ".7z", ".iso")
+
+
+def session():
+    s = requests.Session()
+    s.headers.update({"User-Agent": USER_AGENT})
+    s.max_redirects = 10
+    return s
 
 
 def host_info(host):
@@ -64,21 +80,22 @@ def page_metadata(soup):
             cells = tr.find_all(["td", "th"])
             if len(cells) < 2:
                 continue
-            k, v = cells[0].get_text(" ", strip=True).casefold(), cells[1].get_text(" ", strip=True)
-            if "region" in k: data["region"] = v
-            elif "size" in k or "tamaño" in k: data["size"] = v
-            elif "version" in k or "versión" in k: data["version"] = v
-            elif "firmware" in k: data["firmware"] = v
-            m = re.search(r"CUSA\d{5}", v, re.I)
-            if m: data["cusa"] = m.group(0).upper()
+            key = cells[0].get_text(" ", strip=True).casefold()
+            value = cells[1].get_text(" ", strip=True)
+            if "region" in key: data["region"] = value
+            elif "size" in key or "tamaño" in key: data["size"] = value
+            elif "version" in key or "versión" in key: data["version"] = value
+            elif "firmware" in key: data["firmware"] = value
+            match = re.search(r"CUSA\d{5}", value, re.I)
+            if match: data["cusa"] = match.group(0).upper()
     return data
 
 
 def dll_url(game_url, soup):
-    for a in soup.find_all("a", href=True):
-        href = urljoin(game_url, a["href"].strip())
-        label = a.get_text(" ", strip=True).casefold()
-        img = a.find("img")
+    for anchor in soup.find_all("a", href=True):
+        href = urljoin(game_url, anchor["href"].strip())
+        label = anchor.get_text(" ", strip=True).casefold()
+        img = anchor.find("img")
         imgsrc = (img.get("src") or "").casefold() if img else ""
         if "dll-" in urlparse(href).path.casefold() or "download-button" in imgsrc or "download" in label:
             if (urlparse(href).hostname or "").casefold().endswith("superpsx.com"):
@@ -86,77 +103,225 @@ def dll_url(game_url, soup):
     return None
 
 
-def visible_targets(root):
-    """Yield markup URLs from anchors and common button/data attributes."""
-    attributes = ("href", "data-href", "data-url", "data-link", "data-download")
+def visible_targets(root, base_url):
+    attrs = ("href", "data-href", "data-url", "data-link", "data-download", "data-redirect")
     for node in root.find_all(["a", "button", "div", "span"], recursive=True):
-        for attr in attributes:
-            value = (node.get(attr) or "").strip()
-            if value and not value.lower().startswith(("javascript:", "mailto:", "tel:", "#")):
-                yield node, value, attr
+        for attr in attrs:
+            raw = (node.get(attr) or "").strip()
+            if not raw or raw.lower().startswith(("javascript:", "mailto:", "tel:", "#")):
+                continue
+            yield node, urljoin(base_url, raw), attr
 
 
-def scrape_dll(url, game):
-    r = S.get(url, timeout=35)
-    r.raise_for_status()
-    soup = BeautifulSoup(r.text, "html.parser")
-    meta = page_metadata(soup)
-    found, seen = [], set()
+def is_ignored(url):
+    parsed = urlparse(url)
+    host = (parsed.hostname or "").lower().removeprefix("www.")
+    return (
+        parsed.scheme not in ("http", "https")
+        or not host
+        or host in IGNORED_HOSTS
+        or host == "superpsx.com"
+        or host.endswith(".superpsx.com")
+        or any(token in host for token in ("doubleclick.", "googlesyndication.", "google-analytics."))
+    )
 
-    roots = soup.select("article, main, .entry-content, .post-content, .td-post-content")
-    root = max(roots, key=lambda node: len(node.find_all(["a", "button"], href=True))) if roots else soup.body or soup
 
-    for node, raw, source_attr in visible_targets(root):
-        href = urljoin(url, raw)
-        parsed = urlparse(href)
-        host = (parsed.hostname or "").lower().removeprefix("www.")
-        if parsed.scheme not in ("http", "https") or not host:
+def page_next_links(html, page_url):
+    soup = BeautifulSoup(html, "html.parser")
+    candidates, seen = [], set()
+    for node, href, attr in visible_targets(soup, page_url):
+        if is_ignored(href) or href in seen:
             continue
-        if host == "superpsx.com" or host.endswith(".superpsx.com") or host in IGNORED_HOSTS:
-            continue
-        if any(token in host for token in ("doubleclick.", "googlesyndication.", "google-analytics.")):
-            continue
-        if href in seen:
+        label = node.get_text(" ", strip=True).casefold()
+        aria = (node.get("aria-label") or "").casefold()
+        title = (node.get("title") or "").casefold()
+        hint = " ".join((label, aria, title))
+        # Keep visible external links from common link-container pages, but
+        # on ordinary file hosts only follow an explicit next/download action.
+        same_host = urlparse(href).hostname == urlparse(page_url).hostname
+        if not same_host and not any(word in hint for word in NEXT_WORDS):
             continue
         seen.add(href)
+        candidates.append({"url": href, "label": label[:180], "attribute": attr})
+    # Prioritize the known mirror hosts while preserving every candidate.
+    candidates.sort(key=lambda x: host_info(urlparse(x["url"]).hostname)[0])
+    return candidates[:MAX_BRANCHES]
 
+
+def read_limited(response):
+    chunks, total = [], 0
+    for chunk in response.iter_content(chunk_size=65536):
+        if not chunk:
+            continue
+        chunks.append(chunk)
+        total += len(chunk)
+        if total >= MAX_PAGE_BYTES:
+            break
+    return b"".join(chunks)[:MAX_PAGE_BYTES]
+
+
+def looks_like_file(url, headers):
+    path = unquote(urlparse(url).path).lower()
+    disposition = (headers.get("Content-Disposition") or "").lower()
+    content_type = (headers.get("Content-Type") or "").lower()
+    return (
+        path.endswith(FILE_EXTENSIONS)
+        or any(ext in disposition for ext in FILE_EXTENSIONS)
+        or ("application/octet-stream" in content_type and "text/html" not in content_type)
+    )
+
+
+def resolve_public_link(start_url):
+    """Follow redirects and public HTML continuation links; never submit forms."""
+    queue = [(start_url, 0, [])]
+    seen = set()
+    results = []
+    while queue and len(results) < MAX_BRANCHES:
+        current, depth, chain = queue.pop(0)
+        if current in seen or depth > MAX_HOPS or is_ignored(current):
+            continue
+        seen.add(current)
+        try:
+            with session().get(current, timeout=TIMEOUT, allow_redirects=True, stream=True) as response:
+                response.raise_for_status()
+                redirect_chain = [h.url for h in response.history] + [response.url]
+                full_chain = chain + redirect_chain
+                final_url = response.url
+                headers = response.headers
+                direct_file = looks_like_file(final_url, headers)
+                content_type = (headers.get("Content-Type") or "").lower()
+                result = {
+                    "source_url": start_url,
+                    "resolved_url": final_url,
+                    "redirect_chain": full_chain,
+                    "http_status": response.status_code,
+                    "content_type": content_type,
+                    "is_direct_file": direct_file,
+                    "resolution_hops": depth + len(response.history),
+                    "resolution_status": "direct_file" if direct_file else "landing_page",
+                }
+                if direct_file:
+                    results.append(result)
+                    continue
+                if "text/html" not in content_type and content_type:
+                    result["resolution_status"] = "non_html_response"
+                    results.append(result)
+                    continue
+                body = read_limited(response)
+                html = body.decode(response.encoding or "utf-8", errors="replace")
+                next_links = page_next_links(html, final_url)
+                if next_links and depth < MAX_HOPS:
+                    for item in next_links:
+                        queue.append((item["url"], depth + 1, full_chain + [item["url"]]))
+                    result["resolution_status"] = "intermediate_page"
+                    result["next_candidates"] = next_links
+                else:
+                    # CAPTCHA/login/JS-only pages are reported as unresolved,
+                    # never bypassed or represented as a successful direct link.
+                    result["resolution_status"] = "landing_page"
+                results.append(result)
+        except requests.RequestException as exc:
+            results.append({
+                "source_url": start_url, "resolved_url": current,
+                "redirect_chain": chain + [current],
+                "resolution_status": "request_failed",
+                "resolution_error": str(exc)[:240],
+                "is_direct_file": False,
+            })
+    # Deduplicate final URLs while keeping the most informative record.
+    unique, output = set(), []
+    for item in results:
+        key = (item.get("resolved_url"), item.get("resolution_status"))
+        if key not in unique:
+            unique.add(key)
+            output.append(item)
+    return output
+
+
+def extract_game_page(game):
+    response = session().get(game["url"], timeout=TIMEOUT, allow_redirects=True)
+    response.raise_for_status()
+    soup = BeautifulSoup(read_limited(response).decode(response.encoding or "utf-8", errors="replace"), "html.parser")
+    target = game["url"] if "/dll-" in urlparse(game["url"]).path else dll_url(game["url"], soup)
+    if not target:
+        raise ValueError("download_page_not_found")
+    dll_response = session().get(target, timeout=TIMEOUT, allow_redirects=True)
+    dll_response.raise_for_status()
+    dll_soup = BeautifulSoup(read_limited(dll_response).decode(dll_response.encoding or "utf-8", errors="replace"), "html.parser")
+    meta = page_metadata(dll_soup)
+    roots = dll_soup.select("article, main, .entry-content, .post-content, .td-post-content")
+    root = max(roots, key=lambda node: len(node.find_all(["a", "button"], href=True))) if roots else dll_soup.body or dll_soup
+    found, seen = [], set()
+    for node, href, source_attr in visible_targets(root, dll_response.url):
+        if is_ignored(href) or href in seen:
+            continue
+        seen.add(href)
         label = node.get_text(" ", strip=True)
         parent = node.find_parent(["tr", "li", "p", "div", "section"])
-        context = parent.get_text(" ", strip=True)[:500] if parent else label
-        description = context or label or "Visible external link"
-        priority, family = host_info(host)
+        description = (parent.get_text(" ", strip=True) if parent else label)[:500]
+        priority, family = host_info(urlparse(href).hostname)
         found.append({
             "title": game["name"], "game_page": game["url"],
-            "download_page": url, "type": kind(description),
-            "description": description, "link_label": label,
-            "host": host, "host_family": family, "mirror_priority": priority,
-            "source_attribute": source_attr, "url": href,
-            **meta, "status": "visible_page_link"
+            "download_page": dll_response.url, "type": kind(description or label),
+            "description": description or label or "Visible external link",
+            "link_label": label, "host": urlparse(href).hostname or "",
+            "host_family": family, "mirror_priority": priority,
+            "source_attribute": source_attr, "url": href, **meta,
+            "status": "visible_page_link",
         })
-
-    # Stable sort: all links remain; preferred mirror hosts are first.
-    found.sort(key=lambda item: item["mirror_priority"])
-    if not found:
-        title = soup.title.get_text(" ", strip=True) if soup.title else "untitled"
-        body_text = (root.get_text(" ", strip=True) if root else "")[:180]
-        raise ValueError(
-            "no_visible_external_links; "
-            f"http_status={r.status_code}; page_title={title!r}; "
-            f"page_text={body_text!r}"
-        )
     return found
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--limit", type=int, default=0, help="0 = entire published game list")
-    ap.add_argument("--delay", type=float, default=1.2)
-    ap.add_argument("--start", type=int, default=0, help="zero-based resume offset")
-    args = ap.parse_args()
+def write_outputs(result):
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    resolved = []
+    for item in result["links"]:
+        for hop in item.get("resolution", []):
+            resolved.append({**item, **hop})
+    resolved.sort(key=lambda x: (x.get("mirror_priority", 50), not x.get("is_direct_file", False)))
+    index = {
+        "schema_version": 2,
+        "generated_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "processed": result["processed"],
+        "total_in_run": result["total_in_run"],
+        "source_link_count": len(result["links"]),
+        "resolved_candidate_count": len(resolved),
+        "direct_file_count": sum(1 for x in resolved if x.get("is_direct_file")),
+        "links": resolved,
+    }
+    MIRROR_INDEX.write_text(json.dumps(index, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    # App-compatible repository feed: only confirmed direct .pkg links are
+    # emitted. Landing pages are never passed to the PKG downloader as files.
+    by_game = defaultdict(list)
+    for item in resolved:
+        url = item.get("resolved_url", "")
+        if item.get("is_direct_file") and urlparse(url).path.lower().endswith(".pkg"):
+            by_game[item["title"]].append(url)
+    lines = ['name: "SuperPSX verified direct PKG mirrors"', 'repoURL: "https://raw.githubusercontent.com/ayoubnoob543-lab/PS4-4PT-DownloadHub/feat/download-reliability-throughput/catalog/ps4-games/superpsx-repo/"']
+    for title, urls in sorted(by_game.items()):
+        unique = list(dict.fromkeys(urls))
+        priority_sorted = sorted(unique, key=lambda u: host_info(urlparse(u).hostname)[0])
+        if not priority_sorted:
+            continue
+        lines += [json.dumps(title, ensure_ascii=False) + ':', '  type: GAME', '  pkgPath: ' + json.dumps(priority_sorted[0], ensure_ascii=False)]
+        if len(priority_sorted) > 1:
+            lines.append('  mirrors:')
+            lines.extend('    - ' + json.dumps(url, ensure_ascii=False) for url in priority_sorted[1:])
+    APP_REPO.parent.mkdir(parents=True, exist_ok=True)
+    APP_REPO.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
-    data = S.get(LIST_URL, timeout=40)
-    data.raise_for_status()
-    games = data.json().get("games", [])
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--limit", type=int, default=0, help="0 = entire published game list")
+    parser.add_argument("--delay", type=float, default=0.8)
+    parser.add_argument("--start", type=int, default=0, help="zero-based resume offset")
+    parser.add_argument("--resolve-delay", type=float, default=0.15)
+    args = parser.parse_args()
+    source = session().get(LIST_URL, timeout=TIMEOUT)
+    source.raise_for_status()
+    games = source.json().get("games", [])
     if args.start:
         games = games[args.start:]
     if args.limit:
@@ -164,30 +329,41 @@ def main():
 
     result = {
         "source": LIST_URL, "total_in_run": len(games), "processed": 0,
-        "links": [], "errors": [],
+        "links": [], "errors": [], "resolution_errors": [],
         "host_priority": {family: priority for _, priority, family in HOST_PRIORITY},
-        "note": "All publicly visible external links retained and ordered by preferred host; URLs are not claimed to be verified direct downloads."
+        "note": "All public links are retained. Redirects and public HTML continuation links are followed; no CAPTCHA, login, anti-bot, form, or JavaScript challenge is bypassed.",
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
+    resolved_cache = {}
     for i, game in enumerate(games, 1):
         name, url = game.get("name"), game.get("url")
         try:
             if not name or not url:
                 raise ValueError("entry_missing_name_or_url")
-            r = S.get(url, timeout=35)
-            r.raise_for_status()
-            soup = BeautifulSoup(r.text, "html.parser")
-            target = url if "/dll-" in urlparse(url).path else dll_url(url, soup)
-            if not target:
-                raise ValueError("download_page_not_found")
-            result["links"].extend(scrape_dll(target, {"name": name, "url": url}))
-        except Exception as e:
-            result["errors"].append({"title": name, "url": url, "error": str(e)[:250]})
+            links = extract_game_page({"name": name, "url": url})
+            for link in links:
+                if link["url"] not in resolved_cache:
+                    resolved_cache[link["url"]] = resolve_public_link(link["url"])
+                    time.sleep(max(0, args.resolve_delay))
+                link["resolution"] = resolved_cache[link["url"]]
+                if not link["resolution"]:
+                    result["resolution_errors"].append({"title": name, "url": link["url"], "error": "no_resolution_result"})
+            result["links"].extend(links)
+        except Exception as exc:
+            result["errors"].append({"title": name, "url": url, "error": str(exc)[:300]})
         result["processed"] = i
-        OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        print(f"[{i}/{len(games)}] {name or url}: {len(result['links'])} links; {len(result['errors'])} errors", flush=True)
+        result["links"].sort(key=lambda x: (x["mirror_priority"], x["title"].casefold()))
+        write_outputs(result)
+        print(
+            f"[{i}/{len(games)}] {name or url}: {len(result['links'])} links; "
+            f"{sum(len(x.get('resolution', [])) for x in result['links'])} resolved candidates; "
+            f"{len(result['errors'])} page errors",
+            flush=True,
+        )
         time.sleep(max(0, args.delay))
-    print(f"DONE: {result['processed']} pages; {len(result['links'])} links; {len(result['errors'])} errors")
+    write_outputs(result)
+    counts = Counter(x["host_family"] for x in result["links"])
+    print(f"DONE: {result['processed']}/{result['total_in_run']} games; {len(result['links'])} links; hosts={dict(counts)}; errors={len(result['errors'])}")
 
 
 if __name__ == "__main__":
