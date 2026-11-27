@@ -47,7 +47,7 @@ NEXT_WORDS = (
     "descarga", "enlace", "link", "click here", "here", "ir",
 )
 INTERSTITIAL_HOSTS = (
-    "filecrypt.cc", "bit.ly", "tinyurl.com", "t.co", "cutt.ly",
+    "filecrypt.cc", "mocha.my", "bit.ly", "tinyurl.com", "t.co", "cutt.ly",
     "linkvertise.com", "ouo.io", "adf.ly", "anotepad.com",
 )
 FILE_EXTENSIONS = (".pkg", ".zip", ".rar", ".7z", ".iso")
@@ -199,6 +199,9 @@ def resolve_public_link(start_url):
                 result = {
                     "source_url": start_url,
                     "resolved_url": final_url,
+                    "resolved_host": urlparse(final_url).hostname or "",
+                    "resolved_host_family": host_info(urlparse(final_url).hostname)[1],
+                    "resolved_mirror_priority": host_info(urlparse(final_url).hostname)[0],
                     "redirect_chain": full_chain,
                     "http_status": response.status_code,
                     "content_type": content_type,
@@ -286,7 +289,7 @@ def write_outputs(result):
     for item in result["links"]:
         for hop in item.get("resolution", []):
             resolved.append({**item, **hop})
-    resolved.sort(key=lambda x: (x.get("mirror_priority", 50), not x.get("is_direct_file", False)))
+    resolved.sort(key=lambda x: (x.get("resolved_mirror_priority", x.get("mirror_priority", 50)), not x.get("is_direct_file", False)))
     index = {
         "schema_version": 2,
         "generated_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
