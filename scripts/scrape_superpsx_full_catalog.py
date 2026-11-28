@@ -26,7 +26,7 @@ USER_AGENT = "Mozilla/5.0 (compatible; PS4CatalogResearch/2.0)"
 TIMEOUT = (8, 18)
 MAX_PAGE_BYTES = 1024 * 1024
 MAX_HOPS = 4
-MAX_BRANCHES = 8
+MAX_BRANCHES = 128
 
 HOST_PRIORITY = (
     ("mocha.my", 0, "mocha"),
@@ -390,8 +390,10 @@ def main():
                 done = set(previous.get("processed_games", []))
                 if not done and int(previous.get("processed", 0)) > 0 and int(previous.get("total_in_run", -1)) == len(all_games) and args.start == 0:
                     done.update(g.get("url") for g in all_games[:int(previous["processed"])] if g.get("url"))
+                failed_urls = {e.get("url") for e in result["errors"] if e.get("url")}
+                done.difference_update(failed_urls)
                 result["processed_games"] = sorted(x for x in done if x)
-                print(f"Resume: {len(done)} already processed; {len(all_games) - len(done)} remaining.", flush=True)
+                print(f"Resume: {len(done)} successful/already scanned; {len(failed_urls)} errors queued for retry; {len(all_games) - len(done)} remaining.", flush=True)
         except (ValueError, OSError, TypeError):
             print("Previous checkpoint unreadable; starting a fresh catalog.", flush=True)
 
