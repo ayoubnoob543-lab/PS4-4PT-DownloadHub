@@ -6,6 +6,7 @@ small number of hops. It never submits forms, executes page JavaScript, solves
 CAPTCHAs, logs in, defeats anti-bot controls, or downloads package payloads.
 """
 import argparse
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import json
 import re
 import time
@@ -332,55 +333,101 @@ def write_outputs(result):
     APP_REPO.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def process_game(game, resolve_delay):
+    name, url = game.get("name"), game.get("url")
+    if not name or not url:
+        return game, [], {"title": name or "", "url": url or "", "error": "entry_missing_name_or_url"}
+    try:
+        links = extract_game_page({"name": name, "url": url})
+        cache = {}
+        for link in links:
+            if link["url"] not in cache:
+                cache[link["url"]] = resolve_public_link(link["url"])
+                time.sleep(max(0, resolve_delay))
+            link["resolution"] = cache[link["url"]]
+        return game, links, None
+    except Exception as exc:
+        return game, [], {"title": name, "url": url, "error": str(exc)[:300]}
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--limit", type=int, default=0, help="0 = entire published game list")
-    parser.add_argument("--delay", type=float, default=0.8)
-    parser.add_argument("--start", type=int, default=0, help="zero-based resume offset")
-    parser.add_argument("--resolve-delay", type=float, default=0.15)
+    parser.add_argument("--delay", type=float, default=0.15, help="per-worker delay between game pages")
+    parser.add_argument("--start", type=int, default=0, help="zero-based source offset")
+    parser.add_argument("--resolve-delay", type=float, default=0.05)
+    parser.add_argument("--workers", type=int, default=16, help="parallel game workers (default: 16)")
+    parser.add_argument("--checkpoint-every", type=int, default=20, help="write durable outputs every N completed games")
+    parser.add_argument("--only-missing", action="store_true", help="skip games already present in the existing catalog")
     args = parser.parse_args()
+    args.workers = max(1, min(args.workers, 32))
+    args.checkpoint_every = max(1, args.checkpoint_every)
+
     source = session().get(LIST_URL, timeout=TIMEOUT)
     source.raise_for_status()
-    games = source.json().get("games", [])
-    if args.start:
-        games = games[args.start:]
+    all_games = source.json().get("games", [])
+    games = all_games[max(0, args.start):]
     if args.limit:
         games = games[:args.limit]
 
     result = {
         "source": LIST_URL, "total_in_run": len(games), "processed": 0,
-        "links": [], "errors": [], "resolution_errors": [],
+        "processed_games": [], "links": [], "errors": [], "resolution_errors": [],
         "host_priority": {family: priority for _, priority, family in HOST_PRIORITY},
-        "note": "All public links are retained. Redirects and public HTML continuation links are followed; no CAPTCHA, login, anti-bot, form, or JavaScript challenge is bypassed.",
+        "workers": args.workers,
+        "note": "All publicly visible links are retained, including game, update and DLC links. Redirects and public HTML continuation links are followed; no CAPTCHA, login, anti-bot, form, or JavaScript challenge is bypassed.",
     }
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    resolved_cache = {}
-    for i, game in enumerate(games, 1):
-        name, url = game.get("name"), game.get("url")
+
+    # Resume from a previous checkpoint when available. Legacy checkpoints
+    # without processed_games are recovered using their processed source prefix.
+    if args.only_missing and OUT.exists():
         try:
-            if not name or not url:
-                raise ValueError("entry_missing_name_or_url")
-            links = extract_game_page({"name": name, "url": url})
-            for link in links:
-                if link["url"] not in resolved_cache:
-                    resolved_cache[link["url"]] = resolve_public_link(link["url"])
-                    time.sleep(max(0, args.resolve_delay))
-                link["resolution"] = resolved_cache[link["url"]]
-                if not link["resolution"]:
-                    result["resolution_errors"].append({"title": name, "url": link["url"], "error": "no_resolution_result"})
-            result["links"].extend(links)
-        except Exception as exc:
-            result["errors"].append({"title": name, "url": url, "error": str(exc)[:300]})
-        result["processed"] = i
-        result["links"].sort(key=lambda x: (x["mirror_priority"], x["title"].casefold()))
-        write_outputs(result)
-        print(
-            f"[{i}/{len(games)}] {name or url}: {len(result['links'])} links; "
-            f"{sum(len(x.get('resolution', [])) for x in result['links'])} resolved candidates; "
-            f"{len(result['errors'])} page errors",
-            flush=True,
-        )
-        time.sleep(max(0, args.delay))
+            previous = json.loads(OUT.read_text(encoding="utf-8"))
+            if previous.get("source") == LIST_URL:
+                result["links"] = previous.get("links", [])
+                result["errors"] = previous.get("errors", [])
+                result["resolution_errors"] = previous.get("resolution_errors", [])
+                done = set(previous.get("processed_games", []))
+                if not done and int(previous.get("processed", 0)) > 0 and int(previous.get("total_in_run", -1)) == len(all_games) and args.start == 0:
+                    done.update(g.get("url") for g in all_games[:int(previous["processed"])] if g.get("url"))
+                result["processed_games"] = sorted(x for x in done if x)
+                print(f"Resume: {len(done)} already processed; {len(all_games) - len(done)} remaining.", flush=True)
+        except (ValueError, OSError, TypeError):
+            print("Previous checkpoint unreadable; starting a fresh catalog.", flush=True)
+
+    done = set(result["processed_games"])
+    pending = [g for g in games if g.get("url") not in done]
+    result["total_in_run"] = len(games)
+    result["processed"] = sum(1 for g in games if g.get("url") in done)
+    print(f"Starting {len(pending)} missing games with {args.workers} workers.", flush=True)
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+
+    completed_now = 0
+    with ThreadPoolExecutor(max_workers=args.workers, thread_name_prefix="superpsx") as pool:
+        futures = {pool.submit(process_game, game, args.resolve_delay): game for game in pending}
+        for future in as_completed(futures):
+            game, links, error = future.result()
+            if error:
+                result["errors"].append(error)
+            else:
+                result["links"].extend(links)
+                for link in links:
+                    if not link.get("resolution"):
+                        result["resolution_errors"].append({"title": link["title"], "url": link["url"], "error": "no_resolution_result"})
+            if game.get("url"):
+                done.add(game["url"])
+            result["processed_games"] = sorted(done)
+            result["processed"] = sum(1 for g in games if g.get("url") in done)
+            result["links"].sort(key=lambda x: (x["mirror_priority"], x["title"].casefold()))
+            completed_now += 1
+            if completed_now % args.checkpoint_every == 0 or completed_now == len(pending):
+                write_outputs(result)
+            print(
+                f"[{result['processed']}/{len(games)}] {game.get('name')}: "
+                f"{len(links)} links; total {len(result['links'])}; errors {len(result['errors'])}",
+                flush=True,
+            )
+
     write_outputs(result)
     counts = Counter(x["host_family"] for x in result["links"])
     print(f"DONE: {result['processed']}/{result['total_in_run']} games; {len(result['links'])} links; hosts={dict(counts)}; errors={len(result['errors'])}")
