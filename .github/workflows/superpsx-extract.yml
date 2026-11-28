@@ -76,7 +76,7 @@ jobs:
         env:
           GAME_LIMIT: ${{ inputs.limit || '0' }}
           START_AT: ${{ inputs.start || '0' }}
-          REQUEST_DELAY: ${{ inputs.delay || '0.8' }}
+          REQUEST_DELAY: ${{ inputs.delay || '0.15' }}
           RESOLVE_DELAY: ${{ inputs.resolve_delay || '0.05' }}
           WORKERS: '16'
         run: |
