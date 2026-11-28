@@ -290,11 +290,13 @@ def extract_game_page(game):
     return found
 
 
-def write_outputs(result):
+def write_outputs(result, include_derived=True):
     OUT.parent.mkdir(parents=True, exist_ok=True)
     tmp_out = OUT.with_suffix(OUT.suffix + ".tmp")
     tmp_out.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     tmp_out.replace(OUT)
+    if not include_derived:
+        return
     resolved = []
     for item in result["links"]:
         for hop in item.get("resolution", []):
@@ -361,9 +363,16 @@ def main():
     parser.add_argument("--workers", type=int, default=16, help="parallel game workers (default: 16)")
     parser.add_argument("--checkpoint-every", type=int, default=20, help="write durable outputs every N completed games")
     parser.add_argument("--only-missing", action="store_true", help="skip games already present in the existing catalog")
+    parser.add_argument("--rebuild-only", action="store_true", help="rebuild mirror index and app feed from the current JSON checkpoint")
     args = parser.parse_args()
     args.workers = max(1, min(args.workers, 32))
     args.checkpoint_every = max(1, args.checkpoint_every)
+    if args.rebuild_only:
+        if not OUT.exists():
+            raise SystemExit("No catalog checkpoint to rebuild.")
+        write_outputs(json.loads(OUT.read_text(encoding="utf-8")))
+        print("Mirror index and app feed rebuilt from the latest checkpoint.", flush=True)
+        return
 
     source = session().get(LIST_URL, timeout=TIMEOUT)
     source.raise_for_status()
@@ -426,7 +435,7 @@ def main():
             result["links"].sort(key=lambda x: (x["mirror_priority"], x["title"].casefold()))
             completed_now += 1
             if completed_now % args.checkpoint_every == 0 or completed_now == len(pending):
-                write_outputs(result)
+                write_outputs(result, include_derived=False)
             print(
                 f"[{result['processed']}/{len(games)}] {game.get('name')}: "
                 f"{len(links)} links; total {len(result['links'])}; errors {len(result['errors'])}",
