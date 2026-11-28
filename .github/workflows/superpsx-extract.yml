@@ -85,9 +85,9 @@ jobs:
             --limit "$GAME_LIMIT" \
             --start "$START_AT" \
             --delay "$REQUEST_DELAY" \
-            --resolve-delay "$RESOLVE_DELAY" \\
-            --workers "$WORKERS" \\
-            --checkpoint-every 20 \\
+            --resolve-delay "$RESOLVE_DELAY" \
+            --workers "$WORKERS" \
+            --checkpoint-every 20 \
             --only-missing
 
       - name: Check that the run is complete before publishing
