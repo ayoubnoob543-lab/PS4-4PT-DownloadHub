@@ -1,0 +1,54 @@
+name: "SuperPSX verified direct PKG mirrors"
+repoURL: "https://raw.githubusercontent.com/ayoubnoob543-lab/PS4-4PT-DownloadHub/feat/download-reliability-throughput/catalog/ps4-games/superpsx-repo/"
+"A Monsters Expedition":
+  type: GAME
+  pkgPath: "https://itsfileditchfiles.st/balpha41/9125e8644c52bbbc026e/%5BSPSX%5D-A.Monsters.Expedition-CUSA29979-EUR-GAME-v1.00-9.00.pkg"
+  mirrors:
+    - "https://itsfileditchfiles.st/balpha41/80e01ddd8cf420d401a0/%5BSPSX%5D-A.Monsters.Expedition-CUSA29979-EUR-UPDATE-v1.03-9.00.pkg"
+    - "https://itsfileditchfiles.st/balpha41/b2dae1ed5e4d55d45057/%5BSPSX%5D-A.Monsters.Expedition-CUSA29979-EUR-UPDATE-v1.03-Fix-5.05-7.02.pkg"
+"Active Soccer 2 DX":
+  type: GAME
+  pkgPath: "https://itsfileditchfiles.st/balpha52/2749f6479709552ebfdf/%5BSPSX%5D-Active.Soccer.2.DX-CUSA08196-USA-UPDATE-v1.01-5.05%2B.pkg"
+"Behind The Frame The Finest Scenery":
+  type: GAME
+  pkgPath: "https://itsfileditchfiles.st/beta48/39eb3d5a78c3d6282828/%5BSPSX%5D-Behind.the.Frame.The.Finest.Scenery-CUSA33071-EUR-GAME-v1.00-9.00%2B.pkg"
+  mirrors:
+    - "https://itsfileditchfiles.st/beta48/7a0b95b2e963172f29e9/%5BSPSX%5D-Behind.the.Frame.The.Finest.Scenery-CUSA33071-EUR-UPDATE-v1.04-9.00%2B.pkg"
+    - "https://itsfileditchfiles.st/beta48/dba48a0ee0f7cd656d11/%5BSPSX%5D-Behind.the.Frame.The.Finest.Scenery-CUSA33071-EUR-UPDATE-v1.04-Fix-5.05-7.02.pkg"
+"Djmax Respect":
+  type: GAME
+  pkgPath: "https://itsfileditchfiles.st/echo3/b6a54705b529656cca79/%5BSPSX%5D-DJMAX.RESPECT-CUSA08621-ASIA-GAME-v1.00-5.05%2B.pkg"
+"Dragon Ball Fighterz":
+  type: GAME
+  pkgPath: "https://itsfileditchfiles.st/echo4/2fb72edf518fd6e9c107/%5BSPSX%5D-DRAGON.BALL.FighterZ-CUSA08992-EUR-GAME-v1.00-5.05%2B.pkg"
+  mirrors:
+    - "https://itsfileditchfiles.st/echo4/277d6423203d92004b05/%5BSPSX%5D-DRAGON.BALL.FighterZ-CUSA08992-EUR-UPDATE-v1.42-5.05%2B.pkg"
+"Dragon Ball Xenoverse 2 Deluxe Edition":
+  type: GAME
+  pkgPath: "https://itsfileditchfiles.st/echo5/a8fb01d53965bdc8c105/%5BSuperPSX%5D-Dragon.Ball.Xenoverse.2-CUSA05350-USA-Game-PS4.pkg"
+  mirrors:
+    - "https://itsfileditchfiles.st/echo5/a267c94e86b99c39c52c/%5BSPSX%5D-DRAGON.BALL.XENOVERSE.2-CUSA05350-USA-UPDATE-v1.52-Fix-5.05-11.00.pkg"
+    - "https://itsfileditchfiles.st/echo5/cae62249c83cd664d239/%5BSuperPSX%5D-DRAGON.BALL.XENOVERSE.2_CUSA05088_v1.00_%5B5.05%5D-PS4.pkg"
+    - "https://itsfileditchfiles.st/echo5/a82e4b040d34566c564e/%5BSPSX%5D-DRAGON.BALL.XENOVERSE.2-CUSA05088-EUR-UPDATE-v1.51-Fix-5.05-11.00.pkg"
+"Embr":
+  type: GAME
+  pkgPath: "https://itsfileditchfiles.st/balpha41/37f7043e0e31d58eda1f/%5BSPSX%5D-Embr-CUSA25171-EUR-GAME-v1.00-8.00%2B.pkg"
+  mirrors:
+    - "https://itsfileditchfiles.st/balpha41/686f808710a4e52bf0da/%5BSPSX%5D-Embr-CUSA25171-EUR-UPDATE-v1.06-8.00%2B.pkg"
+"Have A Nice Death":
+  type: GAME
+  pkgPath: "https://itsfileditchfiles.st/echo4/c4ffc9661bac99a179b5/%5BSPSX%5D-Have.a.Nice.Death-CUSA43438-EUR-UPDATE-v1.02-Fix-5.05-9.00.pkg"
+"Jitsu Squad":
+  type: GAME
+  pkgPath: "https://itsfileditchfiles.st/balpha41/dd8c7e4c07e8e9535d89/%5BSPSX%5D-Jitsu.Squad-CUSA36309-EUR-GAME-v1.00-9.00.pkg"
+  mirrors:
+    - "https://itsfileditchfiles.st/balpha41/a8aa85f546b01fde050c/%5BSPSX%5D-Jitsu.Squad-CUSA36309-EUR-UPDATE-v1.03-9.00.pkg"
+"Lego Dc Super Villains Deluxe Edition":
+  type: GAME
+  pkgPath: "https://itsfileditchfiles.st/echo4/5f7d34d3e2c92212cb4f/%5BSPSX%5D-LEGO.DC.Super.Villains-CUSA11550-EUR-UPDATE-v1.08-5.50.pkg"
+"River City Girls 2":
+  type: GAME
+  pkgPath: "https://itsfileditchfiles.st/balpha41/9c8a0cedf2c53282c129/%5BSPSX%5D-River.City.Girls.2-CUSA30838-JPN-GAME-v1.00-9.00.pkg"
+  mirrors:
+    - "https://itsfileditchfiles.st/balpha41/654be18cd7fefcd8eab0/%5BSPSX%5D-River.City.Girls.2-CUSA30838-JPN-UPDATE-v2.02-Fix-5.05-7.55.pkg"
+    - "https://itsfileditchfiles.st/balpha41/5adf531cc9969af3fa44/%5BSPSX%5D-CUSA30838-JPN-DLC-Double.Dragon.DLC.pkg"
