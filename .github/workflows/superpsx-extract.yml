@@ -14,12 +14,12 @@ on:
   workflow_dispatch:
     inputs:
       limit:
-        description: "Games to process (0 = all; only full runs publish)"
+        description: "Games to process (0 = all; partial runs are saved automatically too)"
         type: number
         required: true
         default: 0
       start:
-        description: "Resume offset (0 = full catalog; partial runs are artifact-only)"
+        description: "Resume offset (0 = full catalog; partial runs update latest-partial too)"
         type: number
         required: true
         default: 0
@@ -120,6 +120,44 @@ jobs:
             exit 0
           fi
           git commit -m "data: publish complete SuperPSX mirror catalog"
+          git push origin HEAD:feat/download-reliability-throughput
+
+      - name: Auto-save partial progress to the repository
+        if: always() && (cancelled() || failure() || (github.event_name == 'workflow_dispatch' && (inputs.limit != 0 || inputs.start != 0)))
+        env:
+          GH_RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          BASE="catalog/ps4-games"
+          FULL="$BASE/superpsx-full-catalog-links.json"
+          INDEX="$BASE/superpsx-mirror-index.json"
+          FEED="$BASE/superpsx-repo/repo.yml"
+          if [ ! -s "$FULL" ] || [ ! -s "$INDEX" ] || [ ! -s "$FEED" ]; then
+            echo "No complete checkpoint set exists yet; keeping the Actions artifact only."
+            exit 0
+          fi
+          python - <<'PY'
+          import json, pathlib
+          p = pathlib.Path("catalog/ps4-games/superpsx-full-catalog-links.json")
+          d = json.loads(p.read_text(encoding="utf-8"))
+          if int(d.get("processed", 0)) < 1:
+              raise SystemExit("Checkpoint contains no processed games; not publishing.")
+          print(f"Saving checkpoint: {d.get('processed')}/{d.get('total_in_run')} games, {len(d.get('links', []))} links.")
+          PY
+          SNAP="$BASE/latest-partial"
+          mkdir -p "$SNAP"
+          gzip -9 -c "$FULL" > "$SNAP/superpsx-full-catalog-links.json.gz"
+          gzip -9 -c "$INDEX" > "$SNAP/superpsx-mirror-index.json.gz"
+          cp "$FEED" "$SNAP/repo.yml"
+          printf '%s\n' "$GH_RUN_ID" > "$SNAP/source-run-id.txt"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$SNAP"
+          if git diff --cached --quiet; then
+            echo "Latest partial checkpoint is unchanged."
+            exit 0
+          fi
+          git commit -m "data: autosave partial SuperPSX extraction"
           git push origin HEAD:feat/download-reliability-throughput
 
       - name: Write extraction summary
