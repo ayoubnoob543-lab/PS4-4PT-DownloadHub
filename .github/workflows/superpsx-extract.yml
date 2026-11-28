@@ -143,6 +143,7 @@ jobs:
           set -euo pipefail
           BASE="catalog/ps4-games"
           FULL="$BASE/superpsx-full-catalog-links.json"
+          if [ -s "$FULL" ]; then python scripts/scrape_superpsx_full_catalog.py --rebuild-only; fi
           INDEX="$BASE/superpsx-mirror-index.json"
           FEED="$BASE/superpsx-repo/repo.yml"
           if [ ! -s "$FULL" ] || [ ! -s "$INDEX" ] || [ ! -s "$FEED" ]; then
