@@ -24,15 +24,15 @@ on:
         required: true
         default: 0
       delay:
-        description: "Delay between game pages in seconds"
+        description: "Per-worker delay between game pages in seconds"
         type: number
         required: true
-        default: 0.8
+        default: 0.15
       resolve_delay:
         description: "Delay between mirror resolution requests in seconds"
         type: number
         required: true
-        default: 0.15
+        default: 0.05
 
 permissions:
   contents: write
@@ -63,19 +63,32 @@ jobs:
       - name: Validate scraper syntax
         run: python -m py_compile scripts/scrape_superpsx_full_catalog.py
 
+      - name: Restore previous partial catalog (1402 games already scanned)
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: superpsx-full-mirror-catalog
+          path: catalog/ps4-games
+          run-id: 46040713168
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Extract all pages and resolve public mirror hops
         env:
           GAME_LIMIT: ${{ inputs.limit || '0' }}
           START_AT: ${{ inputs.start || '0' }}
           REQUEST_DELAY: ${{ inputs.delay || '0.8' }}
-          RESOLVE_DELAY: ${{ inputs.resolve_delay || '0.15' }}
+          RESOLVE_DELAY: ${{ inputs.resolve_delay || '0.05' }}
+          WORKERS: '16'
         run: |
           set -euo pipefail
           python scripts/scrape_superpsx_full_catalog.py \
             --limit "$GAME_LIMIT" \
             --start "$START_AT" \
             --delay "$REQUEST_DELAY" \
-            --resolve-delay "$RESOLVE_DELAY"
+            --resolve-delay "$RESOLVE_DELAY" \\
+            --workers "$WORKERS" \\
+            --checkpoint-every 20 \\
+            --only-missing
 
       - name: Check that the run is complete before publishing
         if: success()
