@@ -292,7 +292,9 @@ def extract_game_page(game):
 
 def write_outputs(result):
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    tmp_out = OUT.with_suffix(OUT.suffix + ".tmp")
+    tmp_out.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    tmp_out.replace(OUT)
     resolved = []
     for item in result["links"]:
         for hop in item.get("resolution", []):
@@ -409,6 +411,7 @@ def main():
         futures = {pool.submit(process_game, game, args.resolve_delay): game for game in pending}
         for future in as_completed(futures):
             game, links, error = future.result()
+            result["errors"] = [e for e in result["errors"] if e.get("url") != game.get("url")]
             if error:
                 result["errors"].append(error)
             else:
